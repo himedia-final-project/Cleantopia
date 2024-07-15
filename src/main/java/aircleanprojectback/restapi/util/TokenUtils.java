@@ -23,6 +23,7 @@ public class TokenUtils {
     // 여기서 토큰을 생성한다
     // member 로 받은 데이터를 token 으로 발행
     public static String generateJwtToken(MemberDTO member) {
+        System.out.println("TokenUtils 토큰 생성 중"+member);
         Date expireTime = new Date(System.currentTimeMillis()+tokenValidateTime);
 
         JwtBuilder builder = Jwts.builder()
@@ -44,7 +45,7 @@ public class TokenUtils {
         Map<String,Object> claims = new HashMap<>();
 
         claims.put("memberName", member.getMemberName());
-//        claims.put("memberRole",member.getMemberRole());
+        claims.put("memberRole",member.getMemberRole());
         claims.put("memberEmail",member.getMemberEmail());
 
         return claims;
@@ -83,6 +84,7 @@ public class TokenUtils {
 
         try{
             Claims claims = getClaimsFromToken(token);
+            System.out.println("claim 이 내가 알고 있는 memberdto 인가?"+claims);
             return true;
         }catch (ExpiredJwtException e){
             e.printStackTrace();

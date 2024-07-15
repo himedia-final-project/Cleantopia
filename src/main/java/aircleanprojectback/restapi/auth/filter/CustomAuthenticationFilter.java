@@ -38,6 +38,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         objectMapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE,true);
         MemberDTO member = objectMapper.readValue(request.getInputStream(),MemberDTO.class);
 
-        return new UsernamePasswordAuthenticationToken(member.getMemberId(),member.getMemberpassword());
+        return new UsernamePasswordAuthenticationToken(member.getMemberId(),member.getMemberPassword());
     }
 }
