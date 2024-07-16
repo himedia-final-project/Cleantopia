@@ -20,13 +20,13 @@ public class MemberDTO implements UserDetails {
     private String memberPassword;
     private String memberName;
     private String memberEmail;
-    private String memberPhone;
+    private String memberPhoneNumber;
     private String memberRole;
-    private String birthDate;
-    private String gender;
+    private String memberBirthDate;
+    private String memberGender;
     private String memberAddress;
     private String memberStatus;
-    private Date hireDate;
+    private Date memberHireDate;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

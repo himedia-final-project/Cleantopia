@@ -13,8 +13,9 @@ import java.util.Date;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor@Getter
-@Table(name = "members")
+@AllArgsConstructor
+@Getter
+@Table(name = "tbl_members")
 @ToString
 public class Members {
 
@@ -28,8 +29,8 @@ public class Members {
     @Column(name = "member_name")
     private String memberName;
 
-    @Column(name = "member_phone")
-    private String memberPhone;
+    @Column(name = "member_phone_number")
+    private String memberPhoneNumber;
 
     @Column(name = "member_role")
     private String memberRole;
@@ -37,20 +38,20 @@ public class Members {
     @Column(name = "member_email")
     private String memberEmail;
 
-    @Column(name = "birth_date")
-    private String birthDate;
+    @Column(name = "member_birth_date")
+    private String memberBirthDate;
 
-    @Column(name = "gender")
-    private String gender;
+    @Column(name = "member_gender")
+    private String memberGender;
 
     @Column(name = "member_address")
     private String memberAddress;
 
-    @Column(name = "memberStatus")
+    @Column(name = "member_status")
     private String memberStatus;
 
-    @Column(name="hire_date")
-    private Date hireDate;
+    @Column(name="member_hire_date")
+    private Date memberHireDate;
 
 
 

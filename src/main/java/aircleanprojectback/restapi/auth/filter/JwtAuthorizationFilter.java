@@ -32,6 +32,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         // 권한이 없더라도 접근 가능한 url
         List<String> roleLeessList = Arrays.asList(
+                "/paper/(.*)",
                 "/api/v1/products/\\d+",
                 "/api/v1/products/\\w+",
                 "/api/v1/products",
@@ -57,6 +58,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String header = request.getHeader(AuthConstants.AUTH_HEADER);
 
         System.out.println("header가 뭔지좀 보자"+header);
+
         try{
             if(header != null && !header.equalsIgnoreCase("")){
                 String token = TokenUtils.splitHeader(header);
