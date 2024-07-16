@@ -57,6 +57,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String header = request.getHeader(AuthConstants.AUTH_HEADER);
 
         System.out.println("header가 뭔지좀 보자"+header);
+
         try{
             if(header != null && !header.equalsIgnoreCase("")){
                 String token = TokenUtils.splitHeader(header);

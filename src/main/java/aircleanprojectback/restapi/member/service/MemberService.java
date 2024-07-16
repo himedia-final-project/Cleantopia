@@ -27,9 +27,9 @@ public class MemberService {
         this.modelMapper = modelMapper;
     }
 
-    public ResponseDTO findByMemberNameAndMemberEmailAndMemberPhoneAndMemberRole(AskDTO askDTO) {
+    public ResponseDTO findByMemberNameAndMemberEmailAndMemberPhoneNumberAndMemberRole(AskDTO askDTO) {
 
-        List<Members> member = repository.findByMemberNameAndMemberEmailAndMemberPhoneAndMemberRole(
+        List<Members> member = repository.findByMemberNameAndMemberEmailAndMemberPhoneNumberAndMemberRole(
                 askDTO.getMemberName(),askDTO.getMemberEmail(),askDTO.getMemberPhone(),askDTO.getMemberRole()
         );
 
