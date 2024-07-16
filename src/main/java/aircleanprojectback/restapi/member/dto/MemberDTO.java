@@ -20,7 +20,7 @@ public class MemberDTO implements UserDetails {
     private String memberPassword;
     private String memberName;
     private String memberEmail;
-    private String memberPhone;
+    private String memberPhoneNumber;
     private String memberRole;
     private String memberBirthDate;
     private String memberGender;
