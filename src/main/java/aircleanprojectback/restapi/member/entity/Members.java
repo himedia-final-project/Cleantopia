@@ -14,7 +14,7 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor@Getter
-@Table(name = "members")
+@Table(name = "tbl_members")
 @ToString
 public class Members {
 
@@ -28,8 +28,8 @@ public class Members {
     @Column(name = "member_name")
     private String memberName;
 
-    @Column(name = "member_phone")
-    private String memberPhone;
+    @Column(name = "member_phone_number")
+    private String memberPhoneNumber;
 
     @Column(name = "member_role")
     private String memberRole;
