@@ -31,7 +31,7 @@ public class MemberController {
         askDTO.setMemberRole("a");
 
         ResponseDTO responseDTO =
-                memberService.findByMemberNameAndMemberEmailAndMemberPhoneAndMemberRole(askDTO);
+                memberService.findByMemberNameAndMemberEmailAndMemberPhoneNumberAndMemberRole(askDTO);
 
         System.out.println("responseDTO = " + responseDTO);
 

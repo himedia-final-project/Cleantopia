@@ -13,7 +13,8 @@ import java.util.Date;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor@Getter
+@AllArgsConstructor
+@Getter
 @Table(name = "tbl_members")
 @ToString
 public class Members {
