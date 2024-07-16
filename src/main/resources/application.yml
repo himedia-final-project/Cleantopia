@@ -4,12 +4,25 @@ spring:
     url: jdbc:mysql://localhost:3306/aircleandb
     username: airclean
     password: airclean
+  security:
+    headers:
+      content-security-policy: "script-src 'self' http://ajax.googleapis.com"
   servlet:
     multipart:
       enabled: true
       max-file-size: 10MB
       max-request-size: 10MB
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: 222hojun2@gmail.com
+    password: umwj pogh qbna htty
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   jpa:
     hibernate:
       ddl-auto: update
