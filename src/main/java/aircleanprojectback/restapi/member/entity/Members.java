@@ -53,6 +53,8 @@ public class Members {
     @Column(name="member_hire_date")
     private Date memberHireDate;
 
+    @Column(name = "member_image")
+    private String memberImage;
 
 
 

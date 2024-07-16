@@ -10,6 +10,7 @@ import aircleanprojectback.restapi.member.repository.MemberRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class MemberService {
 
         ResponseDTO responseDTO = new ResponseDTO();
         if(member.isEmpty()){
-            responseDTO.setStatus(404);
+            responseDTO.setStatus(500);
             responseDTO.setMessage("해당 회원은 존재하지 않습니다");
             responseDTO.setData(null);
         }
@@ -53,6 +54,7 @@ public class MemberService {
         return responseDTO;
     }
 
+    @Transactional
     public void save(Ask ask) {
 
         askRepository.save(ask);

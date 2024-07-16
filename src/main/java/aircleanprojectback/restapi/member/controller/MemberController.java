@@ -28,8 +28,6 @@ public class MemberController {
     public ResponseEntity<ResponseDTO> askMember(@RequestBody AskDTO askDTO){
         System.out.println("문의 한 값" + askDTO);
 
-        askDTO.setMemberRole("a");
-
         ResponseDTO responseDTO =
                 memberService.findByMemberNameAndMemberEmailAndMemberPhoneNumberAndMemberRole(askDTO);
 
@@ -51,6 +49,8 @@ public class MemberController {
                                         .memberEmail(askDTO.getMemberEmail()).builder();
 
         memberService.save(ask);
+
+
 
         return ResponseEntity.ok()
                 .body(responseDTO);
