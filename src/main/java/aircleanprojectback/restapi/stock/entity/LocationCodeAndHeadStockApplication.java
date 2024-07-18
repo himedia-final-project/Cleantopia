@@ -12,11 +12,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @ToString
-public class HeadStockApplication {
+public class LocationCodeAndHeadStockApplication {
 
     @Id
     @Column(name = "h_application_code", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int hApplicationCode;
 
     @Column(name = "h_detergent")
@@ -46,100 +45,101 @@ public class HeadStockApplication {
     @Column(name = "h_dry_cleaner_filter")
     private int hDryCleanerFilter;
 
-    @Column(name = "h_application_status", length = 20, nullable = false)
+    @Column(name = "h_application_status")
     private String hApplicationStatus;
 
-    @Column(name = "h_application_date", nullable = false)
+    @Column(name = "h_application_date")
     private LocalDate hApplicationDate;
 
-    @Column(name = "h_approver_name", length = 20)
+    @Column(name = "h_approver_name")
     private String hApproverName;
 
     @Column(name = "h_approval_date")
     private LocalDate hApprovalDate;
 
-    @Column(name = "employee_code")
-    private String employeeCode;
+    @ManyToOne
+    @JoinColumn(name = "employee_code")
+    private EmployeeCode employeeCode;
 
-    public HeadStockApplication() {}
+    public LocationCodeAndHeadStockApplication() {}
 
-    public HeadStockApplication hApplicationCode(int hApplicationCode) {
+    public LocationCodeAndHeadStockApplication hApplicationCode(int hApplicationCode) {
         this.hApplicationCode = hApplicationCode;
         return this;
     }
 
-    public HeadStockApplication hDetergent(int hDetergent) {
+    public LocationCodeAndHeadStockApplication hDetergent(int hDetergent) {
         this.hDetergent = hDetergent;
         return this;
     }
 
-    public HeadStockApplication hSoftener(int hSoftener) {
+    public LocationCodeAndHeadStockApplication hSoftener(int hSoftener) {
         this.hSoftener = hSoftener;
         return this;
     }
 
-    public HeadStockApplication hBleach(int hBleach) {
+    public LocationCodeAndHeadStockApplication hBleach(int hBleach) {
         this.hBleach = hBleach;
         return this;
     }
 
-    public HeadStockApplication hRemover(int hRemover) {
+    public LocationCodeAndHeadStockApplication hRemover(int hRemover) {
         this.hRemover = hRemover;
         return this;
     }
 
-    public HeadStockApplication hDrumCleaner(int hDrumCleaner) {
+    public LocationCodeAndHeadStockApplication hDrumCleaner(int hDrumCleaner) {
         this.hDrumCleaner = hDrumCleaner;
         return this;
     }
 
-    public HeadStockApplication hSheet(int hSheet) {
+    public LocationCodeAndHeadStockApplication hSheet(int hSheet) {
         this.hSheet = hSheet;
         return this;
     }
 
-    public HeadStockApplication hLaundryFilter(int hLaundryFilter) {
+    public LocationCodeAndHeadStockApplication hLaundryFilter(int hLaundryFilter) {
         this.hLaundryFilter = hLaundryFilter;
         return this;
     }
 
-    public HeadStockApplication hDryerFilter(int hDryerFilter) {
+    public LocationCodeAndHeadStockApplication hDryerFilter(int hDryerFilter) {
         this.hDryerFilter = hDryerFilter;
         return this;
     }
 
-    public HeadStockApplication hDryCleanerFilter(int hDryCleanerFilter) {
+    public LocationCodeAndHeadStockApplication hDryCleanerFilter(int hDryCleanerFilter) {
         this.hDryCleanerFilter = hDryCleanerFilter;
         return this;
     }
 
-    public HeadStockApplication hApplicationStatus(String hApplicationStatus) {
+    public LocationCodeAndHeadStockApplication hApplicationStatus(String hApplicationStatus) {
         this.hApplicationStatus = hApplicationStatus;
         return this;
     }
 
-    public HeadStockApplication hApplicationDate(LocalDate hApplicationDate) {
+    public LocationCodeAndHeadStockApplication hApplicationDate(LocalDate hApplicationDate) {
         this.hApplicationDate = hApplicationDate;
         return this;
     }
 
-    public HeadStockApplication hApproverName(String hApproverName) {
+    public LocationCodeAndHeadStockApplication hApproverName(String hApproverName) {
         this.hApproverName = hApproverName;
         return this;
     }
 
-    public HeadStockApplication hApprovalDate(LocalDate hApprovalDate) {
+    public LocationCodeAndHeadStockApplication hApprovalDate(LocalDate hApprovalDate) {
         this.hApprovalDate = hApprovalDate;
         return this;
     }
 
-    public HeadStockApplication employeeCode(String employeeCode) {
+    public LocationCodeAndHeadStockApplication employeeCode(EmployeeCode employeeCode) {
         this.employeeCode = employeeCode;
         return this;
     }
 
-    public HeadStockApplication build() {
-        return new HeadStockApplication(hApplicationCode, hDetergent, hSoftener, hBleach,
+    public LocationCodeAndHeadStockApplication build() {
+        return new LocationCodeAndHeadStockApplication(hApplicationCode, hDetergent, hSoftener, hBleach,
                 hRemover, hDrumCleaner, hSheet, hLaundryFilter, hDryerFilter, hDryCleanerFilter,
                 hApplicationStatus, hApplicationDate, hApproverName, hApprovalDate, employeeCode);
     }

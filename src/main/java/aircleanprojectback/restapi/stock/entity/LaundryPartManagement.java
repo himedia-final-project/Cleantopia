@@ -28,9 +28,8 @@ public class LaundryPartManagement {
     @Column(name = "laundry_part_max_stock", nullable = false)
     private int laundryPartMaxStock;
 
-    @ManyToOne
-    @JoinColumn(name = "laundry_part_code")
-    private LaundryPart laundryPart;
+    @Column(name = "laundry_part_code", nullable = false)
+    private String laundryPartCode;
 
     public LaundryPartManagement() {}
 
@@ -59,13 +58,13 @@ public class LaundryPartManagement {
         return this;
     }
 
-    public LaundryPartManagement laundryPart(LaundryPart laundryPart) {
-        this.laundryPart = laundryPart;
+    public LaundryPartManagement laundryPartCode(String laundryPartCode) {
+        this.laundryPartCode = laundryPartCode;
         return this;
     }
 
     public LaundryPartManagement build() {
-        return new LaundryPartManagement(laundryPartManagementCode, branchCode, headquartersCode, laundryPartStock, laundryPartMaxStock, laundryPart);
+        return new LaundryPartManagement(laundryPartManagementCode, branchCode, headquartersCode, laundryPartStock, laundryPartMaxStock, laundryPartCode);
     }
 
 }

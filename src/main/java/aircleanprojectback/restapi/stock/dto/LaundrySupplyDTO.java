@@ -9,8 +9,8 @@ import lombok.*;
 @ToString
 public class LaundrySupplyDTO {
 
-    private String laundryPartCode;
-    private String laundryPartName;
+    private String laundrySupplyCode;
+    private String laundrySupplyName;
     private int laundrySupplyCost;
 
 }

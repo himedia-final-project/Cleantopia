@@ -7,13 +7,13 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class LaundrySupplyManagementDTO {
+public class LaundrySupplyAndManagementDTO {
 
     private String laundrySupplyManagementCode;
     private String branchCode;
     private String headquartersCode;
     private int laundrySupplyStock;
     private  int laundrySupplyMaxStock;
-    private String laundrySupplyCode;
+    private LaundrySupplyDTO laundrySupply;
 
 }

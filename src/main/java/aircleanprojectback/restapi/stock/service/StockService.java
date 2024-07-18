@@ -1,9 +1,7 @@
 package aircleanprojectback.restapi.stock.service;
 
-import aircleanprojectback.restapi.stock.dto.LaundryPartmanagementDTO;
-import aircleanprojectback.restapi.stock.dto.LaundrySupplyManagementDTO;
-import aircleanprojectback.restapi.stock.entity.LaundryPartManagement;
-import aircleanprojectback.restapi.stock.entity.LaundrySupplyManagement;
+import aircleanprojectback.restapi.stock.dto.LaundrySupplyAndManagementDTO;
+import aircleanprojectback.restapi.stock.entity.LaundrySupplyAndManagement;
 import aircleanprojectback.restapi.stock.repository.LaundryPartManagementRepository;
 import aircleanprojectback.restapi.stock.repository.LaundrySupplyManagementRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -29,18 +27,19 @@ public class StockService {
         this.modelMapper = modelMapper;
     }
 
-    public List<LaundrySupplyManagementDTO> selectAllHDetergent() {
+    public List<LaundrySupplyAndManagementDTO> selectAllHDetergent() {
 
         log.info("[StockService] selectAllHDetergent Start ===================");
 
-        List<LaundrySupplyManagement> hDetergentInfo = laundrySupplyManagementRepository.findByHeadquartersCode("HQ001");
+        List<LaundrySupplyAndManagement> hDetergentInfo = laundrySupplyManagementRepository.findByHeadquartersCode("HQ001");
 
-        List<LaundrySupplyManagementDTO> hDetergentInfoDTOList = hDetergentInfo.stream()
+        List<LaundrySupplyAndManagementDTO> hDetergentInfoDTOList = hDetergentInfo.stream()
                 .map(stock -> {
-                    LaundrySupplyManagementDTO laundrySupplyManagementDTO = modelMapper.map(stock, LaundrySupplyManagementDTO.class);
-                    return laundrySupplyManagementDTO;
+                    LaundrySupplyAndManagementDTO laundrySupplyAndManagementDTO = modelMapper.map(stock, LaundrySupplyAndManagementDTO.class);
+                    return laundrySupplyAndManagementDTO;
                 })
                 .collect(Collectors.toList());
+
 
         log.info("[StockService] selectAllHDetergent End =======================");
         return hDetergentInfoDTOList;
