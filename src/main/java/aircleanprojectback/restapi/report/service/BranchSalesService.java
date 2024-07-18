@@ -8,6 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 public class BranchSalesService {
@@ -52,5 +56,16 @@ public class BranchSalesService {
 
         branchSalesRepository.deleteById(branchReportCode);
         return "삭제 성공";
+    }
+
+    public List<BranchSalesDTO> getAllBranchSales() {
+
+
+        List<BranchSales> branchSalesList = branchSalesRepository.findAll();
+        List<BranchSalesDTO> branchSalesDTOList = branchSalesList.stream()
+                .map(branchSales -> modelMapper.map(branchSales, BranchSalesDTO.class))
+                .collect(Collectors.toList());      // 변환된 BranchSalesDTO 객체들을 리스트로 수집합니다.
+
+        return branchSalesDTOList;
     }
 }
