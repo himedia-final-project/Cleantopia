@@ -28,6 +28,7 @@ public class MemberService {
         this.modelMapper = modelMapper;
     }
 
+    @Transactional
     public ResponseDTO findByMemberNameAndMemberEmailAndMemberPhoneNumberAndMemberRole(AskDTO askDTO) {
 
         List<Members> member = repository.findByMemberNameAndMemberEmailAndMemberPhoneNumberAndMemberRole(

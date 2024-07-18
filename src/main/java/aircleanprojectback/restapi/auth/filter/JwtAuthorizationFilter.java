@@ -11,7 +11,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import java.io.IOException;
@@ -32,8 +36,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         // 권한이 없더라도 접근 가능한 url
         List<String> roleLeessList = Arrays.asList(
-                "/branch/(.*)",
-                "/paper/(.*)",
+                "/members/(.*)",
+                "/members/employee/soft-delete",
                 "/api/v1/products/\\d+",
                 "/api/v1/products/\\w+",
                 "/api/v1/products",
@@ -43,6 +47,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 "/api/v1/reviews",
                 "/api/v1/reviews/\\d++",
                 "/api/v1/reviews/(\\d+)?offset=\\d+",
+//                "/members/employee?offset=\\d+",
                 "/swagger-ui/(.*)",        //swagger 설정
                 "/swagger-ui/index.html",  //swagger 설정
                 "/v3/api-docs",              //swagger 설정
@@ -68,8 +73,21 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     Claims claims = TokenUtils.getClaimsFromToken(token);
 
                     MemberDTO authentication = new MemberDTO();
-                    // 아직 안끝남
+                    authentication.setMemberName(claims.get("memberName").toString());
+                    authentication.setMemberEmail(claims.get("memberEmail").toString());
+                    System.out.println("claims ==================== " + claims.get("memberRole"));
+
+                    AbstractAuthenticationToken authenticationToken = UsernamePasswordAuthenticationToken.authenticated(authentication, token, authentication.getAuthorities());
+                    authenticationToken.setDetails(new WebAuthenticationDetails(request));
+
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    chain.doFilter(request,response);
+                }else{
+                    throw new RuntimeException("토큰이 유효하지 않습니다");
                 }
+            }
+            else{
+                throw new RuntimeException("토큰이 존재하지 않습니다");
             }
         }catch (Exception e){
             response.setCharacterEncoding("UTF-8");

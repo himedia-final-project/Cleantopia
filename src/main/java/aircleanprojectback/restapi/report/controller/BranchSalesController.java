@@ -22,12 +22,14 @@ public class BranchSalesController {
     private final BranchSalesService branchSalesService;
     public BranchSalesController(BranchSalesService branchSalesService) {this.branchSalesService = branchSalesService;}
 
-    private List<BranchSalesDTO> branchSales = new ArrayList<>();
+//    private List<BranchSalesDTO> branchSales = new ArrayList<>();
 
 
     // /company 지점지출보고서 전체 조회
     @GetMapping("/company/reports")
     public ResponseEntity<ResponseDTO> selectAllBranchSales() {
+
+        List<BranchSalesDTO> branchSales = branchSalesService.getAllBranchSales();
 
         return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회성공", branchSales));
     }
@@ -36,6 +38,7 @@ public class BranchSalesController {
     @GetMapping("/location/{branchCode}/reports")
     public ResponseEntity<ResponseDTO> selectBranchSalesByBranchCode(@PathVariable String branchCode) {
 
+         List<BranchSalesDTO> branchSales = new ArrayList<>();
 
         return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"조회성공",branchSales));
     }
