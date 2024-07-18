@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -42,6 +43,8 @@ public class WebSecurityConfig {
 
         return http.build();
     }
+
+
     @Bean
     public AuthenticationManager authenticationManager(){
         return  new ProviderManager(customAuthenticationProvider());

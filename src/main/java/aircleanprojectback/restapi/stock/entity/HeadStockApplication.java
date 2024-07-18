@@ -59,7 +59,7 @@ public class HeadStockApplication {
     private LocalDate hApprovalDate;
 
     @Column(name = "employee_code")
-    private String employeeCode;
+    private int employeeCode;
 
     public HeadStockApplication() {}
 
@@ -133,7 +133,7 @@ public class HeadStockApplication {
         return this;
     }
 
-    public HeadStockApplication employeeCode(String employeeCode) {
+    public HeadStockApplication employeeCode(int employeeCode) {
         this.employeeCode = employeeCode;
         return this;
     }

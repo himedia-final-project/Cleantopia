@@ -17,7 +17,7 @@ public class EmployeeCode {
 
     @Id
     @Column(name = "employee_code", length = 50, nullable = false)
-    private String employeeCode;
+    private int employeeCode;
 
     @Column(name = "member_id")
     private String memberId;
