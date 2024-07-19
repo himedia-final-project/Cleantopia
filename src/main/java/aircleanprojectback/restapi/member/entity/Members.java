@@ -4,10 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 
@@ -17,6 +14,7 @@ import java.util.Date;
 @Getter
 @Table(name = "tbl_members")
 @ToString
+
 public class Members {
 
     @Id
@@ -57,5 +55,16 @@ public class Members {
     private String memberImage;
 
 
+
+    public Members memberStatus(String var){
+        memberStatus = var;
+        return this;
+    }
+
+    public Members builder(){
+        return new Members(this.memberId,this.memberPassword,this.memberName,
+                this.memberPhoneNumber,this.memberRole,this.memberEmail,this.memberBirthDate,
+                this.memberGender,this.memberAddress,this.memberStatus,this.memberHireDate,this.memberImage);
+    }
 
 }

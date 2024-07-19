@@ -9,12 +9,14 @@ import aircleanprojectback.restapi.member.dto.DeleteMemberDTO;
 import aircleanprojectback.restapi.member.dto.MembersAndEmployeeDTO;
 import aircleanprojectback.restapi.member.service.HumanResourceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/members")
@@ -107,13 +109,15 @@ public class HumanResourceController {
     }
 
     // softDelete
-    @PutMapping("/employee/soft")
-    public ResponseEntity<ResponseDTO> softDeleteEmployee(@RequestBody DeleteMemberDTO deleteMemberDTO) {
+    @PutMapping("/employee/soft-delete")
+    public ResponseEntity<ResponseDTO> softDeleteEmployee(@RequestBody List<String> deleteMember) {
 
 
-        System.out.println("delete = " + deleteMemberDTO);
+        for(String m : deleteMember){
+            System.out.println("m = " + m);
+        }
 
-        System.out.println("들어오냐");
+        service.findEmployeeById(deleteMember);
 
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"일단 들어옴","간디"));
