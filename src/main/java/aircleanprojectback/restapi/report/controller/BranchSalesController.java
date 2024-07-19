@@ -31,6 +31,7 @@ public class BranchSalesController {
 
         List<BranchSalesDTO> branchSales = branchSalesService.getAllBranchSales();
 
+
         return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회성공", branchSales));
     }
 
@@ -66,7 +67,6 @@ public class BranchSalesController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "삭제에 성공하였습니다", branchSalesService.deleteBranchSales(branchReportCode)));
 
     }
-
 
 
 
