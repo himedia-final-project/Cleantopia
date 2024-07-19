@@ -37,9 +37,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         // 권한이 없더라도 접근 가능한 url
         List<String> roleLeessList = Arrays.asList(
 
-
                 "/paper/(.*)",
-
 //                "/branch/(.*)",
                 "/members/(.*)",
                 "/members/employee/soft-delete",

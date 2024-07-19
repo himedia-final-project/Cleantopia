@@ -1,6 +1,8 @@
 package aircleanprojectback.restapi.stock.service;
 
+import aircleanprojectback.restapi.stock.dto.LaundryPartAndManagementDTO;
 import aircleanprojectback.restapi.stock.dto.LaundrySupplyAndManagementDTO;
+import aircleanprojectback.restapi.stock.entity.LaundryPartAndManagement;
 import aircleanprojectback.restapi.stock.entity.LaundrySupplyAndManagement;
 import aircleanprojectback.restapi.stock.repository.LaundryPartManagementRepository;
 import aircleanprojectback.restapi.stock.repository.LaundrySupplyManagementRepository;
@@ -33,16 +35,36 @@ public class StockService {
 
         List<LaundrySupplyAndManagement> hDetergentInfo = laundrySupplyManagementRepository.findByHeadquartersCode("HQ001");
 
+        System.out.println("hDetergentInfo = " + hDetergentInfo);
+
         List<LaundrySupplyAndManagementDTO> hDetergentInfoDTOList = hDetergentInfo.stream()
                 .map(stock -> {
                     LaundrySupplyAndManagementDTO laundrySupplyAndManagementDTO = modelMapper.map(stock, LaundrySupplyAndManagementDTO.class);
                     return laundrySupplyAndManagementDTO;
                 })
                 .collect(Collectors.toList());
+        
+        
 
 
         log.info("[StockService] selectAllHDetergent End =======================");
         return hDetergentInfoDTOList;
     }
 
+    public List<LaundryPartAndManagementDTO> selectAllHPart() {
+
+        log.info("[StockService] selectAllHPart Start ===================");
+
+        List<LaundryPartAndManagement> hPartInfo = laundryPartManagementRepository.findByHeadquartersCode("HQ001");
+
+        List<LaundryPartAndManagementDTO> hPartInfoDTOList = hPartInfo.stream()
+                .map(stock -> {
+                    LaundryPartAndManagementDTO laundryPartAndManagementDTO = modelMapper.map(stock, LaundryPartAndManagementDTO.class);
+                    return laundryPartAndManagementDTO;
+                })
+                .collect(Collectors.toList());
+
+        log.info("[StockService] selectAllHPart End =======================");
+        return hPartInfoDTOList;
+    }
 }
