@@ -4,7 +4,9 @@ import aircleanprojectback.restapi.branch.repository.BranchRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BranchService {
@@ -18,14 +20,38 @@ public class BranchService {
     }
 
     // 전체조회
-    public List<String> branchList() {
-        List<String> branchNames = branchRepository.findAllBranchNames();
+    public List<String> branchList(String locationName) {
 
-        // 문자열 리스트를 BranchDTO 리스트로 변환
-        return branchNames;
+
+        if (locationName == null || locationName.isEmpty()) {
+            return branchRepository.findAllBranchNames();
+        } else {
+            return branchRepository.findBranchNames(locationName);
+        }
+
+//        System.out.println("branchNames = " + branchNames);
+//        // 문자열 리스트를 BranchDTO 리스트로 변환
+//        return branchNames;
     }
 
 
+    public Map<String, Integer> mapCounts() {
+        List<Object[]> results = branchRepository.selectMapCounts();
+        Map<String, Integer> branchCounts = new HashMap<>();
+
+        for (Object[] result : results) {
+            String region = (String) result[0];
+            Long count = ((Number) result[1]).longValue();
+            branchCounts.put(region, count.intValue());
+        }
+
+        // Debugging: Print the processed results
+        branchCounts.forEach((region, count) -> {
+            System.out.println("Region: " + region + ", Count: " + count);
+        });
+
+        return branchCounts;
+    }
 
 
 //    public List<BranchDTO> branchinformation(String memberId) {
