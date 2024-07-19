@@ -4,14 +4,17 @@ spring:
     url: jdbc:mysql://localhost:3306/aircleandb
     username: airclean
     password: airclean
-  security:
-    headers:
-      content-security-policy: "script-src 'self' http://ajax.googleapis.com"
   servlet:
     multipart:
       enabled: true
       max-file-size: 10MB
       max-request-size: 10MB
+  web:
+    resources:
+      static-locations: classpath:/memberimgs/
+  security:
+    headers:
+      content-security-policy: "script-src 'self' http://ajax.googleapis.com"
   mail:
     host: smtp.gmail.com
     port: 587
@@ -34,6 +37,11 @@ spring:
 logging:
   level:
     root: info
+image:
+  add-resource-locations: classpath:/static/memberimgs/
+  add-resource-handler: /memberimgs/**
+  image-dir: src/main/resources/static/memberimgs/
+  image-url: http://localhost:8080/memberimgs/
 
 jwt:
   key: wERjtIdxQ8lNjF0w/AAiN6HqTASaCAUzSq6nbKefMwf5CbPE8GvwLsClz94uVt9Q1esxYwwXVU+BYn7/mR01Qg==
