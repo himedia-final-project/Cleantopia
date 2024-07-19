@@ -5,18 +5,19 @@ import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.common.dto.PageDTO;
 import aircleanprojectback.restapi.common.dto.PagingResponseDTO;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
-import aircleanprojectback.restapi.member.dto.DeleteMemberDTO;
 import aircleanprojectback.restapi.member.dto.MembersAndEmployeeDTO;
+import aircleanprojectback.restapi.member.dto.SearchDTO;
 import aircleanprojectback.restapi.member.service.HumanResourceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/members")
@@ -65,9 +66,25 @@ public class HumanResourceController {
         return null;
     }
 
-    @GetMapping("employee/{memberId}")
-    public ResponseEntity<ResponseDTO> findEmployeeById(@PathVariable String memberId){
-        return null;
+    @GetMapping("employee/search")
+    public ResponseEntity<ResponseDTO> findEmployeeById(@RequestBody SearchDTO searchDTO){
+
+        PagingResponseDTO pagingResponseDTO= new PagingResponseDTO();
+        Page<MembersAndEmployeeDTO> employeeList = null;
+
+
+        switch (searchDTO.getCategory()){
+            case "name":
+
+                break;
+            case "dept":
+
+                break;
+            case "position":
+
+                break;
+        }
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"일단 들어옴",searchDTO));
     }
 
     @GetMapping("branch/{memberId}")
