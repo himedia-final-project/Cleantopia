@@ -1,9 +1,6 @@
 package aircleanprojectback.restapi.stock.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -17,6 +14,7 @@ public class EmployeeCode {
 
     @Id
     @Column(name = "employee_code", length = 50, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int employeeCode;
 
     @Column(name = "member_id")
