@@ -29,27 +29,47 @@ public class BranchController {
     }
 
 
-    @GetMapping("/branchList")
-    public ResponseEntity<ResponseMessage> selectAll(){
+    @GetMapping("/mapCounts")
+    public ResponseEntity<ResponseMessage> mapCounts(){
 
-        List<String> branchList = branchService.branchList();
+        Map<String, Integer> mapCounts = branchService.mapCounts();
+        System.out.println(mapCounts);
+        
+        Map<String, Integer> responseMap = new HashMap<>();
+        responseMap.put("중앙", mapCounts.getOrDefault("중앙", 0));
+        responseMap.put("북부", mapCounts.getOrDefault("북부", 0));
+        responseMap.put("동부", mapCounts.getOrDefault("동부", 0));
+        responseMap.put("서부", mapCounts.getOrDefault("서부", 0));
+        responseMap.put("남부", mapCounts.getOrDefault("남부", 0));
 
-
-        Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("branchList", branchList);
-
-        System.out.println(responseMap.get("branchList"));
-
-//        해더 타입
+        System.out.println("responseMap = " + responseMap);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-
 
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(new ResponseMessage(200, "BranchList 조회 성공", responseMap));
-
     }
+
+
+    @GetMapping("/branchList")
+    public ResponseEntity<ResponseMessage> selectAll(@RequestParam(required = false) String locationName) {
+        List<String> branchList = branchService.branchList(locationName);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("branchList", branchList);
+
+
+        // 해더 타입 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(new ResponseMessage(200, "BranchList 조회 성공", responseMap));
+    }
+
+
 
 //    @GetMapping("/branchList")
 //    public ResponseEntity<ResponseMessage> selectAll(
