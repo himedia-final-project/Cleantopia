@@ -58,6 +58,7 @@ public class BranchSalesService {
         return "삭제 성공";
     }
 
+    // 전체조회
     public List<BranchSalesDTO> getAllBranchSales() {
 
 
@@ -68,4 +69,17 @@ public class BranchSalesService {
 
         return branchSalesDTOList;
     }
+
+    // /company 부분조회
+    public BranchSalesDTO detailBranchSales(int branchCode) {
+
+        BranchSales branchSales = branchSalesRepository.findById(branchCode).get();
+        BranchSalesDTO branchSalesDTO = modelMapper.map(branchSales, BranchSalesDTO.class);
+//        branchSalesDTO.setBranchCode(branchSalesDTO.getBranchCode());
+        return branchSalesDTO;
+
+    }
+
+
+
 }
