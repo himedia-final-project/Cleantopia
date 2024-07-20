@@ -35,6 +35,14 @@ public class BranchSalesController {
         return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회성공", branchSales));
     }
 
+    // /company 지출보고서 세부조회
+    @GetMapping("/company/{branchCode}/detailBranch")
+    public ResponseEntity<ResponseDTO> selectBranchSalesByBranchCode(@PathVariable int branchCode) {
+
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "지출보고서 부분조회 성공",branchSalesService.detailBranchSales(branchCode)));
+    }
+
     // /location 지점 지출 보고서 자신이 쓴 지출 보고서 전체 조회
     @GetMapping("/location/{branchCode}/reports")
     public ResponseEntity<ResponseDTO> selectBranchSalesByBranchCode(@PathVariable String branchCode) {
