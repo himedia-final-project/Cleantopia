@@ -28,28 +28,28 @@ public class StockService {
         this.laundrySupplyManagementRepository = laundrySupplyManagementRepository;
         this.modelMapper = modelMapper;
     }
-
-    public List<LaundrySupplyAndManagementDTO> selectAllHDetergent() {
-
-        log.info("[StockService] selectAllHDetergent Start ===================");
-
-        List<LaundrySupplyAndManagement> hDetergentInfo = laundrySupplyManagementRepository.findByHeadquartersCode("HQ001");
-
-        System.out.println("hDetergentInfo = " + hDetergentInfo);
-
-        List<LaundrySupplyAndManagementDTO> hDetergentInfoDTOList = hDetergentInfo.stream()
-                .map(stock -> {
-                    LaundrySupplyAndManagementDTO laundrySupplyAndManagementDTO = modelMapper.map(stock, LaundrySupplyAndManagementDTO.class);
-                    return laundrySupplyAndManagementDTO;
-                })
-                .collect(Collectors.toList());
-        
-        
-
-
-        log.info("[StockService] selectAllHDetergent End =======================");
-        return hDetergentInfoDTOList;
-    }
+//
+//    public List<LaundrySupplyAndManagementDTO> selectAllHDetergent() {
+//
+//        log.info("[StockService] selectAllHDetergent Start ===================");
+//
+//        List<LaundrySupplyAndManagement> hDetergentInfo = laundrySupplyManagementRepository.findByHeadquartersCode("HQ001");
+//
+//        System.out.println("hDetergentInfo = " + hDetergentInfo);
+//
+//        List<LaundrySupplyAndManagementDTO> hDetergentInfoDTOList = hDetergentInfo.stream()
+//                .map(stock -> {
+//                    LaundrySupplyAndManagementDTO laundrySupplyAndManagementDTO = modelMapper.map(stock, LaundrySupplyAndManagementDTO.class);
+//                    return laundrySupplyAndManagementDTO;
+//                })
+//                .collect(Collectors.toList());
+//
+//
+//
+//
+//        log.info("[StockService] selectAllHDetergent End =======================");
+//        return hDetergentInfoDTOList;
+//    }
 
     public List<LaundryPartAndManagementDTO> selectAllHPart() {
 
@@ -66,5 +66,45 @@ public class StockService {
 
         log.info("[StockService] selectAllHPart End =======================");
         return hPartInfoDTOList;
+    }
+
+    public List<LaundrySupplyAndManagementDTO> getDetergentsStockInfo(String memberRole) {
+
+        log.info("[StockService] getDetergentsStockInfo Start ===================");
+
+        List<LaundrySupplyAndManagement> resultEntity;
+
+        if("a".equals(memberRole) || "e".equals(memberRole)) {
+            resultEntity = laundrySupplyManagementRepository.findByHeadquartersCode("HQ001");
+        } else if ("b".equals(memberRole)) {
+            resultEntity = laundrySupplyManagementRepository.findByBranchCodeStartingWith("BR");
+        } else {
+            resultEntity = List.of();
+        }
+
+        return resultEntity.stream()
+                .map(entity -> modelMapper.map(entity, LaundrySupplyAndManagementDTO.class))
+                .collect(Collectors.toList());
+
+    }
+
+    public List<LaundryPartAndManagementDTO> getPartsStockInfo(String memberRole) {
+
+        log.info("[StockService] getPartsStockInfo Start ===================");
+
+        List<LaundryPartAndManagement> resultEntity;
+
+        if("a".equals(memberRole) || "e".equals(memberRole)) {
+            resultEntity = laundryPartManagementRepository.findByHeadquartersCode("HQ001");
+        } else if ("b".equals(memberRole)) {
+            resultEntity = laundryPartManagementRepository.findByBranchCodeStartingWith("BR");
+        } else {
+            resultEntity = List.of();
+        }
+
+        return resultEntity.stream()
+                .map(entity -> modelMapper.map(entity, LaundryPartAndManagementDTO.class))
+                .collect(Collectors.toList());
+
     }
 }
