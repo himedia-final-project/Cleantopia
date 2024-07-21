@@ -1,12 +1,16 @@
 package aircleanprojectback.restapi.branch.service;
 
+import aircleanprojectback.restapi.branch.dto.BranchDTO;
 import aircleanprojectback.restapi.branch.repository.BranchRepository;
+import aircleanprojectback.restapi.member.entity.Branch;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BranchService {
@@ -53,20 +57,31 @@ public class BranchService {
         return branchCounts;
     }
 
+    
+    public List<BranchDTO> defaltBranchinformation(String memberId) {
+        List<Branch> branchList = branchRepository.findAllByMemberId(memberId);
 
-//    public List<BranchDTO> branchinformation(String memberId) {
-//        List<BranchEntity> branchList = branchRepository.findAllByMemberId(memberId);
-//
-//        // 결과가 없을 경우 기본 branch_code로 조회
-//        if (branchList.isEmpty()) {
-//            Optional<BranchEntity> defaultBranch = branchRepository.findByBranchCode("BR009");
-//            if (defaultBranch.isPresent()) {
-//                branchList.add(defaultBranch.get());
-//            }
-//        }
-//
-//        return branchList.stream()
-//                .map(branch -> modelMapper.map(branch, BranchDTO.class))
-//                .collect(Collectors.toList());
-//    }
+        if (branchList.isEmpty()) {
+            Optional<Branch> defaultBranch = branchRepository.findByBranchCode("BR009");
+            defaultBranch.ifPresent(branchList::add);
+        }
+
+        return branchList.stream()
+                .map(branch -> modelMapper.map(branch, BranchDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
+
+
+
+//    버튼 눌렀을때
+
+    public List<BranchDTO> branchInformation(String branchName) {
+        List<Branch> branchList = branchRepository.findAllBranchName(branchName);
+
+        return branchList.stream()
+                .map(branch -> modelMapper.map(branch, BranchDTO.class))
+                .collect(Collectors.toList());
+    }
 }
