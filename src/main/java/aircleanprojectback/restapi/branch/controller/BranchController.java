@@ -71,37 +71,55 @@ public class BranchController {
 
 
 
-//    @GetMapping("/branchList")
-//    public ResponseEntity<ResponseMessage> selectAll(
-//            @RequestParam("component") String component,
-//            @RequestParam("sub") String sub) {
-//
-//        //        react 에서 받아온 유저 정보
-//        String member_id = sub;
-//        System.out.println(member_id);
-//
-//        List<BranchDTO> branchList = branchService.branchList(member_id);
-//        System.out.println(branchList);
-//
-//        Map<String, Object> responseMap = new HashMap<>();
-//        responseMap.put("branchList", branchList);
-//
-//
-////        해더 타입
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-//
-//
-//        if ("BranchList".equals(component)) {
-////            responseMap = getBranchListData();
-//            return ResponseEntity.ok()
-//                    .headers(headers)
-//                    .body(new ResponseMessage(200, "BranchList 조회 성공", responseMap));
-//        } else {
-//            responseMap.put("error", "Invalid component");
-//            return ResponseEntity.badRequest()
-//                    .headers(headers)
-//                    .body(new ResponseMessage(400, "실패", responseMap));
-//        }
-//    }
+//    기본동작 정보 메소드
+    @GetMapping("/defaltBranchInformation")
+    public ResponseEntity<ResponseMessage> defaltSelectBranchInformation(
+            @RequestParam("sub") String sub) {
+
+        //        react 에서 받아온 유저 정보
+        String member_id = sub;
+        System.out.println(member_id);
+
+        List<BranchDTO> branchList = branchService.defaltBranchinformation(member_id);
+        System.out.println(branchList);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("branchList", branchList);
+
+
+//        해더 타입
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(new ResponseMessage(200, "BranchList 조회 성공", responseMap));
+    }
+
+
+    // 버튼 클릭 정보
+    @GetMapping("/branchInformation")
+    public ResponseEntity<ResponseMessage> selectBranchInformation(
+            @RequestParam("sub") String sub,
+            @RequestParam("branchName") String branchName) {
+
+        // react 에서 받아온 유저 정보
+        String member_id = sub;
+        System.out.println(member_id);
+
+        List<BranchDTO> branchList = branchService.branchInformation(branchName);
+        System.out.println(branchList);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("branchList", branchList);
+
+        // 해더 타입
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(new ResponseMessage(200, "BranchList 조회 성공", responseMap));
+    }
 }
