@@ -10,4 +10,6 @@ import java.util.List;
 public interface LaundrySupplyManagementRepository extends JpaRepository<LaundrySupplyAndManagement, String> {
 
     List<LaundrySupplyAndManagement> findByHeadquartersCode(String headquartersCode);
+
+    List<LaundrySupplyAndManagement> findByBranchCodeStartingWith(String prefix);
 }
