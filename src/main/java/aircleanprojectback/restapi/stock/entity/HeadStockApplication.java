@@ -58,8 +58,11 @@ public class HeadStockApplication {
     @Column(name = "h_approval_date")
     private LocalDate hApprovalDate;
 
-    @Column(name = "employee_code")
-    private int employeeCode;
+    @Column(name = "member_id")
+    private String memberId;
+
+    @Column(name = "h_applicant_name", length = 100, nullable = false) // 추가된 컬럼
+    private String hApplicantName;
 
     public HeadStockApplication() {}
 
@@ -133,15 +136,20 @@ public class HeadStockApplication {
         return this;
     }
 
-    public HeadStockApplication employeeCode(int employeeCode) {
-        this.employeeCode = employeeCode;
+    public HeadStockApplication memberId(String memberId) {
+        this.memberId = memberId;
+        return this;
+    }
+
+    public HeadStockApplication hApplicantName(String hApplicantName) { // 추가된 메소드
+        this.hApplicantName = hApplicantName;
         return this;
     }
 
     public HeadStockApplication build() {
         return new HeadStockApplication(hApplicationCode, hDetergent, hSoftener, hBleach,
                 hRemover, hDrumCleaner, hSheet, hLaundryFilter, hDryerFilter, hDryCleanerFilter,
-                hApplicationStatus, hApplicationDate, hApproverName, hApprovalDate, employeeCode);
+                hApplicationStatus, hApplicationDate, hApproverName, hApprovalDate, memberId, hApplicantName);
     }
 
 }
