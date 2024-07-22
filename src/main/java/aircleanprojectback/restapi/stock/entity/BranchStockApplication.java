@@ -61,6 +61,9 @@ public class BranchStockApplication {
     @Column(name = "branch_code", length = 100, nullable = false)
     private String branchCode;
 
+    @Column(name = "applicant_name", length = 100)  // 새로 추가된 컬럼
+    private String applicantName;
+
     public BranchStockApplication() {}
 
     public BranchStockApplication bApplicationCode(int bApplicationCode) {
@@ -138,10 +141,14 @@ public class BranchStockApplication {
         return this;
     }
 
+    public BranchStockApplication applicantName(String applicantName) {
+        this.applicantName = applicantName;
+        return this;
+    }
+
     public BranchStockApplication build() {
         return new BranchStockApplication(bApplicationCode, bDetergent, bSoftener, bBleach,
                 bRemover, bDrumCleaner, bSheet, bLaundryFilter, bDryerFilter, bDryCleanerFilter,
-                bApplicationStatus, bApplicationDate, bApproverName, bApprovalDate, branchCode);
+                bApplicationStatus, bApplicationDate, bApproverName, bApprovalDate, branchCode, applicantName);
     }
-
 }
