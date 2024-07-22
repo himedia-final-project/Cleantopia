@@ -6,7 +6,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 @Entity
 @NoArgsConstructor
@@ -37,7 +38,7 @@ public class Members {
     private String memberEmail;
 
     @Column(name = "member_birth_date")
-    private String memberBirthDate;
+    private Date memberBirthDate;
 
     @Column(name = "member_gender")
     private String memberGender;
@@ -54,6 +55,66 @@ public class Members {
     @Column(name = "member_image")
     private String memberImage;
 
+
+    public Members memberId(String var){
+        memberId=var;
+        return this;
+    }
+
+
+    public Members memberPassword(String var){
+        memberPassword=var;
+        return this;
+    }
+
+
+    public Members memberName(String var){
+        memberName=var;
+        return this;
+    }
+
+
+    public Members memberPhoneNumber(String var){
+        memberPhoneNumber=var;
+        return this;
+    }
+
+
+    public Members memberRole(String var){
+        memberRole=var;
+        return this;
+    }
+
+
+    public Members memberEmail(String var){
+        memberEmail=var;
+        return this;
+    }
+
+
+    public Members memberGender(String var){
+        memberGender=var;
+        return this;
+    }
+
+    public Members memberAddress(String var){
+        memberAddress=var;
+        return this;
+    }
+
+    public Members memberHireDate(Date var){
+        memberHireDate=var;
+        return this;
+    }
+
+    public Members memberBirthDate(Date var){
+        memberBirthDate=var;
+        return this;
+    }
+    public Members memberImage(String var){
+        memberImage=var;
+        return this;
+    }
 
 
     public Members memberStatus(String var){

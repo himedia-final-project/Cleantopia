@@ -2,18 +2,13 @@ package aircleanprojectback.restapi.member.dto;
 
 import lombok.*;
 
-@ToString
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class MembersAndEmployeeDTO {
+@ToString
+public class EmployeeDTO {
 
-    private int employeeCode;
     private String employeeDept;
     private String employeePosition;
-    private MemberDTO memberDTO;
-    private Boolean isPass;
-
-
 }
