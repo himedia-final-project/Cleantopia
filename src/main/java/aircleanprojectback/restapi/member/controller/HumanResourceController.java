@@ -196,7 +196,7 @@ public class HumanResourceController {
 
         memberId.forEach(System.out::println);
 
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"삭제 성공","간디"))
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"삭제 성공","간디"));
     }
 
 

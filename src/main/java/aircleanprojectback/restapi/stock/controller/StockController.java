@@ -63,7 +63,7 @@ public class StockController {
 
     @Tag(name = "본사 재고 신청")
     @PostMapping("/company/stock/application")
-    public ResponseEntity<ResponseDTO> headStockApplication(@ModelAttribute HeadStockApplicationDTO headStockApplicationDTO) {
+    public ResponseEntity<ResponseDTO> headStockApplication(@RequestBody HeadStockApplicationDTO headStockApplicationDTO) {
 
         System.out.println("headStockApplicationDTO = " + headStockApplicationDTO);
         
