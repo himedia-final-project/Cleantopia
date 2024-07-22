@@ -5,8 +5,8 @@ import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.common.dto.PageDTO;
 import aircleanprojectback.restapi.common.dto.PagingResponseDTO;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
-import aircleanprojectback.restapi.member.dto.MembersAndEmployeeDTO;
-import aircleanprojectback.restapi.member.dto.SearchDTO;
+import aircleanprojectback.restapi.member.dto.*;
+import aircleanprojectback.restapi.member.entity.Employee;
 import aircleanprojectback.restapi.member.service.HumanResourceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -99,8 +100,16 @@ public class HumanResourceController {
 
     // 등록
     @PostMapping("employee")
-    public ResponseEntity<ResponseDTO> registEmployee(/*@RequestBody*/){
-        return null;
+    public ResponseEntity<ResponseDTO> registEmployee(@ModelAttribute MemberDTO memberDTO, @ModelAttribute EmployeeDTO employeeDTO, MultipartFile image){
+
+        System.out.println("memberDTO = " + memberDTO);
+        System.out.println("employeeDTO = " + employeeDTO);
+
+        memberDTO.setMemberStatus("Y");
+
+        service.registEmployee(memberDTO,employeeDTO,image);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"등록 성공",memberDTO));
     }
     @PostMapping("branch")
     public ResponseEntity<ResponseDTO> registBranch(/*@RequestBody*/){
@@ -112,9 +121,15 @@ public class HumanResourceController {
     }
 
     // 수정
-    @PutMapping("employee/{memberId}")
-    public ResponseEntity<ResponseDTO> modifyEmployee(/*@RequestBody*/@PathVariable String memberId){
-        return null;
+    @PutMapping("employee/{employeeCode}")
+    public ResponseEntity<ResponseDTO> modifyEmployee(@PathVariable int employeeCode, @ModelAttribute MemberModifyDTO memberModifyDTO,MultipartFile image){
+
+        System.out.println("employeeCode = " + employeeCode);
+        System.out.println("memberModifyDTO = " + memberModifyDTO);
+
+        service.modifyEmployeeInfo(employeeCode,memberModifyDTO,image);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"일단 들어옴",memberModifyDTO));
     }
     @PutMapping("branch/{memberId}")
     public ResponseEntity<ResponseDTO> modifyBranch(/*@RequestBody*/@PathVariable String memberId){
