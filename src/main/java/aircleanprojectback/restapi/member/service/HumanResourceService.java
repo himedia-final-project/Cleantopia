@@ -195,4 +195,29 @@ public class HumanResourceService {
 
         repository.save(registMember);
     }
+
+    public Page<MembersAndEmployeeDTO> getEmployeeWhereY(Criteria cri) {
+
+        System.out.println("getEmployeeWhereY 동작");
+
+        int index = cri.getPageNum() -1 ;
+        int count= cri.getAmount();
+
+        Pageable paging = PageRequest.of(index,count, Sort.by("employee_dept"));
+
+        Page<MembersAndEmployee> result = repository.findByMemberRoleAndMemberStatus("e","N",paging);
+
+        System.out.println("result = " + result.getContent());
+
+        Page<MembersAndEmployeeDTO> employeeList = result.map(member->modelMapper.map(member,MembersAndEmployeeDTO.class));
+
+        for(int i =0 ;i<employeeList.toList().size() ;i++){
+            employeeList.toList().get(i).getMemberDTO().setMemberImage(IMAGE_URL+employeeList.toList().get(i).getMemberDTO().getMemberImage());
+        }
+        System.out.println("employeeList = " + employeeList);
+        System.out.println("직원 조회 성공");
+
+        return employeeList;
+
+    }
 }
