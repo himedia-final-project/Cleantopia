@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/paper")
 @Slf4j
 public class BranchSalesController {
-    // 지점매출보고서
+    // 지점지출보고서
 
     private final BranchSalesService branchSalesService;
     public BranchSalesController(BranchSalesService branchSalesService) {this.branchSalesService = branchSalesService;}
@@ -40,8 +40,10 @@ public class BranchSalesController {
     public ResponseEntity<ResponseDTO> selectBranchSalesByBranchCode(@PathVariable int branchCode) {
 
 
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "지출보고서 부분조회 성공",branchSalesService.detailBranchSales(branchCode)));
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK, "지출보고서 부분조회 성공",branchSalesService.detailBranchSales(branchCode)));
     }
+
 
     // /location 지점 지출 보고서 자신이 쓴 지출 보고서 전체 조회
     @GetMapping("/location/{branchCode}/reports")
@@ -75,6 +77,8 @@ public class BranchSalesController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "삭제에 성공하였습니다", branchSalesService.deleteBranchSales(branchReportCode)));
 
     }
+
+
 
 
 

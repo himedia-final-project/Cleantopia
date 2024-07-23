@@ -39,12 +39,13 @@ public class Expense {
     private Date expenseSubmissionDate;    // 제출일
 
     @Column(name = "expense_report_status", length = 200, nullable = false)
-    private String expenseReportStatus;     // 보고서상태
+    private String expenseReportStatus = "접수";     // 보고서상태
 
     @Column(name = "branch_code", length = 200, nullable = false)
     private String branchCode;              // 지점코드
 
     public Expense() {
+        this.expenseReportStatus = "접수";
     }
 
     public Expense expenseReportCode(int expenseReportCode) {

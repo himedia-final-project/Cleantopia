@@ -1,5 +1,6 @@
 package aircleanprojectback.restapi.report.entity;
 
+import aircleanprojectback.restapi.member.entity.Members;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +14,7 @@ import java.sql.Date;
 @Getter
 @ToString
 @Builder(toBuilder = true)
-public class BranchSales {
+public class BranchAndMember {
 
     @Id
     @Column(name = "branch_report_code")
@@ -53,76 +54,77 @@ public class BranchSales {
     @Column(name = "branch_code", length = 200, nullable = false)
     private String branchCode;              // 지점코드
 
-    @Column(name = "member_id")
-    private String memberId;
+    @ManyToOne
+    @JoinColumn(name = "member_id" )
+    private Members memberId;
 
-    public BranchSales() {
+    public BranchAndMember() {
 
         this.branchReportStatus = "접수";
     }
 
-   public  BranchSales branchReportCode(int branchReportCode) {
+    public  BranchAndMember branchReportCode(int branchReportCode) {
         this.branchReportCode = branchReportCode;
         return this;
-   }
+    }
 
-   public  BranchSales branchSubmissionDate(Date branchSubmissionDate) {
+    public  BranchAndMember branchSubmissionDate(Date branchSubmissionDate) {
         this.branchSubmissionDate = branchSubmissionDate;
         return this;
-   }
+    }
 
-   public  BranchSales officeSales(int officeSales) {
+    public  BranchAndMember officeSales(int officeSales) {
         this.officeSales = officeSales;
         return this;
-   }
+    }
 
-   public  BranchSales branchReportStatus(String branchReportStatus) {
+    public  BranchAndMember branchReportStatus(String branchReportStatus) {
         this.branchReportStatus = branchReportStatus;
         return this;
-   }
+    }
 
-   public  BranchSales detergent(String detergent) {
+    public  BranchAndMember detergent(String detergent) {
         this.detergent = detergent;
         return this;
-   }
+    }
 
 
-   public  BranchSales fabricSoftener(String fabricSoftener) {
+    public  BranchAndMember fabricSoftener(String fabricSoftener) {
         this.fabricSoftener = fabricSoftener;
         return this;
-   }
+    }
 
-   public  BranchSales bleach(String bleach) {
+    public  BranchAndMember bleach(String bleach) {
         this.bleach = bleach;
         return this;
-   }
+    }
 
-   public  BranchSales stainRemover(String stainRemover) {
+    public  BranchAndMember stainRemover(String stainRemover) {
         this.stainRemover = stainRemover;
         return this;
-   }
+    }
 
-   public  BranchSales washerCleaner(String washerCleaner) {
+    public  BranchAndMember washerCleaner(String washerCleaner) {
         this.washerCleaner = washerCleaner;
         return this;
-   }
+    }
 
-   public  BranchSales dryerSheet(String dryerSheet) {
+    public  BranchAndMember dryerSheet(String dryerSheet) {
         this.dryerSheet = dryerSheet;
         return this;
-   }
+    }
 
-   public  BranchSales branchCode(String branchCode) {
+    public  BranchAndMember branchCode(String branchCode) {
         this.branchCode = branchCode;
         return this;
-   }
+    }
 
-    public  BranchSales memberId(String memberId) {
+    public  BranchAndMember memberId(Members memberId) {
         this.memberId = memberId;
         return this;
     }
 
-   public BranchSales build() {
-        return new BranchSales(branchReportCode, branchSubmissionDate, officeSales, branchReportStatus, detergent, fabricSoftener, bleach, stainRemover, washerCleaner, dryerSheet, branchCode, memberId);
-   }
+    public BranchAndMember build() {
+        return new BranchAndMember(branchReportCode, branchSubmissionDate, officeSales, branchReportStatus, detergent, fabricSoftener, bleach, stainRemover, washerCleaner, dryerSheet, branchCode, memberId);
+    }
 }

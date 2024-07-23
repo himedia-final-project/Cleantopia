@@ -32,4 +32,10 @@ public class ExpenseService {
         return expenseDTOList;
 
     }
+
+    public ExpenseDTO detailExpenseReports(int expenseReportCode) {
+        Expense expense = expenseRepository.findById(expenseReportCode).get();
+        ExpenseDTO expenseDTO = modelMapper.map(expense, ExpenseDTO.class);
+        return expenseDTO;
+    }
 }
