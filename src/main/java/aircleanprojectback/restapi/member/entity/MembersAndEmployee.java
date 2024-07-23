@@ -20,7 +20,7 @@ public class MembersAndEmployee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int employeeCode;
 
-    @ManyToOne
+    @OneToOne( cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JoinColumn(name = "member_id")
     private Members members;
 

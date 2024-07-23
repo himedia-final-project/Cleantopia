@@ -6,14 +6,13 @@ import aircleanprojectback.restapi.common.dto.PageDTO;
 import aircleanprojectback.restapi.common.dto.PagingResponseDTO;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 import aircleanprojectback.restapi.member.dto.*;
-import aircleanprojectback.restapi.member.entity.Employee;
-import aircleanprojectback.restapi.member.service.HumanResourceService;
+import aircleanprojectback.restapi.member.service.BranchResourceService;
+import aircleanprojectback.restapi.member.service.EmployeeResourceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,13 +23,16 @@ import java.util.List;
 @RequestMapping("/members")
 public class HumanResourceController {
 
-    private final HumanResourceService service;
+    private final BranchResourceService branchService;
+    private final EmployeeResourceService service;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public HumanResourceController(HumanResourceService service,ObjectMapper objectMapper){
+    public HumanResourceController(EmployeeResourceService service, ObjectMapper objectMapper,
+                                   BranchResourceService branchService){
         this.service = service;
         this.objectMapper=objectMapper;
+        this.branchService = branchService;
     }
     // 조회
     @GetMapping("/employee")
@@ -57,16 +59,32 @@ public class HumanResourceController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"직원 조회 성공",pagingResponseDTO));
     }
 
-    @GetMapping("branch")
-    public ResponseEntity<ResponseDTO> findBranch(){
-        return null;
+    @GetMapping("/branch")
+    public ResponseEntity<ResponseDTO> findBranch(@RequestParam(defaultValue = "1") String offset){
+
+        Criteria cri = new Criteria(Integer.parseInt(offset),12);
+
+        PagingResponseDTO pagingResponseDTO = new PagingResponseDTO();
+
+        Page<MembersAndBranchDTO> branchList = branchService.getBranchListWithPaging(cri);
+
+        System.out.println("branchList = " + branchList.getContent());
+
+        pagingResponseDTO.setData(branchList);
+
+
+        pagingResponseDTO.setPageInfo(new PageDTO(cri,(int)branchList.getTotalElements()));
+
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"직원 조회 성공",pagingResponseDTO));
     }
 
-    @GetMapping("driver")
+    @GetMapping("/driver")
     public ResponseEntity<ResponseDTO> findDriver(){
         return null;
     }
 
+    // 검색
     @GetMapping("employee/search")
     public ResponseEntity<ResponseDTO> findEmployeeById(@RequestBody SearchDTO searchDTO){
 
@@ -149,7 +167,7 @@ public class HumanResourceController {
             System.out.println("m = " + m);
         }
 
-        service.findEmployeeById(deleteMember);
+        service.findEmployeeById(deleteMember,"N");
 
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"soft delete 수행",deleteMember));
@@ -196,9 +214,24 @@ public class HumanResourceController {
 
         memberId.forEach(System.out::println);
 
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"삭제 성공","간디"))
+        service.deleteMemberById(memberId);
+
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"삭제 성공","간디"));
     }
 
+
+    // 회원 롤백
+    @PutMapping("employee/status")
+    public ResponseEntity<ResponseDTO> employeeRollBack(@RequestBody List<String> memberIds){
+
+        memberIds.forEach(System.out::println);
+
+        service.findEmployeeById(memberIds,"Y");
+
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"롤백성공",memberIds));
+    }
 
 
 

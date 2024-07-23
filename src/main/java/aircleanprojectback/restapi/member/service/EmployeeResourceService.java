@@ -30,7 +30,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class HumanResourceService {
+public class EmployeeResourceService {
     private final MembersAndEmployeeRepository repository;
     private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
@@ -43,7 +43,7 @@ public class HumanResourceService {
     private String IMAGE_DIR;
 
     @Autowired
-    public HumanResourceService(MembersAndEmployeeRepository repository, ModelMapper modelMapper,MemberRepository memberRepository,PasswordEncoder passwordEncoder){
+    public EmployeeResourceService(MembersAndEmployeeRepository repository, ModelMapper modelMapper, MemberRepository memberRepository, PasswordEncoder passwordEncoder){
         this.memberRepository = memberRepository;
         this.repository =repository;
         this.modelMapper=modelMapper;
@@ -65,14 +65,7 @@ public class HumanResourceService {
 
         Page<MembersAndEmployee> result = repository.findByMemberRoleAndMemberStatus("e","Y",paging);
 
-        System.out.println("result = " + result.getContent());
 
-        System.out.println("==============000=======================");
-        // modelMapper 매핑 규칙 추가 Mebers 를 MemberDTO 에 매핑 처리
-
-
-
-        System.out.println("======================111================");
         Page<MembersAndEmployeeDTO> employeeList = result.map(member->modelMapper.map(member,MembersAndEmployeeDTO.class));
 
         for(int i =0 ;i<employeeList.toList().size() ;i++){
@@ -87,11 +80,11 @@ public class HumanResourceService {
     }
 
     @Transactional
-    public void findEmployeeById(List<String> deleteMember) {
+    public void findEmployeeById(List<String> deleteMember,String status) {
 
         List<Members> members = memberRepository.findByMemberIdIn(deleteMember);
 
-        members.forEach(member->member.memberStatus("N").builder());
+        members.forEach(member->member.memberStatus(status).builder());
 
         members.forEach(System.out::println);
 
@@ -220,4 +213,15 @@ public class HumanResourceService {
         return employeeList;
 
     }
+
+    @Transactional
+    public void deleteMemberById(List<String> memberId) {
+
+
+        repository.deleteAllByMembers_MemberIdIn(memberId);
+
+
+        memberRepository.deleteAllByIdInBatch(memberId);
+    }
+
 }
