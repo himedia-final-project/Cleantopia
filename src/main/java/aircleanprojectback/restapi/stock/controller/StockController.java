@@ -1,6 +1,7 @@
 package aircleanprojectback.restapi.stock.controller;
 
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
+import aircleanprojectback.restapi.stock.dto.HeadStockApplicationDTO;
 import aircleanprojectback.restapi.stock.dto.LaundryPartAndManagementDTO;
 import aircleanprojectback.restapi.stock.dto.LaundrySupplyAndManagementDTO;
 import aircleanprojectback.restapi.stock.dto.MembersSubDTO;
@@ -11,10 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -61,6 +59,19 @@ public class StockController {
         System.out.println("partsStockInfo = " + partsStockInfo);
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회 성공", partsStockInfo));
+    }
+
+    @Tag(name = "본사 재고 신청")
+    @PostMapping("/company/stock/application")
+    public ResponseEntity<ResponseDTO> headStockApplication(@RequestBody HeadStockApplicationDTO headStockApplicationDTO) {
+
+        System.out.println("headStockApplicationDTO = " + headStockApplicationDTO);
+        
+//        HeadStockApplicationDTO headStockApplication = stockService.saveHeadStockApplication(headStockApplicationDTO);
+
+//        System.out.println("신청내역 확인 DTO= " + headStockApplication);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"들어옴","headStockApplication"));
     }
 
 

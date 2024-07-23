@@ -1,6 +1,6 @@
 package aircleanprojectback.restapi.branch.dto;
 
-import java.sql.Date;
+import org.springframework.web.multipart.MultipartFile;
 
 public class BranchDTO {
 
@@ -10,12 +10,14 @@ public class BranchDTO {
     private String branchPhone;
     private String branchAddress;
     private String branchImage;
-    private Date branchOpenDate;
+    private String branchOpenDate; // 문자열로 유지
     private String memberId;
+    private MultipartFile branchImageFile;
 
     public BranchDTO() {
     }
 
+    // Getters and Setters
     public String getBranchCode() {
         return branchCode;
     }
@@ -64,11 +66,11 @@ public class BranchDTO {
         this.branchImage = branchImage;
     }
 
-    public Date getBranchOpenDate() {
+    public String getBranchOpenDate() {
         return branchOpenDate;
     }
 
-    public void setBranchOpenDate(Date branchOpenDate) {
+    public void setBranchOpenDate(String branchOpenDate) {
         this.branchOpenDate = branchOpenDate;
     }
 
@@ -80,6 +82,14 @@ public class BranchDTO {
         this.memberId = memberId;
     }
 
+    public MultipartFile getBranchImageFile() {
+        return branchImageFile;
+    }
+
+    public void setBranchImageFile(MultipartFile branchImageFile) {
+        this.branchImageFile = branchImageFile;
+    }
+
     @Override
     public String toString() {
         return "BranchDTO{" +
@@ -89,9 +99,9 @@ public class BranchDTO {
                 ", branchPhone='" + branchPhone + '\'' +
                 ", branchAddress='" + branchAddress + '\'' +
                 ", branchImage='" + branchImage + '\'' +
-                ", branchOpenDate=" + branchOpenDate +
+                ", branchOpenDate='" + branchOpenDate + '\'' +
                 ", memberId='" + memberId + '\'' +
+                ", branchImageFile=" + branchImageFile +
                 '}';
     }
-    
 }

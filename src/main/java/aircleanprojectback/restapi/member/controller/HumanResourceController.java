@@ -152,7 +152,7 @@ public class HumanResourceController {
         service.findEmployeeById(deleteMember);
 
 
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"일단 들어옴","간디"));
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"soft delete 수행",deleteMember));
     }
 
     @PutMapping("branch/soft-delete/")
@@ -164,6 +164,40 @@ public class HumanResourceController {
         return null;
     }
 
+
+    // 삭제가능 회원 조회
+    @GetMapping("employee/unstatus")
+    public ResponseEntity<ResponseDTO> findMemberY(@RequestParam(defaultValue = "1")String offset, @RequestParam(defaultValue = "10")String amount){
+
+        System.out.println("offset = " + offset);
+        System.out.println("amount = " + amount);
+
+
+        Criteria cri = new Criteria(Integer.parseInt(offset),Integer.parseInt(amount));
+
+        PagingResponseDTO pagingResponseDTO = new PagingResponseDTO();
+
+        Page<MembersAndEmployeeDTO> employeeList = service.getEmployeeWhereY(cri);
+
+        System.out.println("employeeList = " + employeeList.getContent());
+
+        pagingResponseDTO.setData(employeeList);
+
+        pagingResponseDTO.setPageInfo(new PageDTO(cri,(int)employeeList.getTotalElements()));
+
+
+
+        return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"일단 들어옴",pagingResponseDTO));
+    }
+
+    //회원 삭제
+    @DeleteMapping("/employee")
+    public ResponseEntity<ResponseDTO> deleteEmployee(@RequestBody List<String> memberId){
+
+        memberId.forEach(System.out::println);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"삭제 성공","간디"));
+    }
 
 
 
