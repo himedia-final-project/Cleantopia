@@ -142,6 +142,8 @@ public class EmployeeResourceService {
 
 
     }
+
+//    이미지 관련
     @Transactional
     public void registEmployee(MemberDTO memberDTO, EmployeeDTO employeeDTO, MultipartFile image) {
 
@@ -160,6 +162,7 @@ public class EmployeeResourceService {
 
         newMembers.memberPassword(passwordEncoder.encode(newPass));
 
+        //이미지
         String imageName = UUID.randomUUID().toString().replace("-","");
         String replaceFileName = null;
         if(image!=null){

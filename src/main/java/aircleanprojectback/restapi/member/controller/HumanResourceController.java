@@ -6,13 +6,14 @@ import aircleanprojectback.restapi.common.dto.PageDTO;
 import aircleanprojectback.restapi.common.dto.PagingResponseDTO;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 import aircleanprojectback.restapi.member.dto.*;
-import aircleanprojectback.restapi.member.service.BranchResourceService;
-import aircleanprojectback.restapi.member.service.EmployeeResourceService;
+import aircleanprojectback.restapi.member.entity.Employee;
+import aircleanprojectback.restapi.member.service.HumanResourceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -214,10 +215,7 @@ public class HumanResourceController {
 
         memberId.forEach(System.out::println);
 
-        service.deleteMemberById(memberId);
-
-
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"삭제 성공","간디"));
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"삭제 성공","간디"))
     }
 
 
