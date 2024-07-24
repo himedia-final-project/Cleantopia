@@ -1,6 +1,5 @@
 package aircleanprojectback.restapi.report.service;
 
-import aircleanprojectback.restapi.report.dto.BranchAndMember;
 import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.entity.BranchSales;
 import aircleanprojectback.restapi.report.repository.BranchSalesRepository;
@@ -9,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +36,7 @@ public class BranchSalesService {
 
     // 매출보고서 수정
     @Transactional
-    public String updateBranchSales(BranchSalesDTO branchSalesDTO, int branchReportCode) {
+    public BranchSales updateBranchSales(BranchSalesDTO branchSalesDTO, int branchReportCode) {
 
         BranchSales branchSales = branchSalesRepository.findById(branchReportCode)
                 .orElseThrow(() -> new RuntimeException("보고서를 찾을수 없습니다. ID: " + branchReportCode));
@@ -52,7 +50,8 @@ public class BranchSalesService {
                 .washerCleaner(branchSalesDTO.getWasherCleaner())
                 .dryerSheet(branchSalesDTO.getDryerSheet());
 
-        return "보고서 수정 성공";
+        branchSalesRepository.save(branchSales);
+        return branchSales;
     }
 
     // 매출 보고서 삭제
