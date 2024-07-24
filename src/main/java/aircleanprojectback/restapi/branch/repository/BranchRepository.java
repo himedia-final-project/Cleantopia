@@ -1,6 +1,8 @@
 package aircleanprojectback.restapi.branch.repository;
 
+import aircleanprojectback.restapi.member.dto.MemberDTO;
 import aircleanprojectback.restapi.member.entity.Branch;
+import aircleanprojectback.restapi.member.entity.Members;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -39,4 +41,9 @@ public interface BranchRepository extends JpaRepository<Branch, Long> {
     @Transactional
     @Query(value = "DELETE FROM tbl_branch WHERE branch_name = :branchName", nativeQuery = true)
     void deleteByBranchName(@Param("branchName") String branchName);
+
+
+
+    @Query(value = "SELECT m FROM Members m WHERE m.memberId = :member_id")
+    List<Members> findMembersByMemberIds(@Param("member_id") String memberId);
 }

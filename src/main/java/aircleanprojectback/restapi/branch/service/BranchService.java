@@ -2,7 +2,9 @@ package aircleanprojectback.restapi.branch.service;
 
 import aircleanprojectback.restapi.branch.dto.BranchDTO;
 import aircleanprojectback.restapi.branch.repository.BranchRepository;
+import aircleanprojectback.restapi.member.dto.MemberDTO;
 import aircleanprojectback.restapi.member.entity.Branch;
+import aircleanprojectback.restapi.member.entity.Members;
 import aircleanprojectback.restapi.util.FileUploadUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.lang.reflect.Member;
 import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -122,5 +125,12 @@ public class BranchService {
 
         branchRepository.save(branch);
     }
-    
+
+    public List<MemberDTO> memberInformation(String memberId) {
+        List<Members> memberList = branchRepository.findMembersByMemberIds(memberId);
+
+        return memberList.stream()
+                .map(member -> modelMapper.map(member, MemberDTO.class))
+                .collect(Collectors.toList());
+    }
 }
