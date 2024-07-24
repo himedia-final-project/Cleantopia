@@ -3,11 +3,10 @@ package aircleanprojectback.restapi.stock.dto;
 import lombok.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 
 public class HeadStockApplicationDTO {
-
-    private int hApplicationCode;
     private int hDetergent;
     private int hSoftener;
     private int hBleach;
@@ -18,16 +17,16 @@ public class HeadStockApplicationDTO {
     private int hDryerFilter;
     private int hDryCleanerFilter;
     private String hApplicationStatus;
-    private Date hApplicationDate;
+    private LocalDate hApplicationDate;
     private String hApproverName;
-    private Date hApprovalDate;
+    private LocalDate hApprovalDate;
     private String memberId;
     private String hApplicantName;
 
-    public HeadStockApplicationDTO(){}
+    public HeadStockApplicationDTO() {
+    }
 
-    public HeadStockApplicationDTO(int hApplicationCode, int hDetergent, int hSoftener, int hBleach, int hRemover, int hDrumCleaner, int hSheet, int hLaundryFilter, int hDryerFilter, int hDryCleanerFilter, String hApplicationStatus, Date hApplicationDate, String hApproverName, Date hApprovalDate, String memberId, String hApplicantName) {
-        this.hApplicationCode = hApplicationCode;
+    public HeadStockApplicationDTO(int hDetergent, int hSoftener, int hBleach, int hRemover, int hDrumCleaner, int hSheet, int hLaundryFilter, int hDryerFilter, int hDryCleanerFilter, String hApplicationStatus, LocalDate hApplicationDate, String hApproverName, LocalDate hApprovalDate, String memberId, String hApplicantName) {
         this.hDetergent = hDetergent;
         this.hSoftener = hSoftener;
         this.hBleach = hBleach;
@@ -43,14 +42,6 @@ public class HeadStockApplicationDTO {
         this.hApprovalDate = hApprovalDate;
         this.memberId = memberId;
         this.hApplicantName = hApplicantName;
-    }
-
-    public int gethApplicationCode() {
-        return hApplicationCode;
-    }
-
-    public void sethApplicationCode(int hApplicationCode) {
-        this.hApplicationCode = hApplicationCode;
     }
 
     public int gethDetergent() {
@@ -133,11 +124,11 @@ public class HeadStockApplicationDTO {
         this.hApplicationStatus = hApplicationStatus;
     }
 
-    public Date gethApplicationDate() {
+    public LocalDate gethApplicationDate() {
         return hApplicationDate;
     }
 
-    public void sethApplicationDate(Date hApplicationDate) {
+    public void sethApplicationDate(LocalDate hApplicationDate) {
         this.hApplicationDate = hApplicationDate;
     }
 
@@ -149,11 +140,11 @@ public class HeadStockApplicationDTO {
         this.hApproverName = hApproverName;
     }
 
-    public Date gethApprovalDate() {
+    public LocalDate gethApprovalDate() {
         return hApprovalDate;
     }
 
-    public void sethApprovalDate(Date hApprovalDate) {
+    public void sethApprovalDate(LocalDate hApprovalDate) {
         this.hApprovalDate = hApprovalDate;
     }
 
@@ -176,8 +167,7 @@ public class HeadStockApplicationDTO {
     @Override
     public String toString() {
         return "HeadStockApplicationDTO{" +
-                "hApplicationCode=" + hApplicationCode +
-                ", hDetergent=" + hDetergent +
+                "hDetergent=" + hDetergent +
                 ", hSoftener=" + hSoftener +
                 ", hBleach=" + hBleach +
                 ", hRemover=" + hRemover +
@@ -195,3 +185,5 @@ public class HeadStockApplicationDTO {
                 '}';
     }
 }
+
+

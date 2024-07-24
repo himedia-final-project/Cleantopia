@@ -10,14 +10,13 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "tbl_head_stock_application")
 @AllArgsConstructor
-@Getter
 @ToString
 public class HeadStockApplication {
 
     @Id
-    @Column(name = "h_application_code", nullable = false)
+    @Column(name = "h_application_code", nullable=false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int hApplicationCode;
+    private int hApplicationCode ;
 
     @Column(name = "h_detergent")
     private int hDetergent;
@@ -152,4 +151,67 @@ public class HeadStockApplication {
                 hApplicationStatus, hApplicationDate, hApproverName, hApprovalDate, memberId, hApplicantName);
     }
 
+    public int gethApplicationCode() {
+        return hApplicationCode;
+    }
+
+    public int gethDetergent() {
+        return hDetergent;
+    }
+
+    public int gethSoftener() {
+        return hSoftener;
+    }
+
+    public int gethBleach() {
+        return hBleach;
+    }
+
+    public int gethRemover() {
+        return hRemover;
+    }
+
+    public int gethDrumCleaner() {
+        return hDrumCleaner;
+    }
+
+    public int gethSheet() {
+        return hSheet;
+    }
+
+    public int gethLaundryFilter() {
+        return hLaundryFilter;
+    }
+
+    public int gethDryerFilter() {
+        return hDryerFilter;
+    }
+
+    public int gethDryCleanerFilter() {
+        return hDryCleanerFilter;
+    }
+
+    public String gethApplicationStatus() {
+        return hApplicationStatus;
+    }
+
+    public LocalDate gethApplicationDate() {
+        return hApplicationDate;
+    }
+
+    public String gethApproverName() {
+        return hApproverName;
+    }
+
+    public LocalDate gethApprovalDate() {
+        return hApprovalDate;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public String gethApplicantName() {
+        return hApplicantName;
+    }
 }
