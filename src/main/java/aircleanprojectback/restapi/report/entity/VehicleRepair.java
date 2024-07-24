@@ -21,7 +21,7 @@ public class VehicleRepair {
     private int vehicleReportCode;           // 본사보고서코드
 
     @Column(name = "vehicle_report_status", length = 200, nullable = false)
-    private  String vehicleReportStatus;        // 보고서상태
+    private  String vehicleReportStatus = "접수";        // 보고서상태
 
     @Column(name = "vehicle_photo", length = 500, nullable = false)
     private  String vehiclePhoto;               // 수리사진
@@ -51,6 +51,7 @@ public class VehicleRepair {
     private  String driverLicenseNumber;        // 면허번호
 
     public VehicleRepair() {
+        this.vehicleReportStatus = "접수";
     }
 
     public VehicleRepair vehicleReportCode(int vehicleReportCode) {

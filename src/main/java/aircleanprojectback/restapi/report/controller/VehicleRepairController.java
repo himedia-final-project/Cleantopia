@@ -29,6 +29,14 @@ public class VehicleRepairController {
                 .body(new ResponseDTO(HttpStatus.OK, "차량수리보고서 전체 조회성공", vehicleRepair));
     }
 
+    // 차량수리비 세부조회
+    @GetMapping("/company/detailVehicleRepair/{vehicleReportCode}")
+    public ResponseEntity<ResponseDTO> selectVehicleRepairByVehicleReportCode(@PathVariable int vehicleReportCode) {
+
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK, "차량수리보고서 상세조회", vehicleRepairService.detailVehicleRepair(vehicleReportCode)));
+    }
+
     // 본사 차량보고서 작성
     @PostMapping("/company/newReports")
     public ResponseEntity<ResponseDTO> newVehicleReports(@RequestBody VehicleRepairDTO vehicleRepairDTO){
@@ -37,5 +45,7 @@ public class VehicleRepairController {
                 .body(new ResponseDTO(HttpStatus.OK, "차량수리비보고서 등록완료", vehicleRepairService.insertVehicleRepair(vehicleRepairDTO)));
 
     }
+
+
 
 }

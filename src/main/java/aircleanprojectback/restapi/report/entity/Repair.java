@@ -27,7 +27,7 @@ public class Repair {
     private Date repairSubmissionDate;            // 보고서 제출일
 
     @Column(name = "repair_report_status", length = 200, nullable = false)
-    private String repairReportStatus;            // 보고서상태
+    private String repairReportStatus = "접수";            // 보고서상태
 
     @Column(name = "repair_content", length = 200, nullable = false)
     private String repairContent;                 // 내용
@@ -42,6 +42,8 @@ public class Repair {
     private  String branchCode;                   // 지점코드
 
     public Repair() {
+
+        this.repairReportStatus = "접수";
     }
 
 
