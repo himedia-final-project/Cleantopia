@@ -1,18 +1,20 @@
 package aircleanprojectback.restapi.stock.service;
 
-import aircleanprojectback.restapi.stock.dto.HeadStockApplicationDTO;
-import aircleanprojectback.restapi.stock.dto.LaundryPartAndManagementDTO;
-import aircleanprojectback.restapi.stock.dto.LaundrySupplyAndManagementDTO;
+import aircleanprojectback.restapi.stock.dto.*;
 import aircleanprojectback.restapi.stock.entity.HeadStockApplication;
 import aircleanprojectback.restapi.stock.entity.LaundryPartAndManagement;
 import aircleanprojectback.restapi.stock.entity.LaundrySupplyAndManagement;
+import aircleanprojectback.restapi.stock.entity.LaundrySupplyManagement;
 import aircleanprojectback.restapi.stock.repository.HeadStockApplicationRepository;
 import aircleanprojectback.restapi.stock.repository.LaundryPartManagementRepository;
 import aircleanprojectback.restapi.stock.repository.LaundrySupplyManagementRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,7 @@ public class StockService {
 
     private final ModelMapper modelMapper;
 
+    @Autowired
     public StockService(LaundryPartManagementRepository laundryPartManagementRepository, LaundrySupplyManagementRepository laundrySupplyManagementRepository, ModelMapper modelMapper, HeadStockApplicationRepository headStockApplicationRepository) {
         this.laundryPartManagementRepository = laundryPartManagementRepository;
         this.laundrySupplyManagementRepository = laundrySupplyManagementRepository;
@@ -91,11 +94,48 @@ public class StockService {
 
     }
 
+    @Transactional
     public HeadStockApplicationDTO saveHeadStockApplication(HeadStockApplicationDTO headStockApplicationDTO) {
 
         HeadStockApplication headStockApplication = modelMapper.map(headStockApplicationDTO, HeadStockApplication.class);
-        HeadStockApplication savedApplication = headStockApplicationRepository.save(headStockApplication);
 
-        return modelMapper.map(savedApplication, HeadStockApplicationDTO.class);
+        System.out.println("headStockApplication = " + headStockApplication);
+        HeadStockApplication headStockApplication1 =headStockApplicationRepository.save(headStockApplication);
+
+        System.out.println("headStockApplication1 = " + headStockApplication1);
+        return modelMapper.map(headStockApplication1, HeadStockApplicationDTO.class);
+    }
+
+    @Transactional
+    public void updateStock(HeadStockUpdate request) {
+
+        for (LaundrySupplyAndManagementDTO detergentDTO : request.getDetergents()) {
+            LaundrySupplyAndManagement detergentsEntity = laundrySupplyManagementRepository.findByLaundrySupplyManagementCode(detergentDTO.getLaundrySupplyManagementCode());
+            if(detergentsEntity != null) {
+                detergentsEntity = detergentsEntity.toBuilder().laundrySupplyStock(detergentDTO.getLaundrySupplyStock()).build();
+            }
+            laundrySupplyManagementRepository.save(detergentsEntity);
+        }
+
+        for (LaundryPartAndManagementDTO partDTO : request.getParts()) {
+            LaundryPartAndManagement partsEntity = laundryPartManagementRepository.findByLaundryPartManagementCode(partDTO.getLaundryPartManagementCode());
+            if(partsEntity != null) {
+                partsEntity = partsEntity.toBuilder().laundryPartStock(partDTO.getLaundryPartStock()).build();
+            }
+            laundryPartManagementRepository.save(partsEntity);
+        }
+
+    }
+
+    public List<HeadStockApplicationDTO> getHeadStockApplicationHistory() {
+
+        List<HeadStockApplication> headStockApplicationEntity = headStockApplicationRepository.findByMemberIdStartingWithEOrA();
+
+        List<HeadStockApplicationDTO> headStockApplicationDTO = headStockApplicationEntity.stream()
+                .map(entity -> modelMapper.map(entity, HeadStockApplicationDTO.class))
+                .collect(Collectors.toList());
+
+        return headStockApplicationDTO;
+
     }
 }

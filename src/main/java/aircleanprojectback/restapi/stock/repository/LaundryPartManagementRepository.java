@@ -11,4 +11,6 @@ public interface LaundryPartManagementRepository extends JpaRepository<LaundryPa
     List<LaundryPartAndManagement> findByHeadquartersCode(String headquartersCode);
 
     List<LaundryPartAndManagement> findByBranchCodeStartingWith(String br);
+
+    LaundryPartAndManagement findByLaundryPartManagementCode(String laundryPartManagementCode);
 }

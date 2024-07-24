@@ -2,6 +2,7 @@ package aircleanprojectback.restapi.stock.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -10,6 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
+@Builder(toBuilder = true)
 public class LaundryPartAndManagement {
 
     @Id
@@ -68,4 +70,27 @@ public class LaundryPartAndManagement {
         return new LaundryPartAndManagement(laundryPartManagementCode, branchCode, headquartersCode, laundryPartStock, laundryPartMaxStock, laundryPart);
     }
 
+    public String getLaundryPartManagementCode() {
+        return laundryPartManagementCode;
+    }
+
+    public String getBranchCode() {
+        return branchCode;
+    }
+
+    public String getHeadquartersCode() {
+        return headquartersCode;
+    }
+
+    public int getLaundryPartStock() {
+        return laundryPartStock;
+    }
+
+    public int getLaundryPartMaxStock() {
+        return laundryPartMaxStock;
+    }
+
+    public LaundryPart getLaundryPart() {
+        return laundryPart;
+    }
 }
