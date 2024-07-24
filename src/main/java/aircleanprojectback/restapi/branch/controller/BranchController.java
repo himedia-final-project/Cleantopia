@@ -4,6 +4,7 @@ import aircleanprojectback.restapi.branch.Message.Message;
 import aircleanprojectback.restapi.branch.Message.ResponseMessage;
 import aircleanprojectback.restapi.branch.dto.BranchDTO;
 import aircleanprojectback.restapi.branch.service.BranchService;
+import aircleanprojectback.restapi.member.dto.MemberDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/branch")
@@ -82,9 +84,19 @@ public class BranchController {
         List<BranchDTO> branchList = branchService.defaltBranchinformation(member_id);
         System.out.println(branchList);
 
+        String memberId = branchList.stream()
+                .map(BranchDTO::getMemberId)
+                .findFirst() // 첫 번째 값을 가져옴
+                .orElse(null); // 값이 없을 경우 null 반환
+
+
+        // memberId를 이용해 멤버 정보 조회
+        List<MemberDTO> memberList = branchService.memberInformation(memberId);
+        System.out.println("Member List: " + memberList);
+
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("branchList", branchList);
-
+        responseMap.put("memberList", memberList);
 
 //        해더 타입
         HttpHeaders headers = new HttpHeaders();
@@ -104,14 +116,26 @@ public class BranchController {
             @RequestParam("branchName") String branchName) {
 
         // react 에서 받아온 유저 정보
-        String member_id = sub;
-        System.out.println(member_id);
+//        String member_id = sub;
+//        System.out.println(member_id);
 
         List<BranchDTO> branchList = branchService.branchInformation(branchName);
         System.out.println(branchList);
+        // memberId를 쉼표로 구분된 문자열이 아닌 리스트로 변환
+        // memberId를 단일 문자열로 추출
+        String memberId = branchList.stream()
+                .map(BranchDTO::getMemberId)
+                .findFirst() // 첫 번째 값을 가져옴
+                .orElse(null); // 값이 없을 경우 null 반환
+
+
+        // memberId를 이용해 멤버 정보 조회
+        List<MemberDTO> memberList = branchService.memberInformation(memberId);
+        System.out.println("Member List: " + memberList);
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("branchList", branchList);
+        responseMap.put("memberList", memberList); 
 
         // 해더 타입
         HttpHeaders headers = new HttpHeaders();
