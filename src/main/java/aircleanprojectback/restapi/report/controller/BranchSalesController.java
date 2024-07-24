@@ -25,7 +25,7 @@ public class BranchSalesController {
 //    private List<BranchSalesDTO> branchSales = new ArrayList<>();
 
 
-    // /company 지점지출보고서 전체 조회
+    // /company 매출보고서 전체 조회
     @GetMapping("/company/reports")
     public ResponseEntity<ResponseDTO> selectAllBranchSales() {
 
@@ -35,7 +35,7 @@ public class BranchSalesController {
         return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회성공", branchSales));
     }
 
-    // /company 지출보고서 세부조회
+    // /company 매출보고서 세부조회
     @GetMapping("/company/{branchCode}/detailBranch")
     public ResponseEntity<ResponseDTO> selectBranchSalesByBranchCode(@PathVariable int branchCode) {
 
@@ -44,8 +44,14 @@ public class BranchSalesController {
                 .body(new ResponseDTO(HttpStatus.OK, "지출보고서 부분조회 성공",branchSalesService.detailBranchSales(branchCode)));
     }
 
+//    // /company 매출보고서 세부조회 - 관리자 버전
+//    @GetMapping("/company/detailBranch/membersStartingWithA/{branchCode}")
+//    public ResponseEntity<ResponseDTO> selectBranchSalesByBranchCodeStartingWithA(@PathVariable int branchCode){
+//        return ResponseEntity.ok()
+//                .body(new ResponseDTO(HttpStatus.OK, "관리자만 볼수 있는 매출보고서 세부조회",branchSalesService.detailBranchSalesByA(branchCode)));
+//    }
 
-    // /location 지점 지출 보고서 자신이 쓴 지출 보고서 전체 조회
+    // /location 지점 매출 보고서 자신이 쓴 지출 보고서 전체 조회
     @GetMapping("/location/{branchCode}/reports")
     public ResponseEntity<ResponseDTO> selectBranchSalesByBranchCode(@PathVariable String branchCode) {
 
@@ -54,7 +60,7 @@ public class BranchSalesController {
         return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"조회성공",branchSales));
     }
 
-    // /location 지점 지출보고서 작성
+    // /location 지점 매출보고서 작성
     @PostMapping("/location/reports")
     public ResponseEntity<ResponseDTO> insertBranchSales(@RequestBody BranchSalesDTO branchSalesDTO) {
 
@@ -63,14 +69,14 @@ public class BranchSalesController {
 
     }
 
-    // /location 지점 지출보고서 수정
+    // /location 지점 매출보고서 수정
     @PutMapping("/location/reports/{branchReportCode}")
     public ResponseEntity<ResponseDTO> updateBranchSales(@RequestBody BranchSalesDTO branchSalesDTO, @PathVariable int branchReportCode) {
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "수정에 성공하였습니다", branchSalesService.updateBranchSales(branchSalesDTO, branchReportCode)));
     }
 
-    // /location 지점장이 지출보고서 삭제
+    // /location 지점장이 매출보고서 삭제
     @DeleteMapping("/location/reports/{branchReportCode}")
     public ResponseEntity<ResponseDTO> deleteBranchSales(@PathVariable int branchReportCode) {
 

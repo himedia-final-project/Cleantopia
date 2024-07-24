@@ -40,4 +40,12 @@ public class VehicleRepairService {
 
         return vehicleRepairDTOList;
     }
+
+    public VehicleRepairDTO detailVehicleRepair(int vehicleReportCode) {
+
+        VehicleRepair vehicleRepair = vehicleRepairRepository.findById(String.valueOf(vehicleReportCode)).get();
+        VehicleRepairDTO vehicleRepairDTO = modelMapper.map(vehicleRepair, VehicleRepairDTO.class);
+        return vehicleRepairDTO;
+
+    }
 }

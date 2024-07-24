@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/paper")
 @Slf4j
 public class ExpenseController {
-    // 매출보고서
+    // 지출보고서
 
     private final ExpenseService expenseService;
     public ExpenseController(ExpenseService expenseService) {
@@ -33,7 +33,7 @@ public class ExpenseController {
                 .body(new ResponseDTO(HttpStatus.OK, "매출보고서 조회에 성공하셨습니다", expense));
     }
 
-    // 매출보고서 상세조회
+    // 지출보고서 상세조회
     @GetMapping("/company/detailExpenseReports/{expenseReportCode}")
     public ResponseEntity<ResponseDTO> detailExpense(@PathVariable int expenseReportCode) {
 
