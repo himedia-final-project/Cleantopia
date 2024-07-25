@@ -6,10 +6,7 @@ import aircleanprojectback.restapi.report.service.ExpenseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,4 +37,14 @@ public class ExpenseController {
         return ResponseEntity.ok()
                 .body(new ResponseDTO(HttpStatus.OK, "매출보고서 상세조회 성공",expenseService.detailExpenseReports(expenseReportCode)));
     }
+
+    // 지출보고서 상태수정 - 승인
+//    @PutMapping("/company/reports/expenseApprove/{expenseReportCode}")
+//    public ResponseEntity<ResponseDTO> updateApproveExpense(@PathVariable int expenseReportCode){
+//        return ResponseEntity.ok()
+//                .body(new ResponseDTO(HttpStatus.OK, "지출보고서 상태수정 승인", expenseService.updateExpenseState(expenseReportCode, "승인")));
+//    }
+
+    // 지출보고서 상태수정 - 반려
+
 }

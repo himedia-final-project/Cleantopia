@@ -125,4 +125,8 @@ public class BranchSales {
    public BranchSales build() {
         return new BranchSales(branchReportCode, branchSubmissionDate, officeSales, branchReportStatus, detergent, fabricSoftener, bleach, stainRemover, washerCleaner, dryerSheet, branchCode, memberId);
    }
+
+    public void setBranchReportStatus(String branchReportStatus) {
+        this.branchReportStatus = branchReportStatus;
+    }
 }

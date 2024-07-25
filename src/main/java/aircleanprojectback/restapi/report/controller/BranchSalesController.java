@@ -76,6 +76,22 @@ public class BranchSalesController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "수정에 성공하였습니다", branchSalesService.updateBranchSales(branchSalesDTO, branchReportCode)));
     }
 
+    // 매출보고서 상태변화 수정 - 승인
+    @PutMapping("/company/reports/approve/{branchReportCode}")
+    public ResponseEntity<ResponseDTO> updateApproveBranchSales(@PathVariable int branchReportCode) {
+
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK, "매출보고서 상태수정 승인 성공", branchSalesService.updateBranchSalesState(branchReportCode, "승인")));
+
+    }
+
+    // 매출보고서 상태변화 수정 - 반려
+    @PutMapping("/company/reports/reject/{branchReportCode}")
+    public ResponseEntity<ResponseDTO> updateRejectBranchSales(@PathVariable int branchReportCode) {
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK, "매출보고서 상태수정 반려 성공", branchSalesService.updateBranchSalesState(branchReportCode, "반려")));
+    }
+
     // /location 지점장이 매출보고서 삭제
     @DeleteMapping("/location/reports/{branchReportCode}")
     public ResponseEntity<ResponseDTO> deleteBranchSales(@PathVariable int branchReportCode) {
