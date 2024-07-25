@@ -82,9 +82,13 @@ public class BranchSalesService {
 
     }
 
-//    public List<BranchSales> detailBranchSalesByA(int branchCode) {
-//        return branchSalesRepository.findByBranchCodeAndMemberIdStartingWith(branchCode, "a");
-//    }
+    @Transactional
+    public BranchSales updateBranchSalesState(int branchReportCode, String branchReportStatus) {
 
+        BranchSales branchSales = branchSalesRepository.findById(branchReportCode)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid branch report code: " + branchReportCode));
+        branchSales.setBranchReportStatus(branchReportStatus);
+         return branchSalesRepository.save(branchSales);
+    }
 
 }

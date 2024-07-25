@@ -38,4 +38,7 @@ public class ExpenseService {
         ExpenseDTO expenseDTO = modelMapper.map(expense, ExpenseDTO.class);
         return expenseDTO;
     }
+
+//    public Expense updateExpenseState(int expenseReportCode, String 승인) {
+//    }
 }
