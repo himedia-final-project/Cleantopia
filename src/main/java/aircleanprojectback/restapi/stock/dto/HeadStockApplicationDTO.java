@@ -7,6 +7,8 @@ import java.time.LocalDate;
 
 
 public class HeadStockApplicationDTO {
+
+    private int hApplicationCode;
     private int hDetergent;
     private int hSoftener;
     private int hBleach;
@@ -26,7 +28,8 @@ public class HeadStockApplicationDTO {
     public HeadStockApplicationDTO() {
     }
 
-    public HeadStockApplicationDTO(int hDetergent, int hSoftener, int hBleach, int hRemover, int hDrumCleaner, int hSheet, int hLaundryFilter, int hDryerFilter, int hDryCleanerFilter, String hApplicationStatus, LocalDate hApplicationDate, String hApproverName, LocalDate hApprovalDate, String memberId, String hApplicantName) {
+    public HeadStockApplicationDTO(int hApplicationCode, int hDetergent, int hSoftener, int hBleach, int hRemover, int hDrumCleaner, int hSheet, int hLaundryFilter, int hDryerFilter, int hDryCleanerFilter, String hApplicationStatus, LocalDate hApplicationDate, String hApproverName, LocalDate hApprovalDate, String memberId, String hApplicantName) {
+        this.hApplicationCode = hApplicationCode;
         this.hDetergent = hDetergent;
         this.hSoftener = hSoftener;
         this.hBleach = hBleach;
@@ -42,6 +45,14 @@ public class HeadStockApplicationDTO {
         this.hApprovalDate = hApprovalDate;
         this.memberId = memberId;
         this.hApplicantName = hApplicantName;
+    }
+
+    public int gethApplicationCode() {
+        return hApplicationCode;
+    }
+
+    public void sethApplicationCode(int hApplicationCode) {
+        this.hApplicationCode = hApplicationCode;
     }
 
     public int gethDetergent() {
@@ -167,7 +178,8 @@ public class HeadStockApplicationDTO {
     @Override
     public String toString() {
         return "HeadStockApplicationDTO{" +
-                "hDetergent=" + hDetergent +
+                "hApplicationCode=" + hApplicationCode +
+                ", hDetergent=" + hDetergent +
                 ", hSoftener=" + hSoftener +
                 ", hBleach=" + hBleach +
                 ", hRemover=" + hRemover +
@@ -185,5 +197,4 @@ public class HeadStockApplicationDTO {
                 '}';
     }
 }
-
 
