@@ -41,6 +41,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 "/paper/(.*)",
 //                "/branch/(.*)",
                 "/members/(.*)",
+                "/carsservice/(.*)",
                 "/members/employee/soft-delete",
                 "/api/v1/products/\\d+",
                 "/api/v1/products/\\w+",
