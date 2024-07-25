@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BranchRepository extends JpaRepository<Branch, Long> {
+public interface BranchRepository extends JpaRepository<Branch, String> {
 
     @Query(value = "SELECT branch_name FROM tbl_branch WHERE branch_region = :branch_region", nativeQuery = true)
     List<String> findBranchNames(@Param("branch_region") String locationName);
