@@ -1,6 +1,8 @@
 package aircleanprojectback.restapi.branch.service;
 
 import aircleanprojectback.restapi.branch.dto.BranchDTO;
+import aircleanprojectback.restapi.branch.dto.BranchFacilityDTO;
+import aircleanprojectback.restapi.branch.entity.BranchFacility;
 import aircleanprojectback.restapi.branch.repository.BranchRepository;
 import aircleanprojectback.restapi.member.dto.MemberDTO;
 import aircleanprojectback.restapi.member.entity.Branch;
@@ -90,7 +92,7 @@ public class BranchService {
     @Transactional
     public void deleteBranchs(List<String> branches) {
         for (String branchName : branches) {
-            if ("영등포구 1호점".equals(branchName)) {
+            if ("영등포구 1호점".equals(branchName) || "광진구 1호점".equals(branchName) ||"광진구 2호점".equals(branchName)) {
                 continue; // '영등포구 1호점'은 삭제하지 않음
             }
             branchRepository.deleteByBranchName(branchName);
@@ -132,5 +134,32 @@ public class BranchService {
         return memberList.stream()
                 .map(member -> modelMapper.map(member, MemberDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    public List<BranchFacilityDTO> selectFacility(String branchCode) {
+
+        char lastChar = branchCode.charAt(branchCode.length() - 1);
+
+        if (Character.isDigit(lastChar)) {
+            int lastDigit = Character.getNumericValue(lastChar);
+
+            String branch;
+            if (lastDigit % 2 == 0) {
+                // 짝수인 경우 처리
+                branch = "BR001";
+            } else {
+                // 홀수인 경우 처리
+                branch = "BR002";
+            }
+
+            List<BranchFacility> facilityList = branchRepository.selectFacility(branch);
+
+            return facilityList.stream()
+                    .map(member -> modelMapper.map(member, BranchFacilityDTO.class))
+                    .collect(Collectors.toList());
+        } else {
+            System.out.println("코드가 잘못 되었습니다.");
+        }
+        return null;
     }
 }
