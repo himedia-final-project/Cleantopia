@@ -52,7 +52,20 @@ public class RepairController {
                 .body(new ResponseDTO(HttpStatus.OK, "지점 수리보고서 수정 성공적", repairService.updateRepair(repairReportCode,repairDTO)));
     }
 
-    // 지점 수리보고서 삭제
+    // 시설물수리보고서 상태 - 승인
+    @PutMapping("/company/reports/repairApprove/{repairReportCode}")
+    public ResponseEntity<ResponseDTO> updateRepairApprove(@PathVariable int repairReportCode){
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK, "시설물수리보고서 승인 완료",repairService.updateRepairStatus(repairReportCode,"승인")));
+    }
+    // 시설물수리보고서 상태 - 반려
+    @PutMapping("/company/reports/repairReject/{repairReportCode}")
+    public ResponseEntity<ResponseDTO> updateRepairReject(@PathVariable int repairReportCode){
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK,"시설물수리보고서 반려 완료", repairService.updateRepairStatus(repairReportCode,"반려")));
+    }
+
+    // 시설물수리보고서 삭제
     @DeleteMapping("/location/repair/{repairReportCode}")
     public ResponseEntity<ResponseDTO> DeleteRepair(@PathVariable int repairReportCode) {
         return ResponseEntity.ok()
