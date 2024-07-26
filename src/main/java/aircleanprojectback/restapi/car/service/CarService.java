@@ -3,7 +3,11 @@ package aircleanprojectback.restapi.car.service;
 import aircleanprojectback.restapi.car.dto.CarDTO;
 import aircleanprojectback.restapi.car.entity.Car;
 import aircleanprojectback.restapi.car.repository.CarRepository;
+import aircleanprojectback.restapi.common.dto.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -57,5 +61,16 @@ public class CarService {
         car.setDriverLicenseNumber(carDTO.getDriverName());
         car.setCarAssignedStatus("Assigned");
         carRepository.save(car);
+    }
+
+    public Page<CarDTO> getCarListWithPaging(Criteria criteria) {
+
+        int index = criteria.getPageNum()-1;
+        int count = criteria.getAmount();
+
+//        Pageable paging = PageRequest.of(index,count,)
+//        Page<Car> result = carRepository.
+
+
     }
 }

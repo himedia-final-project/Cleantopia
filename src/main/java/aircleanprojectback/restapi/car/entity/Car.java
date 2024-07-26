@@ -17,7 +17,7 @@ public class Car {
     @Column(name = "car_number", nullable = false, length = 500)
     private String carNumber; // 차량번호
 
-    @Column(name = "driver_license_number", nullable = false, length = 50)
+    @Column(name = "driver_license_number", length = 50)
     private String driverLicenseNumber; // 면허번호
 
     @Column(name = "car_photo", nullable = false, length = 255)
@@ -32,6 +32,7 @@ public class Car {
 
     @Column(name = "car_etc", length = 200)
     private String carEtc; // 특이사항
+
 
     public Car() {}
 

@@ -2,9 +2,12 @@ package aircleanprojectback.restapi.car.controller;
 
 import aircleanprojectback.restapi.car.dto.CarDTO;
 import aircleanprojectback.restapi.car.service.CarService;
+import aircleanprojectback.restapi.common.dto.Criteria;
+import aircleanprojectback.restapi.common.dto.PagingResponseDTO;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +29,16 @@ public class CarController {
 
     @Tag(name = "차량 목록 조회", description = "전체 차량 목록을 조회")
     @GetMapping("/company/cars")
-    public ResponseEntity<ResponseDTO> selectCarList() {
+    public ResponseEntity<ResponseDTO> selectCarList(@RequestParam (defaultValue = "1") String offset) {
         log.info("[CarController] selectCarList Start ============ ");
-        List<CarDTO> carList = carService.selectCarList();
+        Criteria criteria = new Criteria(Integer.parseInt(offset),10);
+
+        PagingResponseDTO pagingResponseDTO = new PagingResponseDTO();
+
+        Page<CarDTO> carList = carService.getCarListWithPaging(criteria);
+
+
+//        List<CarDTO> carList = carService.selectCarList();
         log.info("[CarController] selectCarList End ============ ");
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회 성공", carList));
     }
