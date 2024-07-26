@@ -96,7 +96,8 @@ public class BranchSalesController {
     @DeleteMapping("/location/reports/{branchReportCode}")
     public ResponseEntity<ResponseDTO> deleteBranchSales(@PathVariable int branchReportCode) {
 
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "삭제에 성공하였습니다", branchSalesService.deleteBranchSales(branchReportCode)));
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK, "삭제에 성공하였습니다", branchSalesService.deleteBranchSales(branchReportCode)));
 
     }
 

@@ -39,6 +39,11 @@ public class ExpenseService {
         return expenseDTO;
     }
 
-//    public Expense updateExpenseState(int expenseReportCode, String 승인) {
-//    }
+    // 지출보고서 승인/반려
+    public Expense updateExpenseState(int expenseReportCode, String expenseReportStatus) {
+        Expense expense = expenseRepository.findById(expenseReportCode)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid expenseReportCode: " + expenseReportCode));
+        expense.setExpenseReportStatus(expenseReportStatus);
+        return expenseRepository.save(expense);
+    }
 }

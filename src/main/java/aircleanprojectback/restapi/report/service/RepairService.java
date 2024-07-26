@@ -1,6 +1,7 @@
 package aircleanprojectback.restapi.report.service;
 
 import aircleanprojectback.restapi.report.dto.RepairDTO;
+import aircleanprojectback.restapi.report.entity.Expense;
 import aircleanprojectback.restapi.report.entity.Repair;
 import aircleanprojectback.restapi.report.repository.RepairRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -69,10 +70,19 @@ public class RepairService {
         return repair;
     }
 
-    // 지점 수리보고서 삭제
+    // 시설물수리보고서  삭제
     public String  deleteRepair(int repairReportCode) {
 
         repairRepository.deleteById(repairReportCode);
         return "삭제성공";
+    }
+
+    // 시설물수리보고서 승인/반려
+    public Repair updateRepairStatus(int repairReportCode, String repairReportStatus) {
+
+        Repair repair = repairRepository.findById(repairReportCode)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid repairReportCode: " + repairReportCode));
+        repair.repairReportStatus(repairReportStatus);
+        return repairRepository.save(repair);
     }
 }

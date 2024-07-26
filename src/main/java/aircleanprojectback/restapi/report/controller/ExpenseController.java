@@ -38,13 +38,18 @@ public class ExpenseController {
                 .body(new ResponseDTO(HttpStatus.OK, "매출보고서 상세조회 성공",expenseService.detailExpenseReports(expenseReportCode)));
     }
 
-    // 지출보고서 상태수정 - 승인
-//    @PutMapping("/company/reports/expenseApprove/{expenseReportCode}")
-//    public ResponseEntity<ResponseDTO> updateApproveExpense(@PathVariable int expenseReportCode){
-//        return ResponseEntity.ok()
-//                .body(new ResponseDTO(HttpStatus.OK, "지출보고서 상태수정 승인", expenseService.updateExpenseState(expenseReportCode, "승인")));
-//    }
+//     지출보고서 상태수정 - 승인
+    @PutMapping("/company/reports/expenseApprove/{expenseReportCode}")
+    public ResponseEntity<ResponseDTO> updateApproveExpense(@PathVariable int expenseReportCode){
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK, "지출보고서 상태수정 승인", expenseService.updateExpenseState(expenseReportCode, "승인")));
+    }
 
-    // 지출보고서 상태수정 - 반려
+//     지출보고서 상태수정 - 반려
 
+    @PutMapping("/company/reports/expenseReject/{expenseReportCode}")
+    public ResponseEntity<ResponseDTO> updateRejectExpense(@PathVariable int expenseReportCode){
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK, "지출보고서 상태수정 반려성공", expenseService.updateExpenseState(expenseReportCode, "반려")));
+    }
 }

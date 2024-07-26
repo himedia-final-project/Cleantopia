@@ -82,6 +82,7 @@ public class BranchSalesService {
 
     }
 
+    // 매출보고서 승인/반려
     @Transactional
     public BranchSales updateBranchSalesState(int branchReportCode, String branchReportStatus) {
 

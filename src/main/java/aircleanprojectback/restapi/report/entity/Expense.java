@@ -91,4 +91,8 @@ public class Expense {
     public Expense build(){
         return new Expense(expenseReportCode,electricityBill, waterBill, gasBill, partTimeSalary, expenseSubmissionDate, expenseReportStatus, branchCode);
     }
+
+    public void setExpenseReportStatus(String expenseReportStatus) {
+        this.expenseReportStatus = expenseReportStatus;
+    }
 }
