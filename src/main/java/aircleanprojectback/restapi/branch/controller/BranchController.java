@@ -3,6 +3,7 @@ package aircleanprojectback.restapi.branch.controller;
 import aircleanprojectback.restapi.branch.Message.Message;
 import aircleanprojectback.restapi.branch.Message.ResponseMessage;
 import aircleanprojectback.restapi.branch.dto.BranchDTO;
+import aircleanprojectback.restapi.branch.dto.BranchFacilityDTO;
 import aircleanprojectback.restapi.branch.service.BranchService;
 import aircleanprojectback.restapi.member.dto.MemberDTO;
 import org.springframework.http.HttpHeaders;
@@ -35,7 +36,7 @@ public class BranchController {
 
         Map<String, Integer> mapCounts = branchService.mapCounts();
         System.out.println(mapCounts);
-        
+
         Map<String, Integer> responseMap = new HashMap<>();
         responseMap.put("중앙", mapCounts.getOrDefault("중앙", 0));
         responseMap.put("북부", mapCounts.getOrDefault("북부", 0));
@@ -94,9 +95,38 @@ public class BranchController {
         List<MemberDTO> memberList = branchService.memberInformation(memberId);
         System.out.println("Member List: " + memberList);
 
+
+        String branchCode = branchList.stream()
+                .map(BranchDTO::getBranchCode)
+                .findFirst() // 첫 번째 값을 가져옴
+                .orElse(null); // 값이 없을 경우 null 반환
+
+        List<BranchFacilityDTO> branchFacilityList = branchService.selectFacility(branchCode);
+
+        System.out.println(branchFacilityList);
+
+        // 각 facility_code의 개수 세기
+        Map<Integer, Long> facilityCodeCounts = branchFacilityList.stream()
+                .collect(Collectors.groupingBy(BranchFacilityDTO::getFacilityCode, Collectors.counting()));
+
+        // branch_facility_status가 'D'인 facility_id_number 추출
+        List<Integer> facilityIdNumbersWithDStatus = branchFacilityList.stream()
+                .filter(dto -> "D".equals(dto.getBranchFacilityStatus()))
+                .map(BranchFacilityDTO::getFacilityIdNumber)
+                .collect(Collectors.toList());
+
+        // branch_facility_status가 'F'인 facility_id_number 추출
+        List<Integer> facilityIdNumbersWithFStatus = branchFacilityList.stream()
+                .filter(dto -> "F".equals(dto.getBranchFacilityStatus()))
+                .map(BranchFacilityDTO::getFacilityIdNumber)
+                .collect(Collectors.toList());
+        
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("branchList", branchList);
         responseMap.put("memberList", memberList);
+        responseMap.put("facilityCodeCounts", facilityCodeCounts);
+        responseMap.put("facilityIdNumbersWithDStatus", facilityIdNumbersWithDStatus);
+        responseMap.put("facilityIdNumbersWithFStatus", facilityIdNumbersWithFStatus);
 
 //        해더 타입
         HttpHeaders headers = new HttpHeaders();
@@ -133,9 +163,39 @@ public class BranchController {
         List<MemberDTO> memberList = branchService.memberInformation(memberId);
         System.out.println("Member List: " + memberList);
 
+        String branchCode = branchList.stream()
+                .map(BranchDTO::getBranchCode)
+                .findFirst() // 첫 번째 값을 가져옴
+                .orElse(null); // 값이 없을 경우 null 반환
+
+
+        List<BranchFacilityDTO> branchFacilityList = branchService.selectFacility(branchCode);
+
+        System.out.println(branchFacilityList);
+
+        // 각 facility_code의 개수 세기
+        Map<Integer, Long> facilityCodeCounts = branchFacilityList.stream()
+                .collect(Collectors.groupingBy(BranchFacilityDTO::getFacilityCode, Collectors.counting()));
+
+        // branch_facility_status가 'D'인 facility_id_number 추출
+        List<Integer> facilityIdNumbersWithDStatus = branchFacilityList.stream()
+                .filter(dto -> "D".equals(dto.getBranchFacilityStatus()))
+                .map(BranchFacilityDTO::getFacilityIdNumber)
+                .collect(Collectors.toList());
+
+        // branch_facility_status가 'F'인 facility_id_number 추출
+        List<Integer> facilityIdNumbersWithFStatus = branchFacilityList.stream()
+                .filter(dto -> "F".equals(dto.getBranchFacilityStatus()))
+                .map(BranchFacilityDTO::getFacilityIdNumber)
+                .collect(Collectors.toList());
+        
+
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("branchList", branchList);
-        responseMap.put("memberList", memberList); 
+        responseMap.put("memberList", memberList);
+        responseMap.put("facilityCodeCounts", facilityCodeCounts);
+        responseMap.put("facilityIdNumbersWithDStatus", facilityIdNumbersWithDStatus);
+        responseMap.put("facilityIdNumbersWithFStatus", facilityIdNumbersWithFStatus);
 
         // 해더 타입
         HttpHeaders headers = new HttpHeaders();
@@ -157,7 +217,7 @@ public class BranchController {
         // 해더 타입 설정
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        
+
 
         // 삭제가 성공적으로 완료되면 성공 메시지를 반환합니다.
         return ResponseEntity.ok()
@@ -195,7 +255,7 @@ public class BranchController {
         }
     }
 
-    
+
 
 
 }
