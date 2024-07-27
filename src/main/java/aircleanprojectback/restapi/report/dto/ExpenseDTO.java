@@ -17,6 +17,7 @@ public class ExpenseDTO {
     private  int waterBill;                 // 수도세
     private int gasBill;                    // 가스비
     private  int partTimeSalary;            // 알바비
+    private  int repairCost;            // 알바비
     private Date expenseSubmissionDate;    // 제출일
     private String expenseReportStatus;     // 보고서상태
     private String branchCode;              // 지점코드

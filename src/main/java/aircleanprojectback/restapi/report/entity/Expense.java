@@ -32,6 +32,9 @@ public class Expense {
     @Column(name = "part_time_salary")
     private  int partTimeSalary;            // 알바비
 
+    @Column(name = "repair_cost")
+    private int repairCost;                 // 시설물수리비
+
     @Column(name = "expense_submission_date")
     @Temporal(TemporalType.DATE) // 날짜만 저장 (시간 제외)
     @CreationTimestamp // 엔티티가 생성될 때 현재 날짜로 설정
@@ -73,6 +76,11 @@ public class Expense {
         return this;
     }
 
+    public Expense repairCost(int repairCost) {
+        this.repairCost = repairCost;
+        return this;
+    }
+
     public Expense expenseSubmissionDate(Date expenseSubmissionDate) {
         this.expenseSubmissionDate = expenseSubmissionDate;
         return this;
@@ -89,7 +97,7 @@ public class Expense {
     }
 
     public Expense build(){
-        return new Expense(expenseReportCode,electricityBill, waterBill, gasBill, partTimeSalary, expenseSubmissionDate, expenseReportStatus, branchCode);
+        return new Expense(expenseReportCode,electricityBill, waterBill, gasBill, partTimeSalary,repairCost, expenseSubmissionDate, expenseReportStatus, branchCode);
     }
 
     public void setExpenseReportStatus(String expenseReportStatus) {
