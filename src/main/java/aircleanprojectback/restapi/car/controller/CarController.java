@@ -27,21 +27,22 @@ public class CarController {
         this.carService = carService;
     }
 
-    @Tag(name = "차량 목록 조회", description = "전체 차량 목록을 조회")
-    @GetMapping("/company/cars")
-    public ResponseEntity<ResponseDTO> selectCarList(@RequestParam (defaultValue = "1") String offset) {
-        log.info("[CarController] selectCarList Start ============ ");
-        Criteria criteria = new Criteria(Integer.parseInt(offset),10);
+//    @Tag(name = "차량 목록 조회", description = "전체 차량 목록을 조회")
+//    @GetMapping("/company/cars")
+//    public ResponseEntity<ResponseDTO> selectCarList(@RequestParam (defaultValue = "1") String offset) {
+//        log.info("[CarController] selectCarList Start ============ ");
+//        Criteria criteria = new Criteria(Integer.parseInt(offset),10);
+//
+//        PagingResponseDTO pagingResponseDTO = new PagingResponseDTO();
+//
+//        Page<CarDTO> carList = carService.getCarListWithPaging(criteria);
+//
+//
+////        List<CarDTO> carList = carService.selectCarList();
+//        log.info("[CarController] selectCarList End ============ ");
+//        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회 성공", carList));
+//    }
 
-        PagingResponseDTO pagingResponseDTO = new PagingResponseDTO();
-
-        Page<CarDTO> carList = carService.getCarListWithPaging(criteria);
-
-
-//        List<CarDTO> carList = carService.selectCarList();
-        log.info("[CarController] selectCarList End ============ ");
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회 성공", carList));
-    }
 
     @Tag(name = "차량 상세 정보 조회", description = "차량 번호에 맞는 상세 정보를 조회")
     @GetMapping("/company/cars/{carNumber}")

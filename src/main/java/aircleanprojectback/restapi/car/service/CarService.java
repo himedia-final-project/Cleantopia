@@ -63,14 +63,15 @@ public class CarService {
         carRepository.save(car);
     }
 
-    public Page<CarDTO> getCarListWithPaging(Criteria criteria) {
-
-        int index = criteria.getPageNum()-1;
-        int count = criteria.getAmount();
-
-//        Pageable paging = PageRequest.of(index,count,)
-//        Page<Car> result = carRepository.
-
-
-    }
+//    public Page<CarDTO> getCarListWithPaging(Criteria criteria) {
+//
+//        int index = criteria.getPageNum()-1;
+//        int count = criteria.getAmount();
+//
+////        Pageable paging = PageRequest.of(index,count,)
+////        Page<Car> result = carRepository.
+//
+//
+//
+//    }
 }
