@@ -31,40 +31,6 @@ public class VehicleRepairService {
         this.modelMapper = modelMapper;
     }
 
-    // 차량보고서 등록
-    @Transactional
-    public String insertVehicleRepair(VehicleRepairDTO vehicleRepairDTO,
-                                      MultipartFile beforeImage,
-                                      MultipartFile afterImage)
-    {
-        VehicleRepair insertVehicleRepair = modelMapper.map(vehicleRepairDTO, VehicleRepair.class);
-
-        // before 이미지 저장
-        if (beforeImage != null && !beforeImage.isEmpty()) {
-            String beforeImageName = UUID.randomUUID().toString().replace("-", "");
-            try {
-                String beforeReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, beforeImageName, beforeImage);
-                insertVehicleRepair.setBeforeVehiclePhoto(beforeReplaceFileName);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to store before image", e);
-            }
-        }
-
-        // after 이미지 저장
-        if (afterImage != null && !afterImage.isEmpty()) {
-            String afterImageName = UUID.randomUUID().toString().replace("-", "");
-            try {
-                String afterReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, afterImageName, afterImage);
-                insertVehicleRepair.setAfterVehiclePhoto(afterReplaceFileName);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to store after image", e);
-            }
-        }
-
-        vehicleRepairRepository.save(insertVehicleRepair);
-
-        return "차량보고서 등록 성공";
-    }
 
     // 차량보고서 전체  조회
     public List<VehicleRepairDTO> getAllVehicleRepair() {
@@ -80,7 +46,7 @@ public class VehicleRepairService {
     // 차량보고서 세부조회
     public VehicleRepairDTO detailVehicleRepair(int vehicleReportCode) {
 
-        VehicleRepair vehicleRepair = vehicleRepairRepository.findById(String.valueOf(vehicleReportCode)).get();
+        VehicleRepair vehicleRepair = vehicleRepairRepository.findById(vehicleReportCode).get();
         VehicleRepairDTO vehicleRepairDTO = modelMapper.map(vehicleRepair, VehicleRepairDTO.class);
         return vehicleRepairDTO;
 
@@ -89,11 +55,44 @@ public class VehicleRepairService {
     // 차량보고서 수정
     public VehicleRepair updateVehicleRepairStatus(int vehicleReportCode, String vehicleReportStatus) {
 
-        VehicleRepair vehicleRepair = vehicleRepairRepository.findById(String.valueOf(vehicleReportCode))
+        VehicleRepair vehicleRepair = vehicleRepairRepository.findById(vehicleReportCode)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid vehicleReportCode: " + vehicleReportCode));
         vehicleRepair.setVehicleRepairStatus(vehicleReportStatus);
         return vehicleRepairRepository.save(vehicleRepair);
     }
 
 
+    // 차량수리보고서 등록
+    public String insertVehicleReports(VehicleRepairDTO vehicleRepairDTO,
+                                       MultipartFile beforeVehicleRepairImage,
+                                       MultipartFile afterVehicleRepairImage) {
+
+        VehicleRepair insertVehicleRepair = modelMapper.map(vehicleRepairDTO, VehicleRepair.class);
+        insertVehicleRepair = vehicleRepairRepository.save(insertVehicleRepair);
+
+        // 이미지
+        String beforeImageName = UUID.randomUUID().toString().replace("-", "");
+        String afterImageName = UUID.randomUUID().toString().replace("-", "");
+        String beforeReplaceFileName = null;
+        String afterReplaceFileName = null;
+
+        try {
+            if (beforeVehicleRepairImage != null && !beforeVehicleRepairImage.isEmpty()) {
+                beforeReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, beforeImageName, beforeVehicleRepairImage);
+                insertVehicleRepair.beforeVehiclePhoto(beforeReplaceFileName);
+            }
+
+            if (afterVehicleRepairImage != null && !afterVehicleRepairImage.isEmpty()) {
+                afterReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, afterImageName, afterVehicleRepairImage);
+                insertVehicleRepair.afterVehiclePhoto(afterReplaceFileName);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save image file", e);
+        }
+
+
+
+
+        return "보고서 등록성공";
+    }
 }

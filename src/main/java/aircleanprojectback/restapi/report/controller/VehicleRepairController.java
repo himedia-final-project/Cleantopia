@@ -1,8 +1,7 @@
 package aircleanprojectback.restapi.report.controller;
 
-import aircleanprojectback.restapi.car.dto.CarDTO;
+
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
-import aircleanprojectback.restapi.member.dto.MemberDTO;
 import aircleanprojectback.restapi.report.dto.CarMembersDTO;
 import aircleanprojectback.restapi.report.dto.VehicleRepairDTO;
 import aircleanprojectback.restapi.report.service.CarMembersService;
@@ -46,20 +45,6 @@ public class VehicleRepairController {
                 .body(new ResponseDTO(HttpStatus.OK, "차량수리보고서 상세조회", vehicleRepairService.detailVehicleRepair(vehicleReportCode)));
     }
 
-    // 본사 차량보고서 등록
-    @PostMapping("/company/newReports")
-    public ResponseEntity<ResponseDTO> newVehicleReports(@ModelAttribute VehicleRepairDTO vehicleRepairDTO,
-                                                         @RequestParam MultipartFile beforeImage,
-                                                         @RequestParam MultipartFile afterImage)
-    {
-        System.out.println("vehicleRepairDTO = " + vehicleRepairDTO);
-
-        vehicleRepairService.insertVehicleRepair(vehicleRepairDTO,beforeImage,afterImage);
-
-        return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "차량수리비보고서 등록완료",vehicleRepairDTO ));
-
-    }
 
     // 차량번호, 차량기사 조회(모달창에서의)
     @GetMapping("driver/numbers")
@@ -83,6 +68,16 @@ public class VehicleRepairController {
                 .body(new ResponseDTO(HttpStatus.OK, "차량수리비보고서 상태수정 반려완료", vehicleRepairService.updateVehicleRepairStatus(vehicleReportCode,"반려")));
     }
 
+    // 등록
+    @PostMapping("/vehicleRepairNew")
+    public ResponseEntity<ResponseDTO> insertVehicleRepair(@ModelAttribute VehicleRepairDTO vehicleRepairDTO,
+                                                           @RequestParam("beforeVehiclePhoto") MultipartFile beforeVehicleRepairImage,
+                                                           @RequestParam("afterVehiclePhoto") MultipartFile afterVehicleRepairImage) {
+
+        vehicleRepairService.insertVehicleReports(vehicleRepairDTO,beforeVehicleRepairImage, afterVehicleRepairImage );
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK, "등록성공", vehicleRepairDTO));
+    }
 
 
 }
