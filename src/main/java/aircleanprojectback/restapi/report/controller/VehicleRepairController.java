@@ -71,17 +71,38 @@ public class VehicleRepairController {
     // 등록
     @PostMapping("/vehicle-repair")
     public ResponseEntity<ResponseDTO> insertVehicleRepair(@ModelAttribute VehicleRepairDTO vehicleRepairDTO,
-                                                           MultipartFile beforeVehicleRepairImage,
-                                                           MultipartFile afterVehicleRepairImage) {
+                                                            MultipartFile beforeVehiclePhoto,
+                                                            MultipartFile afterVehiclePhoto) {
 
         System.out.println("vehicleRepairDTO = " + vehicleRepairDTO);
-        System.out.println("beforeVehicleRepairImage = " + beforeVehicleRepairImage);
-        System.out.println("afterVehicleRepairImage = " + afterVehicleRepairImage);
+        System.out.println("beforeVehicleRepairImage = " + beforeVehiclePhoto);
+        System.out.println("afterVehicleRepairImage = " + afterVehiclePhoto);
 
-        vehicleRepairService.insertVehicleReports(vehicleRepairDTO,beforeVehicleRepairImage, afterVehicleRepairImage );
+        log.info("vehicleRepairDTO = {}", vehicleRepairDTO);
+        log.info("beforeVehicleRepairImage = {}", beforeVehiclePhoto);
+        log.info("afterVehicleRepairImage = {}", afterVehiclePhoto);
+
+        vehicleRepairService.insertVehicleReports(vehicleRepairDTO,beforeVehiclePhoto, afterVehiclePhoto );
         return ResponseEntity.ok()
                 .body(new ResponseDTO(HttpStatus.OK, "등록성공", vehicleRepairDTO));
     }
+
+
+//    @PostMapping("/vehicle-repair")
+//    public ResponseEntity<ResponseDTO> insertVehicleRepair(@ModelAttribute VehicleRepairDTO vehicleRepairDTO,
+//                                                           @RequestParam("beforeVehiclePhoto") MultipartFile beforeVehicleRepairImage,
+//                                                           @RequestParam("afterVehiclePhoto") MultipartFile afterVehicleRepairImage) {
+//
+//        log.info("vehicleRepairDTO = {}", vehicleRepairDTO);
+//        log.info("beforeVehicleRepairImage = {}", beforeVehicleRepairImage);
+//        log.info("afterVehicleRepairImage = {}", afterVehicleRepairImage);
+//
+//        String result = vehicleRepairService.insertVehicleReports(vehicleRepairDTO, beforeVehicleRepairImage, afterVehicleRepairImage);
+//
+//        return ResponseEntity.ok()
+//                .body(new ResponseDTO(HttpStatus.OK, "등록성공", vehicleRepairDTO));
+//    }
+
 
 
 }
