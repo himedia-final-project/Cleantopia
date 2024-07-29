@@ -44,12 +44,7 @@ public class BranchSalesController {
                 .body(new ResponseDTO(HttpStatus.OK, "지출보고서 부분조회 성공",branchSalesService.detailBranchSales(branchCode)));
     }
 
-//    // /company 매출보고서 세부조회 - 관리자 버전
-//    @GetMapping("/company/detailBranch/membersStartingWithA/{branchCode}")
-//    public ResponseEntity<ResponseDTO> selectBranchSalesByBranchCodeStartingWithA(@PathVariable int branchCode){
-//        return ResponseEntity.ok()
-//                .body(new ResponseDTO(HttpStatus.OK, "관리자만 볼수 있는 매출보고서 세부조회",branchSalesService.detailBranchSalesByA(branchCode)));
-//    }
+
 
     // /location 지점 매출 보고서 자신이 쓴 지출 보고서 전체 조회
     @GetMapping("/location/{branchCode}/reports")

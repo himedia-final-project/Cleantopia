@@ -69,10 +69,14 @@ public class VehicleRepairController {
     }
 
     // 등록
-    @PostMapping("/vehicleRepairNew")
+    @PostMapping("/vehicle-repair")
     public ResponseEntity<ResponseDTO> insertVehicleRepair(@ModelAttribute VehicleRepairDTO vehicleRepairDTO,
-                                                           @RequestParam("beforeVehiclePhoto") MultipartFile beforeVehicleRepairImage,
-                                                           @RequestParam("afterVehiclePhoto") MultipartFile afterVehicleRepairImage) {
+                                                           MultipartFile beforeVehicleRepairImage,
+                                                           MultipartFile afterVehicleRepairImage) {
+
+        System.out.println("vehicleRepairDTO = " + vehicleRepairDTO);
+        System.out.println("beforeVehicleRepairImage = " + beforeVehicleRepairImage);
+        System.out.println("afterVehicleRepairImage = " + afterVehicleRepairImage);
 
         vehicleRepairService.insertVehicleReports(vehicleRepairDTO,beforeVehicleRepairImage, afterVehicleRepairImage );
         return ResponseEntity.ok()

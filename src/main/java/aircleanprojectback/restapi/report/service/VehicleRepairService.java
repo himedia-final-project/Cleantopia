@@ -1,13 +1,12 @@
 package aircleanprojectback.restapi.report.service;
 
-import aircleanprojectback.restapi.car.dto.CarDTO;
-import aircleanprojectback.restapi.member.dto.MemberDTO;
 import aircleanprojectback.restapi.report.dto.VehicleRepairDTO;
 import aircleanprojectback.restapi.report.entity.VehicleRepair;
 import aircleanprojectback.restapi.report.repository.VehicleRepairRepository;
 import aircleanprojectback.restapi.util.FileUploadUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +23,13 @@ import java.util.stream.Collectors;
 public class VehicleRepairService {
     private final VehicleRepairRepository vehicleRepairRepository;
     private final ModelMapper modelMapper;
-    private static final String IMAGE_DIR = "uploads/";
+//    private static final String IMAGE_DIR = "uploads/";
+
+    @Value("${image.image-dir}")
+    private  String IMAGE_DIR;
+
+    @Value("${image.image-url}")
+    private String IMAGE_URL;
 
     public VehicleRepairService(VehicleRepairRepository vehicleRepairRepository, ModelMapper modelMapper) {
         this.vehicleRepairRepository = vehicleRepairRepository;
@@ -63,12 +68,14 @@ public class VehicleRepairService {
 
 
     // 차량수리보고서 등록
+    @Transactional
     public String insertVehicleReports(VehicleRepairDTO vehicleRepairDTO,
                                        MultipartFile beforeVehicleRepairImage,
                                        MultipartFile afterVehicleRepairImage) {
 
         VehicleRepair insertVehicleRepair = modelMapper.map(vehicleRepairDTO, VehicleRepair.class);
-        insertVehicleRepair = vehicleRepairRepository.save(insertVehicleRepair);
+
+        System.out.println("insertVehicleRepair = " + insertVehicleRepair);
 
         // 이미지
         String beforeImageName = UUID.randomUUID().toString().replace("-", "");
@@ -89,6 +96,8 @@ public class VehicleRepairService {
         } catch (IOException e) {
             throw new RuntimeException("Failed to save image file", e);
         }
+
+       vehicleRepairRepository.save(insertVehicleRepair);
 
 
 

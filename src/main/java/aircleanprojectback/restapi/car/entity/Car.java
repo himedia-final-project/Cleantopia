@@ -33,6 +33,9 @@ public class Car {
     @Column(name = "car_etc", length = 200)
     private String carEtc; // 특이사항
 
+    @Column(name = "branch_region")
+    private String branchRegion;        // 지역
+
 
     public Car() {}
 
@@ -56,6 +59,8 @@ public class Car {
         return this;
     }
 
+
+
     public Car carDate(Date carDate) {
         return null;
     }
@@ -65,7 +70,7 @@ public class Car {
         return this;
     }
 
-    public Car build() {return new Car (carNumber,driverLicenseNumber,carPhoto,carAssignedStatus,carDate,carEtc);}
+    public Car build() {return new Car (carNumber,driverLicenseNumber,carPhoto,carAssignedStatus,carDate,carEtc,branchRegion);}
 
 
     public void setDriverLicenseNumber(String driverName) {

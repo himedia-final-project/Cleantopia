@@ -27,7 +27,8 @@ public class CarService {
                 car.getCarAssignedStatus(),
                 car.getCarDate(),
                 car.getCarPhoto(),
-                car.getCarEtc()
+                car.getCarEtc(),
+                car.getBranchRegion()
         )).toList();
     }
 
@@ -39,7 +40,8 @@ public class CarService {
                 car.getCarAssignedStatus(),
                 car.getCarDate(),
                 car.getCarPhoto(),
-                car.getCarEtc()
+                car.getCarEtc(),
+                car.getBranchRegion()
         );
     }
 
@@ -50,7 +52,8 @@ public class CarService {
                 carPhoto.getOriginalFilename(),
                 carDTO.getCarAssignedStatus(),
                 carDTO.getCarDate(),
-                carDTO.getCarEtc()
+                carDTO.getCarEtc(),
+                carDTO.getBranchRegion()
         );
         return carRepository.save(car);
     }

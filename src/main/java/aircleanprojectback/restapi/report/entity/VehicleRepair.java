@@ -18,8 +18,8 @@ public class VehicleRepair {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int vehicleReportCode; // 본사보고서코드
 
-    @Column(name = "vehicle_report_status", length = 200, nullable = false)
-    private String vehicleReportStatus = "접수"; // 보고서상태
+    @Column(name = "vehicle_report_status", length = 200)
+    private String vehicleReportStatus;// 보고서상태
 
     @Column(name = "before_vehicle_photo", length = 500, nullable = true)
     private String beforeVehiclePhoto; // 수리전사진
@@ -67,13 +67,7 @@ public class VehicleRepair {
         this.vehicleReportStatus = vehicleReportStatus;
     }
 
-//    public void setBeforeVehiclePhoto(String beforeReplaceFileName) {
-//        this.beforeVehiclePhoto = beforeReplaceFileName;
-//    }
-//
-//    public void setAfterVehiclePhoto(String afterReplaceFileName) {
-//        this.afterVehiclePhoto = afterReplaceFileName;
-//    }
+
 
     public VehicleRepair() {
         this.vehicleReportStatus = "접수";
@@ -172,4 +166,12 @@ public class VehicleRepair {
                 this.memberName,
                 this.carNumber);
     }
+
+//    public void setBeforeVehiclePhoto(String beforeVehiclePhoto) {
+//        this.beforeVehiclePhoto = beforeVehiclePhoto;
+//    }
+//
+//    public void setAfterVehiclePhoto(String afterVehiclePhoto) {
+//        this.afterVehiclePhoto = afterVehiclePhoto;
+//    }
 }
