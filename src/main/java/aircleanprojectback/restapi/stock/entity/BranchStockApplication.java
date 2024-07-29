@@ -64,6 +64,9 @@ public class BranchStockApplication {
     @Column(name = "applicant_name", length = 100)  // 새로 추가된 컬럼
     private String applicantName;
 
+    @Column(name = "member_id")
+    private String memberId;
+
     public BranchStockApplication() {}
 
     public BranchStockApplication bApplicationCode(int bApplicationCode) {
@@ -146,9 +149,82 @@ public class BranchStockApplication {
         return this;
     }
 
+    public BranchStockApplication memberId(String memberId) {
+        this.memberId = memberId;
+        return this;
+    }
+
     public BranchStockApplication build() {
         return new BranchStockApplication(bApplicationCode, bDetergent, bSoftener, bBleach,
                 bRemover, bDrumCleaner, bSheet, bLaundryFilter, bDryerFilter, bDryCleanerFilter,
-                bApplicationStatus, bApplicationDate, bApproverName, bApprovalDate, branchCode, applicantName);
+                bApplicationStatus, bApplicationDate, bApproverName, bApprovalDate, branchCode, applicantName, memberId);
+    }
+
+    public int getbApplicationCode() {
+        return bApplicationCode;
+    }
+
+    public int getbDetergent() {
+        return bDetergent;
+    }
+
+    public int getbSoftener() {
+        return bSoftener;
+    }
+
+    public int getbBleach() {
+        return bBleach;
+    }
+
+    public int getbRemover() {
+        return bRemover;
+    }
+
+    public int getbDrumCleaner() {
+        return bDrumCleaner;
+    }
+
+    public int getbSheet() {
+        return bSheet;
+    }
+
+    public int getbLaundryFilter() {
+        return bLaundryFilter;
+    }
+
+    public int getbDryerFilter() {
+        return bDryerFilter;
+    }
+
+    public int getbDryCleanerFilter() {
+        return bDryCleanerFilter;
+    }
+
+    public String getbApplicationStatus() {
+        return bApplicationStatus;
+    }
+
+    public LocalDate getbApplicationDate() {
+        return bApplicationDate;
+    }
+
+    public String getbApproverName() {
+        return bApproverName;
+    }
+
+    public LocalDate getbApprovalDate() {
+        return bApprovalDate;
+    }
+
+    public String getBranchCode() {
+        return branchCode;
+    }
+
+    public String getApplicantName() {
+        return applicantName;
+    }
+
+    public String getMemberId() {
+        return memberId;
     }
 }
