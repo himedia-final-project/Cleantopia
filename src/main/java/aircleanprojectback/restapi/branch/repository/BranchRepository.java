@@ -57,4 +57,8 @@ public interface BranchRepository extends JpaRepository<Branch, String> {
     List<BranchFacility> selectFacility(@Param("branchCode") String branchCode);
 
 
+
+    @Query("SELECT m FROM Members m WHERE m.memberRole = 'b' AND m.branchOwnerShip = 'N'")
+    List<Members> findMemberNameAndId();
+
 }

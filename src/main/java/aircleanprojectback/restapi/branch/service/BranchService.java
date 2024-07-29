@@ -102,6 +102,9 @@ public class BranchService {
     public void saveBranch(BranchDTO branchDTO) throws IOException {
         String branchImage = null;
         MultipartFile branchImageFile = branchDTO.getBranchImageFile();
+        System.out.println("안녕");
+        System.out.println("branchImageFile = " + branchImageFile);
+
         if (branchImageFile != null && !branchImageFile.isEmpty()) {
             String imageName = UUID.randomUUID().toString().replace("-", "");
             branchImage = FileUploadUtils.saveFile(IMAGE_DIR, imageName, branchImageFile);
@@ -161,5 +164,15 @@ public class BranchService {
             System.out.println("코드가 잘못 되었습니다.");
         }
         return null;
+    }
+
+    public List<MemberDTO> getAllMembers() {
+
+        List<Members> memberList = branchRepository.findMemberNameAndId();
+        System.out.println("memberList = " + memberList);
+
+        return memberList.stream()
+                .map(member -> modelMapper.map(member, MemberDTO.class))
+                .collect(Collectors.toList());
     }
 }

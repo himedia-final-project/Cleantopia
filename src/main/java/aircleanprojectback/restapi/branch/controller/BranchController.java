@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -255,6 +256,28 @@ public class BranchController {
         }
     }
 
+    @GetMapping("/members")
+    public ResponseEntity<ResponseMessage> getMembers() {
+        try {
+            List<MemberDTO> memberList = branchService.getAllMembers();
+            System.out.println("Member List: " + memberList);
+
+            Map<String, Object> responseMap = new HashMap<>();
+
+            responseMap.put("members", memberList);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(new ResponseMessage(200, "Members 조회 성공", responseMap));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500)
+                    .body(new ResponseMessage(500, "Members 조회 실패: " + e.getMessage(), null));
+        }
+    }
 
 
 
