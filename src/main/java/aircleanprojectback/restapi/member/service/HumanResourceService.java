@@ -1,12 +1,11 @@
 package aircleanprojectback.restapi.member.service;
 
 import aircleanprojectback.restapi.common.dto.Criteria;
-import aircleanprojectback.restapi.member.dto.EmployeeDTO;
-import aircleanprojectback.restapi.member.dto.MemberDTO;
-import aircleanprojectback.restapi.member.dto.MemberModifyDTO;
-import aircleanprojectback.restapi.member.dto.MembersAndEmployeeDTO;
+import aircleanprojectback.restapi.member.dto.*;
+import aircleanprojectback.restapi.member.entity.BranchAndMembers;
 import aircleanprojectback.restapi.member.entity.Members;
 import aircleanprojectback.restapi.member.entity.MembersAndEmployee;
+import aircleanprojectback.restapi.member.repository.BranchAndMembersRepository;
 import aircleanprojectback.restapi.member.repository.MemberRepository;
 import aircleanprojectback.restapi.member.repository.MembersAndEmployeeRepository;
 import aircleanprojectback.restapi.util.FileUploadUtils;
@@ -28,14 +27,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class HumanResourceService {
     private final MembersAndEmployeeRepository repository;
     private final MemberRepository memberRepository;
+    private final BranchAndMembersRepository branchRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
-
     @Value("${image.image-url}")
     private String IMAGE_URL;
 
@@ -43,11 +43,13 @@ public class HumanResourceService {
     private String IMAGE_DIR;
 
     @Autowired
-    public HumanResourceService(MembersAndEmployeeRepository repository, ModelMapper modelMapper,MemberRepository memberRepository,PasswordEncoder passwordEncoder){
+    public HumanResourceService(MembersAndEmployeeRepository repository, ModelMapper modelMapper,MemberRepository memberRepository,PasswordEncoder passwordEncoder
+    ,BranchAndMembersRepository branchRepository){
         this.memberRepository = memberRepository;
         this.repository =repository;
         this.modelMapper=modelMapper;
         this.passwordEncoder=passwordEncoder;
+        this.branchRepository = branchRepository;
 
         modelMapper.createTypeMap(MembersAndEmployee.class, MembersAndEmployeeDTO.class)
                 .addMapping(src -> src.getMembers(), MembersAndEmployeeDTO::setMemberDTO);
@@ -222,5 +224,25 @@ public class HumanResourceService {
 
         return employeeList;
 
+    }
+
+    public Page<BranchAndMembersDTO> getBranchListWithPaging(Criteria cri) {
+        int index = cri.getPageNum()-1;
+        int amount = cri.getAmount();
+        Pageable pageable = PageRequest.of(index,amount);
+
+        Page<BranchAndMembers> result = branchRepository.findAllByMemberRoleAndMemberStatus("b","Y",pageable);
+
+        System.out.println("branch"+result.getContent());
+
+        Page<BranchAndMembersDTO> branchList =result.map(branch-> modelMapper.map(branch,BranchAndMembersDTO.class));
+
+
+        for(int i =0 ;i<branchList.toList().size() ;i++){
+            branchList.toList().get(i).setMemberImage(IMAGE_URL+branchList.toList().get(i).getMemberImage());
+        }
+
+
+        return branchList;
     }
 }
