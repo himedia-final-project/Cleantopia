@@ -58,8 +58,16 @@ public class HumanResourceController {
     }
 
     @GetMapping("branch")
-    public ResponseEntity<ResponseDTO> findBranch(){
-        return null;
+    public ResponseEntity<ResponseDTO> findBranch(@RequestParam(defaultValue = "1")String offset ){
+
+        System.out.println("findBranch 동작");
+        Criteria cri = new Criteria(Integer.parseInt(offset),12);
+
+        PagingResponseDTO pagingResponseDTO = new PagingResponseDTO();
+
+        Page<BranchAndMembersDTO> branchList = service.getBranchListWithPaging(cri);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"일단 들어옴",branchList));
     }
 
     @GetMapping("driver")

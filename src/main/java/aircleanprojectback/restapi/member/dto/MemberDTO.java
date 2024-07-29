@@ -27,6 +27,7 @@ public class MemberDTO implements UserDetails {
     private String memberAddress;
     private String memberStatus;
     private Date memberHireDate;
+    private String branchOwnership;
     private String memberImage;
 
     @Override

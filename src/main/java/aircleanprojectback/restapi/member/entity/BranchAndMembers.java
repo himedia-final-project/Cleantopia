@@ -53,7 +53,7 @@ public class BranchAndMembers {
     @Column(name = "member_image")
     private String memberImage;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Branch branch;
 }

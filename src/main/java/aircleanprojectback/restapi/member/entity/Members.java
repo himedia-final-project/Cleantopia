@@ -52,6 +52,9 @@ public class Members {
     @Column(name="member_hire_date")
     private Date memberHireDate;
 
+    @Column(name = "brnach_ownership")
+    private String branchOwnerShip;
+
     @Column(name = "member_image")
     private String memberImage;
 
@@ -122,10 +125,15 @@ public class Members {
         return this;
     }
 
+    public Members branchOwnership(String var){
+        branchOwnerShip = var;
+        return  this;
+    }
+
     public Members builder(){
         return new Members(this.memberId,this.memberPassword,this.memberName,
                 this.memberPhoneNumber,this.memberRole,this.memberEmail,this.memberBirthDate,
-                this.memberGender,this.memberAddress,this.memberStatus,this.memberHireDate,this.memberImage);
+                this.memberGender,this.memberAddress,this.memberStatus,this.memberHireDate,this.memberImage,this.branchOwnerShip);
     }
 
 }
