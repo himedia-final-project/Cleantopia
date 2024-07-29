@@ -3,11 +3,13 @@ package aircleanprojectback.restapi.member.service;
 import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.member.dto.*;
 import aircleanprojectback.restapi.member.entity.BranchAndMembers;
+import aircleanprojectback.restapi.member.entity.BranchOwner;
 import aircleanprojectback.restapi.member.entity.Members;
 import aircleanprojectback.restapi.member.entity.MembersAndEmployee;
 import aircleanprojectback.restapi.member.repository.BranchAndMembersRepository;
 import aircleanprojectback.restapi.member.repository.MemberRepository;
 import aircleanprojectback.restapi.member.repository.MembersAndEmployeeRepository;
+//import aircleanprojectback.restapi.member.repository.OwnerRepository;
 import aircleanprojectback.restapi.util.FileUploadUtils;
 import aircleanprojectback.restapi.util.MakeMemberId;
 import aircleanprojectback.restapi.util.RandomStringGenerator;
@@ -34,6 +36,7 @@ public class HumanResourceService {
     private final MembersAndEmployeeRepository repository;
     private final MemberRepository memberRepository;
     private final BranchAndMembersRepository branchRepository;
+//    private final OwnerRepository ownerRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     @Value("${image.image-url}")
@@ -47,6 +50,7 @@ public class HumanResourceService {
     ,BranchAndMembersRepository branchRepository){
         this.memberRepository = memberRepository;
         this.repository =repository;
+//        this.ownerRepository = ownerRepository;
         this.modelMapper=modelMapper;
         this.passwordEncoder=passwordEncoder;
         this.branchRepository = branchRepository;
@@ -245,4 +249,16 @@ public class HumanResourceService {
 
         return branchList;
     }
+
+//    @Transactional
+//    public Page<BranchOwnerDTO> getBranchAndMemberWithPage(Criteria cri) {
+//
+//        Pageable pageable = PageRequest.of(cri.getPageNum()-1, cri.getAmount() );
+//
+//
+//        Page<BranchOwner> result = ownerRepository.findAllOwner(pageable);
+//
+//
+//        return result.map(owner -> modelMapper.map(owner,BranchOwnerDTO.class));
+//    }
 }
