@@ -96,6 +96,18 @@ public class StockController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "내역조회 성공", headStockApplicationDTO));
     }
 
+    @Tag(name = "본사 지점발주내역 조회")
+    @GetMapping("/company/stock/branchApplication")
+    public ResponseEntity<ResponseDTO> headBranchApplication() {
+
+        List<BranchStockApplicationDTO> branchStockApplicationDTO = stockService.getHeadBranchStockApplication();
+
+        System.out.println("branchStockApplicationDTO" + branchStockApplicationDTO);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회 성공", branchStockApplicationDTO));
+
+    }
+
 
 
 

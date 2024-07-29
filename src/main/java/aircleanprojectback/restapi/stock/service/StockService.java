@@ -1,10 +1,8 @@
 package aircleanprojectback.restapi.stock.service;
 
 import aircleanprojectback.restapi.stock.dto.*;
-import aircleanprojectback.restapi.stock.entity.HeadStockApplication;
-import aircleanprojectback.restapi.stock.entity.LaundryPartAndManagement;
-import aircleanprojectback.restapi.stock.entity.LaundrySupplyAndManagement;
-import aircleanprojectback.restapi.stock.entity.LaundrySupplyManagement;
+import aircleanprojectback.restapi.stock.entity.*;
+import aircleanprojectback.restapi.stock.repository.HeadBranchStockApplicationRepository;
 import aircleanprojectback.restapi.stock.repository.HeadStockApplicationRepository;
 import aircleanprojectback.restapi.stock.repository.LaundryPartManagementRepository;
 import aircleanprojectback.restapi.stock.repository.LaundrySupplyManagementRepository;
@@ -27,14 +25,17 @@ public class StockService {
     private final LaundrySupplyManagementRepository laundrySupplyManagementRepository;
     private final HeadStockApplicationRepository headStockApplicationRepository;
 
+    private final HeadBranchStockApplicationRepository headBranchStockApplicationRepository;
+
     private final ModelMapper modelMapper;
 
     @Autowired
-    public StockService(LaundryPartManagementRepository laundryPartManagementRepository, LaundrySupplyManagementRepository laundrySupplyManagementRepository, ModelMapper modelMapper, HeadStockApplicationRepository headStockApplicationRepository) {
+    public StockService(LaundryPartManagementRepository laundryPartManagementRepository, LaundrySupplyManagementRepository laundrySupplyManagementRepository, ModelMapper modelMapper, HeadStockApplicationRepository headStockApplicationRepository, HeadBranchStockApplicationRepository headBranchStockApplicationRepository) {
         this.laundryPartManagementRepository = laundryPartManagementRepository;
         this.laundrySupplyManagementRepository = laundrySupplyManagementRepository;
         this.modelMapper = modelMapper;
         this.headStockApplicationRepository = headStockApplicationRepository;
+        this.headBranchStockApplicationRepository = headBranchStockApplicationRepository;
     }
 
     public List<LaundryPartAndManagementDTO> selectAllHPart() {
@@ -136,6 +137,18 @@ public class StockService {
                 .collect(Collectors.toList());
 
         return headStockApplicationDTO;
+
+    }
+
+    public List<BranchStockApplicationDTO> getHeadBranchStockApplication() {
+
+        List<BranchStockApplication> branchStockApplicationEntity = headBranchStockApplicationRepository.findByBranchCodeStartingWith("BR");
+
+        List<BranchStockApplicationDTO> branchStockApplicationDTO = branchStockApplicationEntity.stream()
+                .map(entity -> modelMapper.map(entity, BranchStockApplicationDTO.class))
+                .collect(Collectors.toList());
+
+        return  branchStockApplicationDTO;
 
     }
 }
