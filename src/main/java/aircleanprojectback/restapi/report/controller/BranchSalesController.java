@@ -1,6 +1,7 @@
 package aircleanprojectback.restapi.report.controller;
 
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
+import aircleanprojectback.restapi.member.dto.BranchAndMembersDTO;
 import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.service.BranchSalesService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,15 +26,16 @@ public class BranchSalesController {
 //    private List<BranchSalesDTO> branchSales = new ArrayList<>();
 
 
-    // /company 매출보고서 전체 조회
-    @GetMapping("/company/reports")
-    public ResponseEntity<ResponseDTO> selectAllBranchSales() {
-
-        List<BranchSalesDTO> branchSales = branchSalesService.getAllBranchSales();
-
-
-        return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회성공", branchSales));
-    }
+//    // /company 매출보고서 전체 조회
+//    @GetMapping("/company/reports")
+//    public ResponseEntity<ResponseDTO> selectAllBranchSales() {
+//
+//        List<BranchSalesDTO> branchSales = branchSalesService.getAllBranchSales();
+//        List<BranchAndMembersDTO> branchAndMembersDTO = branchSalesService.findBranchMember();
+//
+//
+//        return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회성공", branchSales,branchAndMembersDTO));
+//    }
 
     // /company 매출보고서 세부조회
     @GetMapping("/company/{branchCode}/detailBranch")
