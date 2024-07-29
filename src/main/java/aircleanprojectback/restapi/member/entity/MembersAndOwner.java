@@ -1,20 +1,10 @@
 package aircleanprojectback.restapi.member.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.sql.Date;
 
-@Entity
-@Table(name = "tbl_members")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@ToString
-public class BranchAndMembers {
+public class MembersAndOwner {
 
     @Id
     @Column(name = "member_id")
@@ -53,7 +43,9 @@ public class BranchAndMembers {
     @Column(name = "member_image")
     private String memberImage;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "member_id", referencedColumnName = "member_id", insertable = false, updatable = false)
-    private Branch branch;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "member_id")
+    private BranchOwner branchOwner;
+
+
 }

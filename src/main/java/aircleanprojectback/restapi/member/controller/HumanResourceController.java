@@ -65,9 +65,10 @@ public class HumanResourceController {
 
         PagingResponseDTO pagingResponseDTO = new PagingResponseDTO();
 
-        Page<BranchAndMembersDTO> branchList = service.getBranchListWithPaging(cri);
+//        Page<BranchOwnerDTO> branchList = service.getBranchAndMemberWithPage(cri);
 
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"일단 들어옴",branchList));
+//        System.out.println(branchList.getContent());
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"일단 들어옴","간디"));
     }
 
     @GetMapping("driver")
