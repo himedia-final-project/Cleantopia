@@ -71,18 +71,18 @@ public class VehicleRepairController {
     // 등록
     @PostMapping("/vehicle-repair")
     public ResponseEntity<ResponseDTO> insertVehicleRepair(@ModelAttribute VehicleRepairDTO vehicleRepairDTO,
-                                                            MultipartFile beforeVehiclePhoto,
-                                                            MultipartFile afterVehiclePhoto) {
+                                                            MultipartFile beforeImage,
+                                                            MultipartFile afterImage) {
 
         System.out.println("vehicleRepairDTO = " + vehicleRepairDTO);
-        System.out.println("beforeVehicleRepairImage = " + beforeVehiclePhoto);
-        System.out.println("afterVehicleRepairImage = " + afterVehiclePhoto);
+        System.out.println("beforeVehicleRepairImage = " + beforeImage);
+        System.out.println("afterVehicleRepairImage = " + afterImage);
 
         log.info("vehicleRepairDTO = {}", vehicleRepairDTO);
-        log.info("beforeVehicleRepairImage = {}", beforeVehiclePhoto);
-        log.info("afterVehicleRepairImage = {}", afterVehiclePhoto);
+        log.info("beforeVehicleRepairImage = {}", beforeImage);
+        log.info("afterVehicleRepairImage = {}", afterImage);
 
-        vehicleRepairService.insertVehicleReports(vehicleRepairDTO,beforeVehiclePhoto, afterVehiclePhoto );
+        vehicleRepairService.insertVehicleReports(vehicleRepairDTO,beforeImage, afterImage );
         return ResponseEntity.ok()
                 .body(new ResponseDTO(HttpStatus.OK, "등록성공", vehicleRepairDTO));
     }
