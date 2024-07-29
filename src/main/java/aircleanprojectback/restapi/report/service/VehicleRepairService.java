@@ -69,8 +69,8 @@ public class VehicleRepairService {
     // 차량수리보고서 등록
     @Transactional
     public String insertVehicleReports(VehicleRepairDTO vehicleRepairDTO,
-                                       MultipartFile beforeVehicleRepairImage,
-                                       MultipartFile afterVehicleRepairImage) {
+                                       MultipartFile beforeVehiclePhoto,
+                                       MultipartFile afterVehiclePhoto) {
 
         VehicleRepair insertVehicleRepair = modelMapper.map(vehicleRepairDTO, VehicleRepair.class);
 
@@ -84,15 +84,15 @@ public class VehicleRepairService {
         String afterReplaceFileName = null;
 
         try {
-            if (beforeVehicleRepairImage != null && !beforeVehicleRepairImage.isEmpty()) {
-                beforeReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, beforeImageName, beforeVehicleRepairImage);
+            if (beforeVehiclePhoto != null && !beforeVehiclePhoto.isEmpty()) {
+                beforeReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, beforeImageName, beforeVehiclePhoto);
                 insertVehicleRepair.beforeVehiclePhoto(beforeReplaceFileName);
                 System.out.println("여기로 오긴 하니?");
                 System.out.println("beforeReplaceFileName = " + beforeReplaceFileName);
             }
 
-            if (afterVehicleRepairImage != null && !afterVehicleRepairImage.isEmpty()) {
-                afterReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, afterImageName, afterVehicleRepairImage);
+            if (afterVehiclePhoto != null && !afterVehiclePhoto.isEmpty()) {
+                afterReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, afterImageName, afterVehiclePhoto);
                 insertVehicleRepair.afterVehiclePhoto(afterReplaceFileName);
             }
         } catch (IOException e) {
@@ -105,36 +105,4 @@ public class VehicleRepairService {
     }
 
 
-//    @Transactional
-//    public String insertVehicleReports(VehicleRepairDTO vehicleRepairDTO,
-//                                       MultipartFile beforeVehicleRepairImage,
-//                                       MultipartFile afterVehicleRepairImage) {
-//
-//        VehicleRepair insertVehicleRepair = modelMapper.map(vehicleRepairDTO, VehicleRepair.class);
-//
-//        log.info("insertVehicleRepair = {}", insertVehicleRepair);
-//
-//        String beforeImageName = UUID.randomUUID().toString().replace("-", "");
-//        String afterImageName = UUID.randomUUID().toString().replace("-", "");
-//        String beforeReplaceFileName = null;
-//        String afterReplaceFileName = null;
-//
-//        try {
-//            if (beforeVehicleRepairImage != null && !beforeVehicleRepairImage.isEmpty()) {
-//                beforeReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, beforeImageName, beforeVehicleRepairImage);
-//                insertVehicleRepair.setBeforeVehiclePhoto(beforeReplaceFileName);
-//            }
-//
-//            if (afterVehicleRepairImage != null && !afterVehicleRepairImage.isEmpty()) {
-//                afterReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, afterImageName, afterVehicleRepairImage);
-//                insertVehicleRepair.setAfterVehiclePhoto(afterReplaceFileName);
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException("Failed to save image file", e);
-//        }
-//
-//        vehicleRepairRepository.save(insertVehicleRepair);
-//
-//        return "보고서 등록성공";
-//    }
 }

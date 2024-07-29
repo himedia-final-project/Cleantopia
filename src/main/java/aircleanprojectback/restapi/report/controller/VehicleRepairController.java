@@ -68,7 +68,8 @@ public class VehicleRepairController {
                 .body(new ResponseDTO(HttpStatus.OK, "차량수리비보고서 상태수정 반려완료", vehicleRepairService.updateVehicleRepairStatus(vehicleReportCode,"반려")));
     }
 
-    // 등록
+    // 차량수리비보고서 등록
+    // VehicleRepairDTO 에서 의 컬럼명과 MultipartFile 컬럼명을 같게 하는 바람에 DTO 로 인식을 하고 멀티풀 파일에서 안먹히고 있었음
     @PostMapping("/vehicle-repair")
     public ResponseEntity<ResponseDTO> insertVehicleRepair(@ModelAttribute VehicleRepairDTO vehicleRepairDTO,
                                                             MultipartFile beforeImage,
@@ -86,23 +87,6 @@ public class VehicleRepairController {
         return ResponseEntity.ok()
                 .body(new ResponseDTO(HttpStatus.OK, "등록성공", vehicleRepairDTO));
     }
-
-
-//    @PostMapping("/vehicle-repair")
-//    public ResponseEntity<ResponseDTO> insertVehicleRepair(@ModelAttribute VehicleRepairDTO vehicleRepairDTO,
-//                                                           @RequestParam("beforeVehiclePhoto") MultipartFile beforeVehicleRepairImage,
-//                                                           @RequestParam("afterVehiclePhoto") MultipartFile afterVehicleRepairImage) {
-//
-//        log.info("vehicleRepairDTO = {}", vehicleRepairDTO);
-//        log.info("beforeVehicleRepairImage = {}", beforeVehicleRepairImage);
-//        log.info("afterVehicleRepairImage = {}", afterVehicleRepairImage);
-//
-//        String result = vehicleRepairService.insertVehicleReports(vehicleRepairDTO, beforeVehicleRepairImage, afterVehicleRepairImage);
-//
-//        return ResponseEntity.ok()
-//                .body(new ResponseDTO(HttpStatus.OK, "등록성공", vehicleRepairDTO));
-//    }
-
 
 
 }
