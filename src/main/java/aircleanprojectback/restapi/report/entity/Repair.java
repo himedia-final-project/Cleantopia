@@ -38,6 +38,12 @@ public class Repair {
     @Column(name = "facility_code")
     private int facilityCode;                     // 시설물코드
 
+    @Column(name = "member_name")
+    private String memberName;;             // 지점장명
+
+    @Column(name = "branch_name")
+    private String branchName;              // 지점명
+
     @Column(name = "branch_code", length = 200, nullable = false)
     private  String branchCode;                   // 지점코드
 
@@ -77,12 +83,32 @@ public class Repair {
         return this;
     }
 
+    public Repair memberName(String memberName) {
+        this.memberName = memberName;
+        return this;
+    }
+
+    public Repair branchName(String branchName) {
+        this.branchName = branchName;
+        return this;
+    }
+
     public Repair branchCode(String branchCode) {
         this.branchCode = branchCode;
         return this;
     }
 
     public  Repair build() {
-        return new Repair(repairReportCode, repairSubmissionDate, repairReportStatus, repairContent, facilityCount, facilityCode, branchCode);
+        return new Repair(
+                repairReportCode,
+                repairSubmissionDate,
+                repairReportStatus,
+                repairContent,
+                facilityCount,
+                facilityCode,
+                memberName,
+                branchName,
+                branchCode
+        );
     }
 }
