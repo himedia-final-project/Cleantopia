@@ -4,6 +4,7 @@ import aircleanprojectback.restapi.branch.repository.BranchRepository;
 import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.member.dto.*;
 import aircleanprojectback.restapi.member.entity.*;
+import aircleanprojectback.restapi.member.repository.DriverRepository;
 import aircleanprojectback.restapi.member.repository.MemberRepository;
 import aircleanprojectback.restapi.member.repository.MembersAndEmployeeRepository;
 import aircleanprojectback.restapi.member.repository.OwnerRepository;
@@ -35,6 +36,7 @@ public class HumanResourceService {
     private final MemberRepository memberRepository;
     private final BranchRepository branchRepository;
     private final OwnerRepository ownerRepository;
+    private final DriverRepository driverRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     @Value("${image.image-url}")
@@ -45,14 +47,14 @@ public class HumanResourceService {
 
     @Autowired
     public HumanResourceService(MembersAndEmployeeRepository repository, ModelMapper modelMapper,MemberRepository memberRepository,PasswordEncoder passwordEncoder
-    ,BranchRepository branchRepository, OwnerRepository ownerRepository){
+    ,BranchRepository branchRepository, OwnerRepository ownerRepository, DriverRepository driverRepository){
         this.memberRepository = memberRepository;
         this.repository =repository;
         this.ownerRepository = ownerRepository;
         this.modelMapper=modelMapper;
         this.passwordEncoder=passwordEncoder;
         this.branchRepository = branchRepository;
-
+        this.driverRepository = driverRepository;
 
         modelMapper.createTypeMap(MembersAndEmployee.class, MembersAndEmployeeDTO.class)
                 .addMapping(src -> src.getMembers(), MembersAndEmployeeDTO::setMemberDTO);
@@ -396,6 +398,18 @@ public class HumanResourceService {
     public BranchOwnerDTO findOwnBranchByMemberId(String memberId) {
 
         return modelMapper.map(ownerRepository.findByMemberId(memberId),BranchOwnerDTO.class);
+    }
+
+    public Page<DriverDTO> findAllDriver(Criteria cri) {
+
+        Pageable pageable = PageRequest.of(cri.getPageNum()-1,cri.getAmount());
+
+//        Page<Driver> result = driverRepository.findAllByMemberStatusAndMemberRole("Y","d",pageable);
+
+        Page<Driver> result = driverRepository.findAllByMembersMemberStatusAndMembersMemberRole("Y","d",pageable);
+        System.out.println("잘 들어 왔을가요 ? "+result.getContent());
+
+        return null;
     }
 
 //    public Page<BranchOwnerDTO> getBranchWithN(Criteria cri) {

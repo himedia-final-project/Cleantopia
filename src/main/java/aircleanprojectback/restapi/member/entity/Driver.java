@@ -1,12 +1,17 @@
 package aircleanprojectback.restapi.member.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "tbl_driver")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@ToString
 public class Driver {
 
     @Id
@@ -16,8 +21,10 @@ public class Driver {
     @Column(name = "driver_region")
     private String driverRegion;
 
-    @Column(name = "member_id")
-    private String memberId;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "member_id")
+    private Members members;
 
-
+    @OneToOne(mappedBy = "driver" , cascade = CascadeType.PERSIST)
+    private CarForMember car;
 }

@@ -35,15 +35,14 @@ public interface OwnerRepository extends JpaRepository<BranchOwner ,Integer> {
     BranchOwner findByMemberId(String memberId);
 
 
-    // 도아 보고서관리 지점,지점장조회
-    @Query(value = "select a.*, b.owner_code , c.* " +
-            "from tbl_members a " +
-            "left join tbl_branch_owner b on a.member_id = b.member_id " +
-            "left join tbl_branch c on c.branch_code = b.branch_code " +
-            "where a.member_id = ?", nativeQuery = true)
-    List<BranchOwner> findReportsBranchMember(String memberId);
-
-
+//    @Query(value = "SELECT a.*, b.* " +
+//            "FROM tbl_branch a " +
+//            "LEFT JOIN ( " +
+//            "    SELECT c.owner_code, c.branch_code, d.* " +
+//            "    FROM tbl_branch_owner c " +
+//            "    LEFT JOIN tbl_members d ON c.member_id = d.member_id " +
+//            ") b ON a.branch_code = b.branch_code", nativeQuery = true)
+//    List<BranchOwner> findBranchInfo();
 
 //    @Query(value = "a.*, b.owner_code , c.* " +
 //            "")
