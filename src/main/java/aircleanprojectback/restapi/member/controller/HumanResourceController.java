@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @RestController
@@ -270,6 +271,25 @@ public class HumanResourceController {
         branchList.forEach(System.out::println);
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"owner 없는 branch",branchList));
+    }
+
+
+
+    // 지점장 로그인시 branch 정보
+    @GetMapping("loging/{memberId}")
+    public ResponseEntity<ResponseDTO> getBranchInfo(@PathVariable String memberId){
+
+        System.out.println("memberId = " + memberId);
+
+        BranchOwnerDTO branchOwnerDTO = service.findOwnBranchByMemberId(memberId);
+
+        System.out.println("branchOwnerDTO = " + branchOwnerDTO);
+        if(Objects.isNull(branchOwnerDTO.getBranchDTO())){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDTO(HttpStatus.NOT_FOUND,"지점이 존재하지 않음",null));
+        };
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"지점장에게 브랜치 정보 제공",branchOwnerDTO.getBranchDTO()));
+
     }
 
 
