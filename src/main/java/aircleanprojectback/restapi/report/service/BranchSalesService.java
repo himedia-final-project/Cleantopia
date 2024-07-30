@@ -1,6 +1,6 @@
 package aircleanprojectback.restapi.report.service;
 
-import aircleanprojectback.restapi.member.dto.BranchAndMembersDTO;
+
 import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.entity.BranchSales;
 import aircleanprojectback.restapi.report.repository.BranchSalesRepository;

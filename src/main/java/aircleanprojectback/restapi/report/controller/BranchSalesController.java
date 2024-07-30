@@ -1,7 +1,7 @@
 package aircleanprojectback.restapi.report.controller;
 
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
-import aircleanprojectback.restapi.member.dto.BranchAndMembersDTO;
+
 import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.service.BranchSalesService;
 import lombok.extern.slf4j.Slf4j;

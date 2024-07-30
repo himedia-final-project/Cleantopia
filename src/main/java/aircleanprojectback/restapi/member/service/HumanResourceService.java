@@ -367,6 +367,8 @@ public class HumanResourceService {
 
                 branchOwners.add(ownerRepository.findByMemberId(member.getMemberId()));
             }
+
+            member.branchOwnership("N");
         }
 
 
@@ -389,6 +391,11 @@ public class HumanResourceService {
         Page<Members> result = memberRepository.findAllByMemberRoleAndMemberStatus("b","N",pageable);
 
         return result.map(r->modelMapper.map(r,MemberDTO.class));
+    }
+
+    public BranchOwnerDTO findOwnBranchByMemberId(String memberId) {
+
+        return modelMapper.map(ownerRepository.findByMemberId(memberId),BranchOwnerDTO.class);
     }
 
 //    public Page<BranchOwnerDTO> getBranchWithN(Criteria cri) {
