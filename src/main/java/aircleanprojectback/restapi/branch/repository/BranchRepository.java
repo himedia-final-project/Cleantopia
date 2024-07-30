@@ -1,6 +1,6 @@
 package aircleanprojectback.restapi.branch.repository;
 
-import aircleanprojectback.restapi.branch.entity.BranchFacility;
+//import aircleanprojectback.restapi.branch.entity.BranchFacility;
 import aircleanprojectback.restapi.member.dto.MemberDTO;
 import aircleanprojectback.restapi.member.entity.Branch;
 import aircleanprojectback.restapi.member.entity.Members;
@@ -53,8 +53,8 @@ public interface BranchRepository extends JpaRepository<Branch, String> {
 //    List<BranchFacility> selectFacility(@Param("branchCode") String branchCode);
 
 
-    @Query("SELECT b FROM BranchFacility b WHERE b.branchCode = :branchCode")
-    List<BranchFacility> selectFacility(@Param("branchCode") String branchCode);
+//    @Query("SELECT b FROM BranchFacility b WHERE b.branchCode = :branchCode")
+//    List<BranchFacility> selectFacility(@Param("branchCode") String branchCode);
 
 
 

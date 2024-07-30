@@ -125,6 +125,9 @@
 //                .branchAddress(branchDTO.getBranchAddress())
 //                .branchImage(branchImage)
 //                .branchOpenDate(branchOpenDate) // 변환된 날짜 설정
+
+//                .memberId(branchDTO.getMemberId())
+
 //                .build();
 //
 //        branchRepository.save(branch);
