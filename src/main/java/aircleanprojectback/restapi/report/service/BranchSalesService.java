@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 @Slf4j
 public class BranchSalesService {
@@ -63,20 +64,17 @@ public class BranchSalesService {
     }
 
     // 매출보고서 전체조회
-//    public List<BranchSalesDTO> getAllBranchSales() {
-//
-//
-//        List<BranchSales> branchSalesList = branchSalesRepository.findAll();
-//        List<BranchSalesDTO> branchSalesDTOList = branchSalesList.stream()
-//                .map(branchSales -> modelMapper.map(branchSales, BranchSalesDTO.class))
-//                .collect(Collectors.toList());      // 변환된 BranchSalesDTO 객체들을 리스트로 수집합니다.
-//
-//        return branchSalesDTOList;
-//    }
-//
-//    public List<BranchAndMembersDTO> findBranchMember() {
-//        return branchSalesRepository.findBranchMember();
-//    }
+    public List<BranchSalesDTO> getAllBranchSales() {
+
+
+        List<BranchSales> branchSalesList = branchSalesRepository.findAll();
+        List<BranchSalesDTO> branchSalesDTOList = branchSalesList.stream()
+                .map(branchSales -> modelMapper.map(branchSales, BranchSalesDTO.class))
+                .collect(Collectors.toList());      // 변환된 BranchSalesDTO 객체들을 리스트로 수집합니다.
+
+        return branchSalesDTOList;
+    }
+
 
     // /company 매출보고서 세부 조회
     public BranchSalesDTO detailBranchSales(int branchCode) {

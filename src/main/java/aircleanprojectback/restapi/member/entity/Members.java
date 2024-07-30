@@ -56,6 +56,8 @@ public class Members {
     @Column(name = "member_image")
     private String memberImage;
 
+//    @OneToMany(mappedBy = "members")
+//    private List<BranchOwner> branchOwners;
 
 
     public Members memberId(String var){

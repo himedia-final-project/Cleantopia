@@ -21,6 +21,9 @@ public class BranchSalesDTO {
     private String stainRemover;            // 얼룩제거제
     private String washerCleaner;           // 세탁조 클리너
     private String dryerSheet;              // 건조기시트
+    private int totalBranchSalesCost;       // 총매출 금액
+    private String memberName;              // 지점장
+    private String branchName;              // 지점명
     private String branchCode;              // 지점코드
     private String memberId;
 

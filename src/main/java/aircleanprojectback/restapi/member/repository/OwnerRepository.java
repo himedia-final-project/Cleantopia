@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface OwnerRepository extends JpaRepository<BranchOwner ,Integer> {
 
@@ -31,6 +33,17 @@ public interface OwnerRepository extends JpaRepository<BranchOwner ,Integer> {
             "left join tbl_branch c on c.branch_code = b.branch_code " +
             "where a.member_id = ?1", nativeQuery = true)
     BranchOwner findByMemberId(String memberId);
+
+
+    // 도아 보고서관리 지점,지점장조회
+    @Query(value = "select a.*, b.owner_code , c.* " +
+            "from tbl_members a " +
+            "left join tbl_branch_owner b on a.member_id = b.member_id " +
+            "left join tbl_branch c on c.branch_code = b.branch_code " +
+            "where a.member_id = ?", nativeQuery = true)
+    List<BranchOwner> findReportsBranchMember(String memberId);
+
+
 
 //    @Query(value = "a.*, b.owner_code , c.* " +
 //            "")
