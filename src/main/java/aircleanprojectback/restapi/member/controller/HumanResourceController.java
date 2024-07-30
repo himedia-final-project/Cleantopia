@@ -65,11 +65,15 @@ public class HumanResourceController {
 
         PagingResponseDTO pagingResponseDTO = new PagingResponseDTO();
 
-//        Page<BranchOwnerDTO> branchList = service.getBranchAndMemberWithPage(cri);
+        Page<BranchOwnerDTO> branchList = service.getBranchAndMemberWithPage(cri);
 
-//        System.out.println(branchList.getContent());
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"일단 들어옴","간디"));
+        pagingResponseDTO.setPageInfo(new PageDTO(cri, (int) branchList.getTotalElements()));
+        pagingResponseDTO.setData(branchList);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "지점장 조회 성공",pagingResponseDTO));
+
     }
+
 
     @GetMapping("driver")
     public ResponseEntity<ResponseDTO> findDriver(){
@@ -115,14 +119,30 @@ public class HumanResourceController {
         System.out.println("employeeDTO = " + employeeDTO);
 
         memberDTO.setMemberStatus("Y");
+        memberDTO.setMemberRole("e");
 
         service.registEmployee(memberDTO,employeeDTO,image);
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"등록 성공",memberDTO));
     }
     @PostMapping("branch")
-    public ResponseEntity<ResponseDTO> registBranch(/*@RequestBody*/){
-        return null;
+    public ResponseEntity<ResponseDTO> registBranch(@ModelAttribute RegistBranchManagerDTO memberDTO,MultipartFile image){
+
+        System.out.println("memberDTO = " + memberDTO);
+
+        if(memberDTO.getBranchCode() == null || memberDTO.getBranchCode().isEmpty() ){
+            memberDTO.setBranchOwnership("N");
+        }else{
+            memberDTO.setBranchOwnership("Y");
+        }
+
+        memberDTO.setMemberStatus("Y");
+        memberDTO.setMemberRole("b");
+
+        service.registBranch(memberDTO,image);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"등록 성공",memberDTO));
+
     }
     @PostMapping("driver")
     public ResponseEntity<ResponseDTO> registDriver(/*@RequestBody*/){
@@ -164,19 +184,25 @@ public class HumanResourceController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"soft delete 수행",deleteMember));
     }
 
-    @PutMapping("branch/soft-delete/")
-    public ResponseEntity<ResponseDTO> softDeleteBranch(@PathVariable String[] members){
-        return null;
+    @PutMapping("branch/soft-delete")
+    public ResponseEntity<ResponseDTO> softDeleteBranch(@RequestBody List<String> deleteMember){
+
+        service.findBranchManagerByMemberId(deleteMember);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"soft delete 수행",deleteMember));
     }
-    @PutMapping("driver/soft-delete/")
-    public ResponseEntity<ResponseDTO> softDeleteDriver(@PathVariable String[] members){
-        return null;
+    @PutMapping("driver/soft-delete")
+    public ResponseEntity<ResponseDTO> softDeleteDriver(@RequestBody List<String> deleteMember){
+
+        service.findEmployeeById(deleteMember);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"soft delete 수행",deleteMember));
     }
 
 
     // 삭제가능 회원 조회
     @GetMapping("employee/unstatus")
-    public ResponseEntity<ResponseDTO> findMemberY(@RequestParam(defaultValue = "1")String offset, @RequestParam(defaultValue = "10")String amount){
+    public ResponseEntity<ResponseDTO> findMemberEmployeeWithN(@RequestParam(defaultValue = "1")String offset, @RequestParam(defaultValue = "10")String amount){
 
         System.out.println("offset = " + offset);
         System.out.println("amount = " + amount);
@@ -186,13 +212,37 @@ public class HumanResourceController {
 
         PagingResponseDTO pagingResponseDTO = new PagingResponseDTO();
 
-        Page<MembersAndEmployeeDTO> employeeList = service.getEmployeeWhereY(cri);
+        Page<MembersAndEmployeeDTO> employeeList = service.getEmployeeWhereN(cri);
 
         System.out.println("employeeList = " + employeeList.getContent());
 
         pagingResponseDTO.setData(employeeList);
 
         pagingResponseDTO.setPageInfo(new PageDTO(cri,(int)employeeList.getTotalElements()));
+
+
+
+        return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"일단 들어옴",pagingResponseDTO));
+    }
+
+    @GetMapping("branch/unstatus")
+    public ResponseEntity<ResponseDTO> findMemberBranchWithN(@RequestParam(defaultValue = "1")String offset, @RequestParam(defaultValue = "10")String amount){
+
+        System.out.println("offset = " + offset);
+        System.out.println("amount = " + amount);
+
+
+        Criteria cri = new Criteria(Integer.parseInt(offset),Integer.parseInt(amount));
+
+        PagingResponseDTO pagingResponseDTO = new PagingResponseDTO();
+
+        Page<MemberDTO> branchManagerList = service.getBranchWithN(cri);
+
+        System.out.println("branchMangerList = " + branchManagerList.getContent());
+
+        pagingResponseDTO.setData(branchManagerList);
+
+        pagingResponseDTO.setPageInfo(new PageDTO(cri,(int)branchManagerList.getTotalElements()));
 
 
 
@@ -206,6 +256,20 @@ public class HumanResourceController {
         memberId.forEach(System.out::println);
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"삭제 성공","간디"));
+    }
+
+
+
+    // branch without owner
+
+    @GetMapping("branch/no-owner")
+    public ResponseEntity<ResponseDTO> getBranchWithoutOwner(){
+
+        List<BranchDTO> branchList = service.findAllBranchWithoutOwner();
+
+        branchList.forEach(System.out::println);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"owner 없는 branch",branchList));
     }
 
 

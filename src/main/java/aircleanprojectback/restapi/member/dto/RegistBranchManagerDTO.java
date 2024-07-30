@@ -3,13 +3,12 @@ package aircleanprojectback.restapi.member.dto;
 import lombok.*;
 
 import java.sql.Date;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class BranchAndMembersDTO {
+public class RegistBranchManagerDTO {
 
     private String memberId;
     private String memberPassword;
@@ -22,6 +21,7 @@ public class BranchAndMembersDTO {
     private String memberAddress;
     private String memberStatus;
     private Date memberHireDate;
+    private String branchOwnership;
     private String memberImage;
-    private BranchDTO branchDTO;
+    private String branchCode;
 }
