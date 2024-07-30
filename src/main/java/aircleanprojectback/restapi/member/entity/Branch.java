@@ -1,21 +1,17 @@
 package aircleanprojectback.restapi.member.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_branch")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@ToString
 @Builder
 public class Branch {
 
@@ -41,9 +37,13 @@ public class Branch {
     @Column(name = "branch_open_date")
     private Date branchOpenDate;
 
-    @Column(name = "member_id")
-    private String memberId;
+    @Column(name = "owner_status")
+    private String ownerStatus="N";
 
+    public Branch ownerStatus(String var){
+        ownerStatus = var;
+        return this;
+    }
 
 
 }

@@ -1,12 +1,10 @@
 package aircleanprojectback.restapi.member.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Date;
+import java.util.List;
 
 
 @Entity
@@ -52,11 +50,12 @@ public class Members {
     @Column(name="member_hire_date")
     private Date memberHireDate;
 
-    @Column(name = "brnach_ownership")
-    private String branchOwnerShip;
+    @Column(name = "branch_ownership")
+    private String branchOwnerShip = "N";
 
     @Column(name = "member_image")
     private String memberImage;
+
 
 
     public Members memberId(String var){
@@ -133,7 +132,9 @@ public class Members {
     public Members builder(){
         return new Members(this.memberId,this.memberPassword,this.memberName,
                 this.memberPhoneNumber,this.memberRole,this.memberEmail,this.memberBirthDate,
-                this.memberGender,this.memberAddress,this.memberStatus,this.memberHireDate,this.memberImage,this.branchOwnerShip);
+                this.memberGender,this.memberAddress,this.memberStatus,this.memberHireDate,this.memberImage,this.branchOwnerShip
+       );
+
     }
 
 }

@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 public class VehicleRepairService {
     private final VehicleRepairRepository vehicleRepairRepository;
     private final ModelMapper modelMapper;
-//    private static final String IMAGE_DIR = "uploads/";
 
     @Value("${image.image-dir}")
     private  String IMAGE_DIR;
@@ -70,11 +69,12 @@ public class VehicleRepairService {
     // 차량수리보고서 등록
     @Transactional
     public String insertVehicleReports(VehicleRepairDTO vehicleRepairDTO,
-                                       MultipartFile beforeVehicleRepairImage,
-                                       MultipartFile afterVehicleRepairImage) {
+                                       MultipartFile beforeVehiclePhoto,
+                                       MultipartFile afterVehiclePhoto) {
 
         VehicleRepair insertVehicleRepair = modelMapper.map(vehicleRepairDTO, VehicleRepair.class);
 
+        log.info("insertVehicleRepair = {}", insertVehicleRepair);
         System.out.println("insertVehicleRepair = " + insertVehicleRepair);
 
         // 이미지
@@ -84,13 +84,15 @@ public class VehicleRepairService {
         String afterReplaceFileName = null;
 
         try {
-            if (beforeVehicleRepairImage != null && !beforeVehicleRepairImage.isEmpty()) {
-                beforeReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, beforeImageName, beforeVehicleRepairImage);
+            if (beforeVehiclePhoto != null && !beforeVehiclePhoto.isEmpty()) {
+                beforeReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, beforeImageName, beforeVehiclePhoto);
                 insertVehicleRepair.beforeVehiclePhoto(beforeReplaceFileName);
+                System.out.println("여기로 오긴 하니?");
+                System.out.println("beforeReplaceFileName = " + beforeReplaceFileName);
             }
 
-            if (afterVehicleRepairImage != null && !afterVehicleRepairImage.isEmpty()) {
-                afterReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, afterImageName, afterVehicleRepairImage);
+            if (afterVehiclePhoto != null && !afterVehiclePhoto.isEmpty()) {
+                afterReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, afterImageName, afterVehiclePhoto);
                 insertVehicleRepair.afterVehiclePhoto(afterReplaceFileName);
             }
         } catch (IOException e) {
@@ -99,9 +101,8 @@ public class VehicleRepairService {
 
        vehicleRepairRepository.save(insertVehicleRepair);
 
-
-
-
         return "보고서 등록성공";
     }
+
+
 }

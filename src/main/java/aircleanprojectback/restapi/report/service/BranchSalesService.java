@@ -1,5 +1,6 @@
 package aircleanprojectback.restapi.report.service;
 
+
 import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.entity.BranchSales;
 import aircleanprojectback.restapi.report.repository.BranchSalesRepository;
@@ -62,16 +63,20 @@ public class BranchSalesService {
     }
 
     // 매출보고서 전체조회
-    public List<BranchSalesDTO> getAllBranchSales() {
-
-
-        List<BranchSales> branchSalesList = branchSalesRepository.findAll();
-        List<BranchSalesDTO> branchSalesDTOList = branchSalesList.stream()
-                .map(branchSales -> modelMapper.map(branchSales, BranchSalesDTO.class))
-                .collect(Collectors.toList());      // 변환된 BranchSalesDTO 객체들을 리스트로 수집합니다.
-
-        return branchSalesDTOList;
-    }
+//    public List<BranchSalesDTO> getAllBranchSales() {
+//
+//
+//        List<BranchSales> branchSalesList = branchSalesRepository.findAll();
+//        List<BranchSalesDTO> branchSalesDTOList = branchSalesList.stream()
+//                .map(branchSales -> modelMapper.map(branchSales, BranchSalesDTO.class))
+//                .collect(Collectors.toList());      // 변환된 BranchSalesDTO 객체들을 리스트로 수집합니다.
+//
+//        return branchSalesDTOList;
+//    }
+//
+//    public List<BranchAndMembersDTO> findBranchMember() {
+//        return branchSalesRepository.findBranchMember();
+//    }
 
     // /company 매출보고서 세부 조회
     public BranchSalesDTO detailBranchSales(int branchCode) {
@@ -91,5 +96,6 @@ public class BranchSalesService {
         branchSales.setBranchReportStatus(branchReportStatus);
          return branchSalesRepository.save(branchSales);
     }
+
 
 }

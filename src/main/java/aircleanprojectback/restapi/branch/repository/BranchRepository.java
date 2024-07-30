@@ -30,7 +30,7 @@ public interface BranchRepository extends JpaRepository<Branch, String> {
     @Query(value = "SELECT * FROM tbl_branch WHERE branch_code = :branchCode", nativeQuery = true)
     Optional<Branch> findByBranchCode(String branchCode);
 
-    List<Branch> findAllByMemberId(String memberId);
+//    List<Branch> findAllByMemberId(String memberId);
 
 
 //    버튼눌렀을때
@@ -61,4 +61,5 @@ public interface BranchRepository extends JpaRepository<Branch, String> {
     @Query("SELECT m FROM Members m WHERE m.memberRole = 'b' AND m.branchOwnerShip = 'N'")
     List<Members> findMemberNameAndId();
 
+    List<Branch> findAllByOwnerStatus(String n);
 }

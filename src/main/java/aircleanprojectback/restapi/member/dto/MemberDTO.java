@@ -30,6 +30,7 @@ public class MemberDTO implements UserDetails {
     private String branchOwnership;
     private String memberImage;
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
