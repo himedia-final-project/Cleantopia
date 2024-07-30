@@ -20,6 +20,5 @@ public class BranchDTO {
     private String branchAddress;
     private String branchImage;
     private Date branchOpenDate;
-    private String memberId;
     private String ownerStatus;
 }
