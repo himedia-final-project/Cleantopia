@@ -14,4 +14,6 @@ public interface LaundrySupplyManagementRepository extends JpaRepository<Laundry
     List<LaundrySupplyAndManagement> findByBranchCodeStartingWith(String prefix);
 
     LaundrySupplyAndManagement findByLaundrySupplyManagementCode(String laundrySupplyManagementCode);
+
+    LaundrySupplyAndManagement findByLaundrySupply_LaundrySupplyName(String laundrySupplyName);
 }
