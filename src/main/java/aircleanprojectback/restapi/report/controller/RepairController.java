@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -39,9 +40,12 @@ public class RepairController {
 
     //지점 수리보고서 등록
     @PostMapping("/location/newRepair")
-    public ResponseEntity<ResponseDTO> NewRepair(@RequestBody RepairDTO repairDTO) {
+    public ResponseEntity<ResponseDTO> NewRepair(@ModelAttribute RepairDTO repairDTO, MultipartFile repairImage) {
+
+        System.out.println("repairDTO = " + repairDTO);
+        System.out.println("repairImage = " + repairImage);
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK,"지점 수리보고서 등록 성공", repairService.insertRepair(repairDTO)));
+                .body(new ResponseDTO(HttpStatus.OK,"지점 수리보고서 등록 성공", repairService.insertRepair(repairDTO,repairImage)));
     }
 
     // 지점 수리보고서 수정
