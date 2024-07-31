@@ -12,7 +12,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @Getter
 @ToString
-@Builder(toBuilder = true)
+//@Builder(toBuilder = true)
 public class Repair {
 
     @Id
@@ -29,14 +29,20 @@ public class Repair {
     @Column(name = "repair_report_status", length = 200, nullable = false)
     private String repairReportStatus = "접수";            // 보고서상태
 
-    @Column(name = "repair_content", length = 200, nullable = false)
+    @Column(name = "repair_content", length = 200)
     private String repairContent;                 // 내용
 
     @Column(name = "facility_count")
     private int facilityCount;                    // 시설물갯수
 
+    @Column(name = "facility_type")
+    private String facilityType;                  // 시설물 종류
+
     @Column(name = "facility_code")
     private int facilityCode;                     // 시설물코드
+
+    @Column(name = "repair_photo")
+    private String repairPhoto;                     // 고칠 사진
 
     @Column(name = "member_name")
     private String memberName;;             // 지점장명
@@ -44,7 +50,7 @@ public class Repair {
     @Column(name = "branch_name")
     private String branchName;              // 지점명
 
-    @Column(name = "branch_code", length = 200, nullable = false)
+    @Column(name = "branch_code", length = 200)
     private  String branchCode;                   // 지점코드
 
     public Repair() {
@@ -78,6 +84,11 @@ public class Repair {
         return this;
     }
 
+    public Repair facilityType(String facilityType) {
+        this.facilityType = facilityType;
+        return this;
+    }
+
     public Repair facilityCode(int facilityCode) {
         this.facilityCode = facilityCode;
         return this;
@@ -98,6 +109,11 @@ public class Repair {
         return this;
     }
 
+    public Repair repairPhoto(String repairPhoto) {
+        this.repairPhoto = repairPhoto;
+        return this;
+    }
+
     public  Repair build() {
         return new Repair(
                 repairReportCode,
@@ -105,10 +121,12 @@ public class Repair {
                 repairReportStatus,
                 repairContent,
                 facilityCount,
+                facilityType,
                 facilityCode,
                 memberName,
                 branchName,
-                branchCode
+                branchCode,
+                repairPhoto
         );
     }
 }
