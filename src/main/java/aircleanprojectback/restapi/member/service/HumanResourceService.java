@@ -363,7 +363,7 @@ public class HumanResourceService {
         for(Members member : members){
 
             System.out.println("soft delete member 확인 = " + member);
-            if(member.getBranchOwnerShip().equals("Y")){
+            if(member.getBranchOwnership().equals("Y")){
 
                 System.out.println("branch soft delete = " + member);
 

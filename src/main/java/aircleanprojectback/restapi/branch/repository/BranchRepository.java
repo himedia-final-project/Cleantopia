@@ -58,7 +58,7 @@ public interface BranchRepository extends JpaRepository<Branch, String> {
 
 
 
-    @Query("SELECT m FROM Members m WHERE m.memberRole = 'b' AND m.branchOwnerShip = 'N'")
+    @Query("SELECT m FROM Members m WHERE m.memberRole = 'b' AND m.branchOwnership = 'N'")
     List<Members> findMemberNameAndId();
 
     List<Branch> findAllByOwnerStatus(String n);

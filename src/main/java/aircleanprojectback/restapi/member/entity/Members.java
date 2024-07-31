@@ -51,7 +51,7 @@ public class Members {
     private Date memberHireDate;
 
     @Column(name = "branch_ownership")
-    private String branchOwnerShip = "N";
+    private String branchOwnership = "N";
 
     @Column(name = "member_image")
     private String memberImage;
@@ -127,14 +127,14 @@ public class Members {
     }
 
     public Members branchOwnership(String var){
-        branchOwnerShip = var;
+        branchOwnership = var;
         return  this;
     }
 
     public Members builder(){
         return new Members(this.memberId,this.memberPassword,this.memberName,
                 this.memberPhoneNumber,this.memberRole,this.memberEmail,this.memberBirthDate,
-                this.memberGender,this.memberAddress,this.memberStatus,this.memberHireDate,this.memberImage,this.branchOwnerShip
+                this.memberGender,this.memberAddress,this.memberStatus,this.memberHireDate,this.memberImage,this.branchOwnership
        );
 
     }
