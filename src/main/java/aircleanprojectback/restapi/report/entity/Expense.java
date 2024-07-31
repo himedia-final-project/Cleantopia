@@ -53,7 +53,7 @@ public class Expense {
     @Column(name = "branch_name")
     private String branchName;              // 지점명
 
-    @Column(name = "branch_code", length = 200, nullable = false)
+    @Column(name = "branch_code", length = 200, nullable = true)
     private String branchCode;              // 지점코드
 
     public Expense() {

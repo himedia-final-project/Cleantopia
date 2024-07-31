@@ -4,12 +4,17 @@ import aircleanprojectback.restapi.report.dto.RepairDTO;
 import aircleanprojectback.restapi.report.entity.Expense;
 import aircleanprojectback.restapi.report.entity.Repair;
 import aircleanprojectback.restapi.report.repository.RepairRepository;
+import aircleanprojectback.restapi.util.FileUploadUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +23,12 @@ public class RepairService {
 
     private final RepairRepository repairRepository;
     private final ModelMapper modelMapper;
+
+    @Value("${image.image-dir}")
+    private  String IMAGE_DIR;
+
+    @Value("${image.image-url}")
+    private String IMAGE_URL;
 
     public RepairService(RepairRepository repairRepository, ModelMapper modelMapper) {
         this.repairRepository = repairRepository;
@@ -46,8 +57,24 @@ public class RepairService {
 
     // 지점 수리보고서 등록
     @Transactional
-    public Object insertRepair(RepairDTO repairDTO) {
+    public Object insertRepair(RepairDTO repairDTO, MultipartFile repairPhoto) {
+
         Repair repair = modelMapper.map(repairDTO, Repair.class);
+
+        String repairImageName = UUID.randomUUID().toString().replace("-", "");
+        String repairReplaceFileName = null;
+        try {
+            if (repairPhoto != null && !repairPhoto.isEmpty()) {
+                repairReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, repairReplaceFileName, repairPhoto);
+                repair.repairPhoto(repairReplaceFileName);
+                System.out.println("여기로 오긴 하니?");
+                System.out.println("repairReplaceFileName = " + repairReplaceFileName);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save image file", e);
+        }
+
+
         repairRepository.save(repair);
 
         return repair;

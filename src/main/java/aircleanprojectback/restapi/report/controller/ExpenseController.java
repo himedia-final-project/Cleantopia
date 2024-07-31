@@ -52,4 +52,13 @@ public class ExpenseController {
         return ResponseEntity.ok()
                 .body(new ResponseDTO(HttpStatus.OK, "지출보고서 상태수정 반려성공", expenseService.updateExpenseState(expenseReportCode, "반려")));
     }
+
+    // 등록
+    @PostMapping("/newExpense")
+    public ResponseEntity<ResponseDTO> newExpense(@RequestBody ExpenseDTO expenseDTO) {
+
+        System.out.println("expenseDTO = " + expenseDTO);
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK,"지출보고서 등록완료", expenseService.newExpense(expenseDTO)));
+    }
 }
