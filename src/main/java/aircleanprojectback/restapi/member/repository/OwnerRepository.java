@@ -43,6 +43,7 @@ public interface OwnerRepository extends JpaRepository<BranchOwner ,Integer> {
             "where a.member_id = ?", nativeQuery = true)
     List<BranchOwner> findReportsBranchMember(String memberId);
 
+    List<BranchOwner> findAllByBranchBranchCodeIn(List<String> branchCodeList);
 
 
 //    @Query(value = "a.*, b.owner_code , c.* " +
