@@ -9,6 +9,4 @@ import java.util.List;
 @Repository
 public interface HeadBranchStockApplicationRepository extends JpaRepository<BranchStockApplication, Integer> {
     List<BranchStockApplication> findByBranchCodeStartingWith(String br);
-
-    BranchStockApplication findByBApplicationCode(int bApplicationCode);
 }

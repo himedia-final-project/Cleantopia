@@ -2,7 +2,6 @@ package aircleanprojectback.restapi.stock.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -13,7 +12,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @ToString
-@Builder(toBuilder = true)
 public class BranchStockApplication {
 
     @Id
