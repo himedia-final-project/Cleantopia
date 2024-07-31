@@ -2,6 +2,7 @@ package aircleanprojectback.restapi.stock.controller;
 
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 import aircleanprojectback.restapi.stock.dto.*;
+import aircleanprojectback.restapi.stock.entity.BranchStockApplication;
 import aircleanprojectback.restapi.stock.entity.HeadStockApplication;
 import aircleanprojectback.restapi.stock.entity.LaundryPartAndManagement;
 import aircleanprojectback.restapi.stock.entity.LaundrySupplyAndManagement;
@@ -72,7 +73,7 @@ public class StockController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"들어옴","headStockApplication"));
     }
 
-    @Tag(name = "재고 업데이트")
+    @Tag(name = "본사 재고 업데이트")
     @PutMapping("/company/stock/update")
     public ResponseEntity<ResponseDTO> headStockUpdate(@RequestBody HeadStockUpdate request) {
 
@@ -108,6 +109,28 @@ public class StockController {
 
     }
 
+    @Tag(name = "본사 지점발주내역 승인 및 본사 재고 업데이트")
+    @PutMapping("/company/stock/branchStockUpdate")
+    public ResponseEntity<ResponseDTO> headBranchStockUpdate(@RequestBody HeadStockUpdate request) {
+
+        System.out.println("업데이트 정보 request = " + request);
+        stockService.updateHeadBranchStock(request);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "발주관련 본사 재고 업데이트 성공", "headStockUpdated"));
+
+    }
+
+    @Tag(name = "본사 지점발주신청 정보 업데이트")
+    @PutMapping("/company/stock/branchApplication/{bApplicationCode}")
+    public ResponseEntity<ResponseDTO> headBranchStatusUpdate(@PathVariable int bApplicationCode, @RequestBody BranchStockApplicationDTO request) {
+
+        stockService.updateHeadBranchStockApplication(bApplicationCode, request);
+
+        System.out.println("발주신청 업데이트 정보 확인" + request);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "업데이트 성공", "발주신청 상태 업데이트 성공"));
+
+    }
 
 
 
