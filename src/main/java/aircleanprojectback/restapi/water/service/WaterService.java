@@ -3,9 +3,13 @@ package aircleanprojectback.restapi.water.service;
 import aircleanprojectback.restapi.branch.repository.BranchRepository;
 import aircleanprojectback.restapi.member.entity.Branch;
 import aircleanprojectback.restapi.water.dao.WaterRepository;
+import aircleanprojectback.restapi.water.dto.Row;
+import aircleanprojectback.restapi.water.dto.WaterSupplyRequest;
 import aircleanprojectback.restapi.water.entity.WaterCondition;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -53,5 +57,23 @@ public class WaterService {
         }
 
         return waterCondition;
+    }
+
+    @Transactional
+    public void registWaterSupply(WaterSupplyRequest request) {
+
+        int waterLevel = request.getWaterLevel();
+        Row formattedWaterLevel = request.getFormattedWaterLevel();
+        String branchCode = request.getBranchCode(); // branchCode 가져오기
+        int supplyAmount = request.getSupplyAmount();
+
+        System.out.println(formattedWaterLevel);
+        System.out.println("branchCode = " + branchCode);
+        System.out.println(waterLevel);
+        System.out.println(supplyAmount);
+
+        int updateWaterCurCapacity = waterLevel + supplyAmount;
+        waterRepository.updateWaterCurCapacity(updateWaterCurCapacity, branchCode);
+
     }
 }
