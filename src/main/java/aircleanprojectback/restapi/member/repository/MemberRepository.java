@@ -21,4 +21,6 @@ public interface MemberRepository extends JpaRepository<Members, String> {
     String findLastMemberId(String memberRole);
 
     Page<Members> findAllByMemberRoleAndMemberStatus(String b, String n, Pageable pageable);
+
+    List<Members> findAllByMemberRoleAndBranchOwnership(String b, String n);
 }

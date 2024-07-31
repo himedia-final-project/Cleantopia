@@ -151,4 +151,52 @@ public class StockService {
         return  branchStockApplicationDTO;
 
     }
+
+    @Transactional
+    public void updateHeadBranchStock(HeadStockUpdate request) {
+
+        for(LaundrySupplyAndManagementDTO detergentDTO : request.getDetergents()) {
+
+            LaundrySupplyAndManagement detergentsEntity = laundrySupplyManagementRepository.findByLaundrySupplyManagementCode(detergentDTO.getLaundrySupplyManagementCode());
+
+            if (detergentsEntity != null) {
+
+                detergentsEntity = detergentsEntity.toBuilder()
+                        .laundrySupplyStock(detergentDTO.getLaundrySupplyStock())
+                        .build();
+
+                laundrySupplyManagementRepository.save(detergentsEntity);
+            }
+        }
+
+        for (LaundryPartAndManagementDTO partDTO : request.getParts()) {
+
+            LaundryPartAndManagement partsEntity = laundryPartManagementRepository.findByLaundryPartManagementCode(partDTO.getLaundryPartManagementCode());
+
+            if (partsEntity != null) {
+
+                partsEntity = partsEntity.toBuilder()
+                        .laundryPartStock(partDTO.getLaundryPartStock())
+                        .build();
+
+                laundryPartManagementRepository.save(partsEntity);
+            }
+        }
+
+    }
+
+    @Transactional
+    public void updateHeadBranchStockApplication(int bApplicationCode, BranchStockApplicationDTO request) {
+
+        BranchStockApplication branchStockApplication = headBranchStockApplicationRepository.findByBApplicationCode(bApplicationCode);
+
+        branchStockApplication = branchStockApplication.toBuilder()
+                .bApplicationStatus(request.getbApplicationStatus())
+                .bApprovalDate(request.getbApprovalDate())
+                .bApproverName(request.getbApproverName())
+                .build();
+
+        headBranchStockApplicationRepository.save(branchStockApplication);
+
+    }
 }

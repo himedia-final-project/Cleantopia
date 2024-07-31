@@ -44,7 +44,16 @@ public class Expense {
     @Column(name = "expense_report_status", length = 200, nullable = false)
     private String expenseReportStatus = "접수";     // 보고서상태
 
-    @Column(name = "branch_code", length = 200, nullable = false)
+    @Column(name = "total_expense_cost")
+    private int totalExpenseCost;               // 총금액
+
+    @Column(name = "member_name")
+    private String memberName;;             // 지점장명
+
+    @Column(name = "branch_name")
+    private String branchName;              // 지점명
+
+    @Column(name = "branch_code", length = 200, nullable = true)
     private String branchCode;              // 지점코드
 
     public Expense() {
@@ -91,13 +100,41 @@ public class Expense {
         return this;
     }
 
+    public Expense totalExpenseCost(int totalExpenseCost) {
+        this.totalExpenseCost = totalExpenseCost;
+        return this;
+    }
+
+    public Expense memberName(String memberName) {
+        this.memberName = memberName;
+        return this;
+    }
+
+    public Expense branchName(String branchName) {
+        this.branchName = branchName;
+        return this;
+    }
+
     public Expense branchCode(String branchCode) {
         this.branchCode = branchCode;
         return this;
     }
 
     public Expense build(){
-        return new Expense(expenseReportCode,electricityBill, waterBill, gasBill, partTimeSalary,repairCost, expenseSubmissionDate, expenseReportStatus, branchCode);
+        return new Expense(
+                expenseReportCode,
+                electricityBill,
+                waterBill,
+                gasBill,
+                partTimeSalary,
+                repairCost,
+                expenseSubmissionDate,
+                expenseReportStatus,
+                totalExpenseCost,
+                memberName,
+                branchName,
+                branchCode
+        );
     }
 
     public void setExpenseReportStatus(String expenseReportStatus) {

@@ -77,8 +77,13 @@ public class HumanResourceController {
 
 
     @GetMapping("driver")
-    public ResponseEntity<ResponseDTO> findDriver(){
-        return null;
+    public ResponseEntity<ResponseDTO> findDriver(@RequestParam(defaultValue = "1") String offset){
+
+        Criteria cri = new Criteria(Integer.parseInt(offset),12);
+
+        Page<DriverDTO> driverList = service.findAllDriver(cri);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"driver 정보","간디"));
     }
 
     @GetMapping("employee/search")
