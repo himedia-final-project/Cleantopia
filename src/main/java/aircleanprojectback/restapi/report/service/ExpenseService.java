@@ -6,6 +6,7 @@ import aircleanprojectback.restapi.report.repository.ExpenseRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,5 +46,14 @@ public class ExpenseService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid expenseReportCode: " + expenseReportCode));
         expense.setExpenseReportStatus(expenseReportStatus);
         return expenseRepository.save(expense);
+    }
+
+    // 등록
+    @Transactional
+    public String newExpense(ExpenseDTO expenseDTO) {
+
+        Expense expense = modelMapper.map(expenseDTO, Expense.class);
+        expenseRepository.save(expense);
+        return "지출보고서 등록 성공";
     }
 }
