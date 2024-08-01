@@ -34,7 +34,7 @@ public class ManagementController {
         responseMap.put("waterTank", waterTankList);
 
 
-        System.out.println("responseMap = " + responseMap);
+//        System.out.println("responseMap = " + responseMap);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));

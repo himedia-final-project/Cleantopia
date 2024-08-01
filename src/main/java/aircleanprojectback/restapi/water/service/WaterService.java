@@ -3,13 +3,16 @@ package aircleanprojectback.restapi.water.service;
 import aircleanprojectback.restapi.branch.repository.BranchRepository;
 import aircleanprojectback.restapi.member.entity.Branch;
 import aircleanprojectback.restapi.water.dao.WaterRepository;
+import aircleanprojectback.restapi.water.dao.WaterSupplyRepository;
+import aircleanprojectback.restapi.water.dao.WaterTankRepository;
 import aircleanprojectback.restapi.water.dto.Row;
+import aircleanprojectback.restapi.water.dto.WaterSupplyDTO;
 import aircleanprojectback.restapi.water.dto.WaterSupplyRequest;
 import aircleanprojectback.restapi.water.entity.WaterCondition;
+import aircleanprojectback.restapi.water.entity.WaterSupply;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -17,10 +20,16 @@ public class WaterService {
 
     private final BranchRepository branchRepository;
     private final WaterRepository waterRepository;
+    private final WaterTankRepository waterTank;
+    private final WaterTankRepository waterTankRepository;
+    private final WaterSupplyRepository waterSupplyRepository;
 
-    public WaterService(BranchRepository branchRepository,WaterRepository waterRepository){
+    public WaterService(BranchRepository branchRepository, WaterRepository waterRepository, WaterTankRepository waterTank, WaterTankRepository waterTankRepository, WaterSupplyRepository waterSupplyRepository){
         this.branchRepository=branchRepository;
         this.waterRepository = waterRepository;
+        this.waterTank = waterTank;
+        this.waterTankRepository = waterTankRepository;
+        this.waterSupplyRepository = waterSupplyRepository;
     }
 
 
@@ -73,7 +82,31 @@ public class WaterService {
         System.out.println(supplyAmount);
 
         int updateWaterCurCapacity = waterLevel + supplyAmount;
+
+        //물탱크 충전
         waterRepository.updateWaterCurCapacity(updateWaterCurCapacity, branchCode);
+
+        // 브런치 코드로 물탱크 번호 조회
+        String waterTankNo = waterTankRepository.selectWaterTankNo(branchCode);
+
+        // 수급일지 regist
+        WaterSupplyDTO waterSupplyDTO = new WaterSupplyDTO();
+        waterSupplyDTO.setWaterTankNo(waterTankNo);
+        waterSupplyDTO.setMsrDate(formattedWaterLevel.getMsrDate());
+        waterSupplyDTO.setSiteId(formattedWaterLevel.getSiteId());
+        waterSupplyDTO.setwTemp(formattedWaterLevel.getWTemp());
+        waterSupplyDTO.setwPh(formattedWaterLevel.getWPh());
+        waterSupplyDTO.setwDo(formattedWaterLevel.getWDo());
+        waterSupplyDTO.setwTn(formattedWaterLevel.getWTn());
+        waterSupplyDTO.setwTp(formattedWaterLevel.getWTp());
+        waterSupplyDTO.setwPhen(formattedWaterLevel.getWPhen());
+        waterSupplyDTO.setwCn(formattedWaterLevel.getWCn());
+        waterSupplyDTO.setWaterVolume(String.valueOf(supplyAmount));
+
+        System.out.println("확인하겠습니다람쥐" + waterSupplyDTO);
+
+        WaterSupply waterSupply = waterSupplyDTO.toEntity();
+        waterSupplyRepository.save(waterSupply);
 
     }
 }
