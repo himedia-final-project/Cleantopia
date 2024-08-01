@@ -48,12 +48,37 @@ public class ExpenseService {
         return expenseRepository.save(expense);
     }
 
-    // 등록
+    // 지출보고서 등록
     @Transactional
     public String newExpense(ExpenseDTO expenseDTO) {
 
         Expense expense = modelMapper.map(expenseDTO, Expense.class);
         expenseRepository.save(expense);
         return "지출보고서 등록 성공";
+    }
+
+    // 지출보고서 수정
+    @Transactional
+    public Expense updateExpense(int expenseReportCode, ExpenseDTO expenseDTO) {
+
+        Expense expense = expenseRepository.findById(expenseReportCode)
+                .orElseThrow(() -> new RuntimeException("지출보고서를 찾을 수 없습니다. : " + expenseReportCode));
+
+        expense = expense
+                .electricityBill(expenseDTO.getElectricityBill())
+                .waterBill(expenseDTO.getWaterBill())
+                .gasBill(expenseDTO.getGasBill())
+                .partTimeSalary(expenseDTO.getPartTimeSalary())
+                .repairCost(expenseDTO.getRepairCost());
+
+        expenseRepository.save(expense);
+        return expense;
+    }
+
+    // 지출보고서 삭제
+    public String deleteExpense(int expenseReportCode) {
+
+        expenseRepository.deleteById(expenseReportCode);
+        return "삭제 성공";
     }
 }
