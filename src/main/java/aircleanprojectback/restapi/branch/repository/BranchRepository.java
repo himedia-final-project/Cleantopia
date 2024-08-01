@@ -62,4 +62,7 @@ public interface BranchRepository extends JpaRepository<Branch, String> {
     List<Members> findMemberNameAndId();
 
     List<Branch> findAllByOwnerStatus(String n);
+
+    @Query(value = "select branch_code from tbl_branch order by branch_code desc limit 1",nativeQuery = true)
+    String getLastBranchCode();
 }
