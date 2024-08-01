@@ -27,7 +27,7 @@ public class BranchSales {
     private Date branchSubmissionDate;      // 제출일
 
     @Column(name = "offline_sales", nullable = true)
-    private int officeSales;                // 오프라인매출
+    private String officeSales;                // 오프라인매출
 
     @Column(name = "branch_report_status", length = 100, nullable = false)
     private String branchReportStatus = "접수";      // 보고서상태
@@ -51,7 +51,7 @@ public class BranchSales {
     private String dryerSheet;              // 건조기시트
 
     @Column(name = "total_branch_sales_cost")
-    private int totalBranchSalesCost;      // 총지출금액
+    private String totalBranchSalesCost;      // 총지출금액
 
     @Column(name = "member_name")
     private String memberName;;             // 지점장명
@@ -81,7 +81,7 @@ public class BranchSales {
         return this;
    }
 
-   public  BranchSales officeSales(int officeSales) {
+   public  BranchSales officeSales(String officeSales) {
         this.officeSales = officeSales;
         return this;
    }
@@ -122,7 +122,7 @@ public class BranchSales {
         return this;
    }
 
-   public  BranchSales totalBranchSalesCost(int totalBranchSalesCost) {
+   public  BranchSales totalBranchSalesCost(String totalBranchSalesCost) {
         this.totalBranchSalesCost = totalBranchSalesCost;
         return this;
    }

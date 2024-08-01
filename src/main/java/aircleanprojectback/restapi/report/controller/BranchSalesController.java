@@ -4,12 +4,10 @@ import aircleanprojectback.restapi.common.dto.ResponseDTO;
 import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.service.BranchSalesService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +15,7 @@ import java.util.List;
 @RequestMapping("/paper")
 @Slf4j
 public class BranchSalesController {
-    // 지점지출보고서
+    // 지점매출보고서
 
     private final BranchSalesService branchSalesService;
     public BranchSalesController(BranchSalesService branchSalesService) {this.branchSalesService = branchSalesService;}
