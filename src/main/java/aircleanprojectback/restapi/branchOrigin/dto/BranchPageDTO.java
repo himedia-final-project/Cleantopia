@@ -1,5 +1,6 @@
 package aircleanprojectback.restapi.branchOrigin.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.sql.Date;
@@ -15,6 +16,7 @@ public class BranchPageDTO {
     private String branchAddress;
     private String branchImage;
     private String branchName;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date branchOpenDate;
     private String branchPhone;
     private String branchRegion;

@@ -6,38 +6,40 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Date;
-
+import java.sql.Date;
 @Entity
 @Table(name = "tbl_car")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @ToString
-public class CarForMember {
-
+public class Carpage  {
     @Id
     @Column(name = "car_number", nullable = false, length = 500)
-    private String carNumber; // 차량번호
+    private String carNumber;
 
-    @OneToOne
-    @JoinColumn(name = "driver_license_number")
-    @ToString.Exclude
-    private Driver driver;// 면허번호
+    @Column(name = "driver_license_number", length = 50)
+    private String driverLicenseNumber;
 
     @Column(name = "car_photo", nullable = false, length = 255)
-    private String carPhoto; // 사진
+    private String carPhoto;
 
     @Column(name = "car_assigned_status", nullable = false, length = 200)
-    private String carAssignedStatus; // 배정여부
+    private String carAssignedStatus;
 
-    @Temporal(TemporalType.DATE)
+
     @Column(name = "car_date", nullable = false)
-    private Date carDate; // 출고일
+    private Date carDate;
 
     @Column(name = "car_etc", length = 200)
-    private String carEtc; // 특이사항
+    private String carEtc;
 
     @Column(name = "branch_region")
     private String branchRegion;
+
+    @OneToOne( cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "driver_license_number", referencedColumnName = "driver_license_number", insertable = false, updatable = false)
+    @ToString.Exclude
+    private DriverAndCar driverAndCar;
+
 }
