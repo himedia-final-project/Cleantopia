@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,18 @@ public class BranchController {
         List<MemberDTO> memberList = branchService.getManager();
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"지점장 정보조회 성공",memberList));
+    }
+
+    @PostMapping("regist")
+    public ResponseEntity<ResponseDTO> registBranch(@ModelAttribute BranchDTO branchDTO , @RequestParam String memberId , MultipartFile image ){
+
+        System.out.println("branchDTO = " + branchDTO);
+        System.out.println("memberId = " + memberId);
+        System.out.println("image = " + image.getOriginalFilename());
+
+        String branchCode = branchService.registBranch(branchDTO,memberId,image);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"지점 등록 성공",branchCode));
     }
 
 }

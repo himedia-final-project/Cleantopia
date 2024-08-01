@@ -7,24 +7,39 @@ import aircleanprojectback.restapi.branchOrigin.dao.BranchPageRepository;
 import aircleanprojectback.restapi.branchOrigin.dao.FacilityDetailRepository;
 import aircleanprojectback.restapi.branchOrigin.dto.BranchOwnerPageDTO;
 import aircleanprojectback.restapi.branchOrigin.dto.BranchPageDTO;
+import aircleanprojectback.restapi.branchOrigin.dto.MembersPageDTO;
 import aircleanprojectback.restapi.branchOrigin.entity.BranchOwnerPage;
 import aircleanprojectback.restapi.branchOrigin.entity.BranchPage;
+import aircleanprojectback.restapi.member.dto.BranchDTO;
 import aircleanprojectback.restapi.member.dto.MemberDTO;
+import aircleanprojectback.restapi.member.entity.Branch;
 import aircleanprojectback.restapi.member.entity.BranchOwner;
 import aircleanprojectback.restapi.member.entity.Members;
 import aircleanprojectback.restapi.member.repository.MemberRepository;
 import aircleanprojectback.restapi.member.repository.OwnerRepository;
+import aircleanprojectback.restapi.util.FileUploadUtils;
+import aircleanprojectback.restapi.util.MakeMemberId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class BranchService {
+
+    @Value("${image.image-url}")
+    private String IMAGE_URL;
+
+    @Value("${image.image-dir}")
+    private String IMAGE_DIR;
 
     private final BranchPageRepository branchPageRepository;
     private final FacilityDetailRepository facilityDetailRepository;
@@ -62,6 +77,19 @@ public class BranchService {
         result.forEach(System.out::println);
 
         List<BranchPageDTO> branchList = result.stream().map(r-> modelMapper.map(r,BranchPageDTO.class)).collect(Collectors.toList());
+
+        for (BranchPageDTO branchPageDTO : branchList) {
+            String branchImage = branchPageDTO.getBranchImage();
+            if(!branchImage.startsWith("http")){
+                branchPageDTO.setBranchImage(IMAGE_URL + branchPageDTO.getBranchImage());
+            }
+            if (!branchPageDTO.getBranchOwnerPageDTOS().isEmpty()) {
+                MembersPageDTO membersPageDTO = branchPageDTO.getBranchOwnerPageDTOS().get(0).getMembersPageDTO();
+                if (membersPageDTO != null) {
+                    membersPageDTO.setMemberImage(IMAGE_URL + membersPageDTO.getMemberImage());
+                }
+            }
+        }
 
         branchList.forEach(System.out::println);
 
@@ -120,5 +148,44 @@ public class BranchService {
         result.forEach(System.out::println);
 
         return result.stream().map(r->modelMapper.map(r,MemberDTO.class)).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public String registBranch(BranchDTO branchDTO, String memberId, MultipartFile image) {
+
+        branchDTO.setOwnerStatus("Y");
+
+        String lastBranchCode = branchRepository.getLastBranchCode();
+
+        System.out.println("lastBranchCode = " + lastBranchCode);
+
+        lastBranchCode = MakeMemberId.incrementString(lastBranchCode);
+        branchDTO.setBranchCode(lastBranchCode);
+
+        String imageName = UUID.randomUUID().toString().replace("-","");
+        String replaceFileName = null;
+        if(image!=null){
+            try{
+                replaceFileName = FileUploadUtils.saveFile(IMAGE_DIR,imageName,image);
+                branchDTO.setBranchImage(replaceFileName);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        Branch newBranch = modelMapper.map(branchDTO,Branch.class);
+
+        branchRepository.save(newBranch);
+        branchRepository.flush();
+
+        BranchOwner branchOwner = ownerRepository.findByMemberId(memberId);
+        Members member = branchOwner.getMembers();
+        member.branchOwnership("Y");
+        memberRepository.save(member);
+        memberRepository.flush();
+        branchOwner.branch(newBranch);
+
+
+        return lastBranchCode;
     }
 }
