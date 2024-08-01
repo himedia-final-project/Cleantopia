@@ -30,8 +30,6 @@ public class WaterTank {
     @Column(name = "branch_code")
     private String branchCode;
 
-    @OneToMany(mappedBy = "waterTank", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WaterSupply> waterSupplies;
 
     // Add constructors, getters, and setters
 }

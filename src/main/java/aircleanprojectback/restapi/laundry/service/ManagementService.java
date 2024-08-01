@@ -23,8 +23,8 @@ public class ManagementService {
     public List<WaterTankDTO> waterTankList() {
         List<WaterTank> waterTankList = landryRepository.findAll();
 
-        System.out.println("여기");
-        System.out.println(waterTankList);
+//        System.out.println("여기");
+//        System.out.println(waterTankList);
         return waterTankList.stream()
                 .map(waterTank -> modelMapper.map(waterTank, WaterTankDTO.class))
                 .collect(Collectors.toList());

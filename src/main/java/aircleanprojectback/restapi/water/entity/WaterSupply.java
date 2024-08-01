@@ -2,9 +2,17 @@ package aircleanprojectback.restapi.water.entity;
 
 import aircleanprojectback.restapi.laundry.entity.WaterTank;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tbl_water_supply")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class WaterSupply {
 
     @Id
@@ -12,40 +20,39 @@ public class WaterSupply {
     @Column(name = "water_supply_code")
     private int waterSupplyCode;
 
-    @Column(name = "water_temp")
-    private String waterTemp;
+    @Column(name = "msr_date")
+    private String msrDate;
 
-    @Column(name = "ph")
-    private String ph;
+    @Column(name = "site_id")
+    private String siteId;
 
-    @Column(name = "water_oxy")
-    private String waterOxy;
+    @Column(name = "w_temp")
+    private String wTemp;
 
-    @Column(name = "nitrogen")
-    private String nitrogen;
+    @Column(name = "w_ph")
+    private String wPh;
 
-    @Column(name = "phosphorus")
-    private String phosphorus;
+    @Column(name = "w_do")
+    private String wDo;
 
-    @Column(name = "organic_carbon")
-    private String organicCarbon;
+    @Column(name = "w_tn")
+    private String wTn;
 
-    @Column(name = "phenol")
-    private String phenol;
+    @Column(name = "w_tp")
+    private String wTp;
 
-    @Column(name = "cyan")
-    private String cyan;
+    @Column(name = "w_cn")
+    private String wCn;
 
-    @Column(name = "water_supply_date")
-    private String waterSupplyDate;
+    @Column(name = "w_phen")
+    private String wPhen;
 
-    @ManyToOne
-    @JoinColumn(name = "water_tank_no", referencedColumnName = "water_tank_no")
-    private WaterTank waterTank;
+    @Column(name = "water_volume")
+    private String waterVolume;
 
-    // Getters and setters
+    @Column(name = "water_tank_no")
+    private String waterTankNo;
 
-    public WaterSupply() {}
 
     // Add constructors, getters, and setters
 }
