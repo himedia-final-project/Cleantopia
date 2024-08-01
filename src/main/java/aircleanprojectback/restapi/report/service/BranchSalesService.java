@@ -50,7 +50,8 @@ public class BranchSalesService {
                 .bleach(branchSalesDTO.getBleach())
                 .stainRemover(branchSalesDTO.getStainRemover())
                 .washerCleaner(branchSalesDTO.getWasherCleaner())
-                .dryerSheet(branchSalesDTO.getDryerSheet());
+                .dryerSheet(branchSalesDTO.getDryerSheet())
+                .totalBranchSalesCost(branchSalesDTO.getTotalBranchSalesCost());
 
         branchSalesRepository.save(branchSales);
         return branchSales;
