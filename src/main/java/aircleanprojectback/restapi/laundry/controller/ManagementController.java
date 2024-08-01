@@ -3,10 +3,12 @@ package aircleanprojectback.restapi.laundry.controller;
 import aircleanprojectback.restapi.laundry.Message.ResponseMessage;
 import aircleanprojectback.restapi.laundry.dto.WaterTankDTO;
 import aircleanprojectback.restapi.laundry.service.ManagementService;
+import aircleanprojectback.restapi.water.dto.WaterSupplyDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,6 +47,23 @@ public class ManagementController {
                 .body(new ResponseMessage(200, "BranchList 조회 성공", responseMap));
     }
 
+    @GetMapping("/waterSupply/{branchCode}")
+    public ResponseEntity<ResponseMessage> waterSupply(@PathVariable String branchCode) {
+
+        List<WaterSupplyDTO> waterSupplyList = managementService.SelectWaterSupply(branchCode);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("waterSupply", waterSupplyList);
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(new ResponseMessage(200, "BranchList 조회 성공", responseMap));
+    }
 
 
 
