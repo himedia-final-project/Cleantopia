@@ -61,4 +61,18 @@ public class ExpenseController {
         return ResponseEntity.ok()
                 .body(new ResponseDTO(HttpStatus.OK,"지출보고서 등록완료", expenseService.newExpense(expenseDTO)));
     }
+
+    // 지출보고서 수정
+    @PutMapping("/updateExpense/{expenseReportCode}")
+    public ResponseEntity<ResponseDTO> updateExpense(@PathVariable int expenseReportCode, @RequestBody ExpenseDTO expenseDTO) {
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK,"지출보고서 수정 성공", expenseService.updateExpense(expenseReportCode,expenseDTO)));
+    }
+
+    // 지출보고서 삭제
+    @DeleteMapping("/deleteExpense/{expenseReportCode}")
+    public ResponseEntity<ResponseDTO> deleteExpense(@PathVariable int expenseReportCode) {
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK,"지출보고서 삭제 성공",expenseService.deleteExpense(expenseReportCode)));
+    }
 }

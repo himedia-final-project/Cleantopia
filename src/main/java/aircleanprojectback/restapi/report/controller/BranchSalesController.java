@@ -18,9 +18,10 @@ public class BranchSalesController {
     // 지점매출보고서
 
     private final BranchSalesService branchSalesService;
+
     public BranchSalesController(BranchSalesService branchSalesService) {this.branchSalesService = branchSalesService;}
 
-//    private List<BranchSalesDTO> branchSales = new ArrayList<>();
+
 
 
     // /company 매출보고서 전체 조회
