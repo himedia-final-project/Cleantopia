@@ -24,6 +24,11 @@ public class Carpage  {
     @Column(name = "car_photo", nullable = false, length = 255)
     private String carPhoto;
 
+    @Column(name = "car_front_image")
+    private String carFrontImage;
+    @Column(name = "car_rear_image")
+    private String carRearImage;
+
     @Column(name = "car_assigned_status", nullable = false, length = 200)
     private String carAssignedStatus;
 
