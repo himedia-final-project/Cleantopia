@@ -34,6 +34,7 @@ public class MemberDTO implements UserDetails {
     private String memberImage;
 
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
