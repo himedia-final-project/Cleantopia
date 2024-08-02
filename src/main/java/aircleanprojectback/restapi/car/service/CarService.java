@@ -1,17 +1,15 @@
 package aircleanprojectback.restapi.car.service;
 
-import aircleanprojectback.restapi.car.dto.CarAndDriverAndEmployeeDTO;
-import aircleanprojectback.restapi.car.dto.CarAndDriverDTO;
-import aircleanprojectback.restapi.car.dto.DriverAndMemberDTO;
-import aircleanprojectback.restapi.car.dto.DriverCarDTO;
-import aircleanprojectback.restapi.car.entity.Car;
+import aircleanprojectback.restapi.car.dto.*;
+import aircleanprojectback.restapi.car.entity.*;
 
 
-import aircleanprojectback.restapi.car.entity.CarAndDriver;
-import aircleanprojectback.restapi.car.entity.DriverAndMember;
 import aircleanprojectback.restapi.car.repository.CarAndDriverRepostiory;
 import aircleanprojectback.restapi.car.repository.CarRepository;
+import aircleanprojectback.restapi.car.repository.DriverRepository;
+import aircleanprojectback.restapi.car.repository.MemberNameAndDriverRepository;
 import aircleanprojectback.restapi.common.dto.Criteria;
+import aircleanprojectback.restapi.member.dto.MemberAndDriverDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,10 +25,15 @@ public class CarService {
     
     private final CarAndDriverRepostiory carAndDriverRepostiory;
     private final ModelMapper modelMapper;
+    private final DriverRepository driverRepository;
+    private final MemberNameAndDriverRepository memberNameAndDriverRepository;
 
-    public CarService(CarAndDriverRepostiory carAndDriverRepostiory, ModelMapper modelMapper){
+    public CarService(CarAndDriverRepostiory carAndDriverRepostiory, ModelMapper modelMapper,DriverRepository driverRepository
+    , MemberNameAndDriverRepository memberNameAndDriverRepository){
         this.carAndDriverRepostiory=carAndDriverRepostiory;
         this.modelMapper=modelMapper;
+        this.memberNameAndDriverRepository = memberNameAndDriverRepository;
+        this.driverRepository=driverRepository;
 
         modelMapper.createTypeMap(CarAndDriver.class, CarAndDriverDTO.class)
                 .addMapping(src->src.getDriverAndMember(),CarAndDriverDTO::setDriverAndMemberDTO);
@@ -50,6 +53,18 @@ public class CarService {
         System.out.println("result.getContent() = " + result.getContent());
         System.out.println("carList.getContent() = " + carList.getContent());
         return carList;
+    }
+
+    public List<MemberNameAndDriverDTO> getDriverWithN() {
+
+        List<MemberNameAndDriver> result = memberNameAndDriverRepository.findAllByAssignCar("N","Y");
+
+        result.forEach(System.out::println);
+
+        List<MemberNameAndDriverDTO> driverList = result.stream().map(driver -> modelMapper.map(driver,MemberNameAndDriverDTO.class)).collect(Collectors.toList());
+
+        driverList.forEach(System.out::println);
+        return driverList;
     }
 
 
