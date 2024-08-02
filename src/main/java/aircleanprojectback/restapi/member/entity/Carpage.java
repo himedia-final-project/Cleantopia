@@ -42,4 +42,13 @@ public class Carpage  {
     @ToString.Exclude
     private DriverAndCar driverAndCar;
 
+    public Carpage driverLicenseNumber(String var){
+        driverLicenseNumber = var;
+        return this;
+    }
+
+    public Carpage carAssignedStatus(String var){
+        carAssignedStatus= var;
+        return this;
+    }
 }

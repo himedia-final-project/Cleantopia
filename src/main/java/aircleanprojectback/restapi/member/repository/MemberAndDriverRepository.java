@@ -20,4 +20,6 @@ public interface MemberAndDriverRepository extends JpaRepository<MemberAndDriver
         "WHERE m.memberStatus = :memberStatus " +
         "AND m.memberRole = :memberRole")
     Page<MemberAndDriver> findAllDriverWithCar(@Param("memberStatus") String y,@Param("memberRole") String d, Pageable pageable);
+
+    Page<MemberAndDriver> findAllByMemberStatus(String n, Pageable pageable);
 }
