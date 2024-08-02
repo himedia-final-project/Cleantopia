@@ -435,7 +435,8 @@ public class HumanResourceService {
                 // Get the CarDTO
                 CarDTO carDTO = driverAndCarDTO.getCarDTO();
                 if (carDTO != null && carDTO.getCarPhoto() != null) {
-                    carDTO.setCarPhoto(IMAGE_URL + carDTO.getCarPhoto());
+                    carDTO.setCarFrontImage(IMAGE_URL + carDTO.getCarFrontImage());
+                    carDTO.setCarRearImage(IMAGE_URL+carDTO.getCarRearImage());
                 }
             }
         }
