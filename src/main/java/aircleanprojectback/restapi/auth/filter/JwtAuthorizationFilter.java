@@ -39,7 +39,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
                 "/management/(.*)",
 
-                "/company/stock/branchApplication",
                 "/paper/(.*)",
 //                "/branch/(.*)",
                 "/members/(.*)",

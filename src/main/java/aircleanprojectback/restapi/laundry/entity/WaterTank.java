@@ -31,5 +31,4 @@ public class WaterTank {
     private String branchCode;
 
 
-    // Add constructors, getters, and setters
 }
