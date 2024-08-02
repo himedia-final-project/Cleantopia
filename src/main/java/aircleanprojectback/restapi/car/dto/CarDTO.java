@@ -18,7 +18,8 @@ public class CarDTO {
     private String carPhoto; // 차량 사진
     private String carEtc; // 특이사항
     private String branchRegion;
-
+    private String carFrontImage;
+    private String carRearImage;
 
 
 }
