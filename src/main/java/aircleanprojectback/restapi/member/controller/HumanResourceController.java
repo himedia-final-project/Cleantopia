@@ -81,7 +81,11 @@ public class HumanResourceController {
 
         Page<MemberAndDriverDTO> memberList = service.findAllDriver(cri);
 
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"driver 정보",memberList));
+        PagingResponseDTO pagingResponseDTO = new PagingResponseDTO();
+        pagingResponseDTO.setPageInfo(new PageDTO(cri, (int) memberList.getTotalElements()));
+        pagingResponseDTO.setData(memberList);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"driver 정보",pagingResponseDTO));
     }
 
     @GetMapping("employee/search")
@@ -198,7 +202,7 @@ public class HumanResourceController {
     @PutMapping("driver/soft-delete")
     public ResponseEntity<ResponseDTO> softDeleteDriver(@RequestBody List<String> deleteMember){
 
-        service.findEmployeeById(deleteMember);
+        service.findDriverById(deleteMember);
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"soft delete 수행",deleteMember));
     }
@@ -247,6 +251,30 @@ public class HumanResourceController {
         pagingResponseDTO.setData(branchManagerList);
 
         pagingResponseDTO.setPageInfo(new PageDTO(cri,(int)branchManagerList.getTotalElements()));
+
+
+
+        return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"일단 들어옴",pagingResponseDTO));
+    }
+
+    @GetMapping("driver/unstatus")
+    public ResponseEntity<ResponseDTO> findMemberDriverWithN(@RequestParam(defaultValue = "1")String offset, @RequestParam(defaultValue = "10")String amount){
+
+        System.out.println("offset = " + offset);
+        System.out.println("amount = " + amount);
+
+
+        Criteria cri = new Criteria(Integer.parseInt(offset),Integer.parseInt(amount));
+
+        PagingResponseDTO pagingResponseDTO = new PagingResponseDTO();
+
+        Page<MemberAndDriverDTO> driverList = service.getDriverWithN(cri);
+
+        System.out.println("branchMangerList = " + driverList.getContent());
+
+        pagingResponseDTO.setData(driverList);
+
+        pagingResponseDTO.setPageInfo(new PageDTO(cri,(int)driverList.getTotalElements()));
 
 
 

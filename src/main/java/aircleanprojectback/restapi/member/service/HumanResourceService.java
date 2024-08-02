@@ -1,13 +1,11 @@
 package aircleanprojectback.restapi.member.service;
 
 import aircleanprojectback.restapi.branch.repository.BranchRepository;
+import aircleanprojectback.restapi.car.dto.CarDTO;
 import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.member.dto.*;
 import aircleanprojectback.restapi.member.entity.*;
-import aircleanprojectback.restapi.member.repository.MemberAndDriverRepository;
-import aircleanprojectback.restapi.member.repository.MemberRepository;
-import aircleanprojectback.restapi.member.repository.MembersAndEmployeeRepository;
-import aircleanprojectback.restapi.member.repository.OwnerRepository;
+import aircleanprojectback.restapi.member.repository.*;
 import aircleanprojectback.restapi.util.FileUploadUtils;
 import aircleanprojectback.restapi.util.MakeMemberId;
 import aircleanprojectback.restapi.util.RandomStringGenerator;
@@ -37,6 +35,7 @@ public class HumanResourceService {
     private final BranchRepository branchRepository;
     private final OwnerRepository ownerRepository;
     private final MemberAndDriverRepository memberAndDriverRepository;
+    private final DriverAndCarRepository driverAndCarRepository;
 
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
@@ -49,7 +48,7 @@ public class HumanResourceService {
     @Autowired
     public HumanResourceService(MembersAndEmployeeRepository repository, ModelMapper modelMapper,MemberRepository memberRepository,PasswordEncoder passwordEncoder
     ,BranchRepository branchRepository, OwnerRepository ownerRepository
-    ,MemberAndDriverRepository memberAndDriverRepository){
+    ,MemberAndDriverRepository memberAndDriverRepository, DriverAndCarRepository driverAndCarRepository){
         this.memberRepository = memberRepository;
         this.repository =repository;
         this.ownerRepository = ownerRepository;
@@ -57,6 +56,7 @@ public class HumanResourceService {
         this.passwordEncoder=passwordEncoder;
         this.branchRepository = branchRepository;
         this.memberAndDriverRepository= memberAndDriverRepository;
+        this.driverAndCarRepository = driverAndCarRepository;
 
 
 
@@ -67,10 +67,10 @@ public class HumanResourceService {
                 .addMapping(src -> src.getMembers(), BranchOwnerDTO::setMemberDTO)
                 .addMapping(src -> src.getBranch(),BranchOwnerDTO::setBranchDTO);
 
-//        modelMapper.createTypeMap(MemberAndDriver.class,MemberAndDriverDTO.class)
-//                .addMapping(src->src.getDriverAndCar(), MemberAndDriverDTO::setDriverAndCarDTO);
-//        modelMapper.createTypeMap(DriverAndCar.class,DriverAndCarDTO.class)
-//                .addMapping(src->src.getCar(),DriverAndCarDTO::setCarDTO);
+        modelMapper.createTypeMap(MemberAndDriver.class,MemberAndDriverDTO.class)
+                .addMapping(src->src.getDriverAndCar(), MemberAndDriverDTO::setDriverAndCarDTO);
+        modelMapper.createTypeMap(DriverAndCar.class,DriverAndCarDTO.class)
+                .addMapping(src->src.getCar(),DriverAndCarDTO::setCarDTO);
     }
     @Transactional
     public Page<MembersAndEmployeeDTO> getEmployeeListWithPaging(Criteria cri) {
@@ -417,11 +417,63 @@ public class HumanResourceService {
         Page<MemberAndDriver> result = memberAndDriverRepository.findAllDriverWithCar("Y","d",pageable);
 
         System.out.println("result" + result.getContent());
-//        Page<MemberAndDriverDTO> driverList = result.map(driver -> modelMapper.map(driver , MemberAndDriverDTO.class));
 
-        return null;
+        Page<MemberAndDriverDTO> driverList = result.map(driver -> modelMapper.map(driver , MemberAndDriverDTO.class));
 
-//        return driverList;
+        for (int i = 0; i < driverList.toList().size(); i++) {
+            // Get the current driver
+            MemberAndDriverDTO driver = driverList.toList().get(i);
+
+            // Check if member image is not null before setting it
+            if (driver.getMemberImage() != null) {
+                driver.setMemberImage(IMAGE_URL + driver.getMemberImage());
+            }
+
+            // Get the DriverAndCarDTO
+            DriverAndCarDTO driverAndCarDTO = driver.getDriverAndCarDTO();
+            if (driverAndCarDTO != null) {
+                // Get the CarDTO
+                CarDTO carDTO = driverAndCarDTO.getCarDTO();
+                if (carDTO != null && carDTO.getCarPhoto() != null) {
+                    carDTO.setCarPhoto(IMAGE_URL + carDTO.getCarPhoto());
+                }
+            }
+        }
+
+        return driverList;
+    }
+
+    @Transactional
+    public void findDriverById(List<String> deleteMember) {
+
+        List<Members> members = memberRepository.findByMemberIdIn(deleteMember);
+
+        members.forEach(member->member.memberStatus("N"));
+//        memberRepository.saveAll(members);
+
+        List<DriverAndCar> result = driverAndCarRepository.findAllByMemberIdIn(deleteMember);
+
+        result.forEach(driver->driver.assignCar("N"));
+        result.forEach(driver->driver.getCar().driverLicenseNumber(null).carAssignedStatus("N"));
+        result.forEach(System.out::println);
+
+        driverAndCarRepository.saveAll(result);
+
+    }
+
+    public Page<MemberAndDriverDTO> getDriverWithN(Criteria cri) {
+
+        Pageable pageable = PageRequest.of(cri.getPageNum()-1,cri.getAmount());
+
+        Page<MemberAndDriver> result = memberAndDriverRepository.findAllByMemberStatus("N",pageable);
+
+        Page<MemberAndDriverDTO> driverList = result.map(driver->modelMapper.map(driver,MemberAndDriverDTO.class));
+
+
+
+        System.out.println("삭제가능 차량기사 " +result.getContent());
+
+        return driverList;
     }
 
 //    public Page<DriverDTO> findAllDriver(Criteria cri) {

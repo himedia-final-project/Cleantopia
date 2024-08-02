@@ -36,4 +36,9 @@ public class DriverAndCar {
     @JoinColumn(name = "driver_license_number")
     private Carpage car;
 
+    public DriverAndCar assignCar(String var){
+        assignCar=var;
+        return this;
+    }
+
 }
