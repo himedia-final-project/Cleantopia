@@ -1,3 +1,4 @@
+
 package aircleanprojectback.restapi.car.service;
 
 import aircleanprojectback.restapi.car.dto.CarAndDriverAndEmployeeDTO;
@@ -51,58 +52,3 @@ public class CarService {
         System.out.println("carList.getContent() = " + carList.getContent());
         return carList;
     }
-
-
-//    private final CarAndDriverAndEmployeeRepository carAndDriverAndEmployeeRepository;
-//    private final CarRepository carRepository;
-//    private final DriverCarRepository driverCarRepository;
-
-//    @Autowired
-//    public CarService(CarAndDriverAndEmployeeRepository carAndDriverAndEmployeeRepository, CarRepository carRepository, DriverCarRepository driverCarRepository) {
-//        this.carAndDriverAndEmployeeRepository = carAndDriverAndEmployeeRepository;
-//        this.carRepository = carRepository;
-//        this.driverCarRepository = driverCarRepository;
-//    }
-
-//    public List<CarAndDriverAndEmployeeDTO> getAllCars() {
-//        System.out.println("ssss");
-//
-//        List<CarAndDriverAndEmployee> cars = carAndDriverAndEmployeeRepository.findAll();
-//
-//        cars.forEach(System.out::println);
-//
-//        return null;
-//    }
-
-//    private CarAndDriverAndEmployeeDTO convertToDto(Car car) {
-//        DriverCar driverCar = car.getDriverCar();
-//
-//        return CarAndDriverAndEmployeeDTO.builder()
-//                .carNumber(car.getCarNumber())
-//                .carAssignedStatus(car.getCarAssignedStatus())
-//                .carDate(car.getCarDate())
-//                .carPhoto(car.getCarPhoto())
-//                .carEtc(car.getCarEtc())
-//                .branchRegion(car.getBranchRegion())
-//                .driverCarDTO(driverCar != null ? new DriverCarDTO(
-//                        driverCar.getDriverLicenseNumber(),
-//                        driverCar.getDriverRegion(),
-//                        driverCar.getMembers() != null ? new MemberDTO(
-//                                driverCar.getMembers().getMemberId(),
-//                                driverCar.getMembers().getMemberPassword(),
-//                                driverCar.getMembers().getMemberName(),
-//                                driverCar.getMembers().getMemberEmail(),
-//                                driverCar.getMembers().getMemberPhoneNumber(),
-//                                driverCar.getMembers().getMemberRole(),
-//                                driverCar.getMembers().getMemberBirthDate(),
-//                                driverCar.getMembers().getMemberGender(),
-//                                driverCar.getMembers().getMemberAddress(),
-//                                driverCar.getMembers().getMemberStatus(),
-//                                driverCar.getMembers().getMemberHireDate(),
-//                                driverCar.getMembers().getBranchOwnership(),
-//                                driverCar.getMembers().getMemberImage()
-//                        ) : null
-//                ) : null)
-//                .build();
-//    }
-}
