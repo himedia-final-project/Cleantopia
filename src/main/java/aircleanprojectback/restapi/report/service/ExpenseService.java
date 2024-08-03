@@ -1,10 +1,14 @@
 package aircleanprojectback.restapi.report.service;
 
+import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.report.dto.ExpenseDTO;
 import aircleanprojectback.restapi.report.entity.Expense;
 import aircleanprojectback.restapi.report.repository.ExpenseRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,16 +27,28 @@ public class ExpenseService {
         this.modelMapper = modelMapper;
     }
 
-    public List<ExpenseDTO> getAllExpense() {
+    // 지출보고서 전체조회
+    public Page<ExpenseDTO> getAllExpense(Criteria expenseCriteria) {
 
-        List<Expense> expenses = expenseRepository.findAll();
-        List<ExpenseDTO> expenseDTOList = expenses.stream()
-                .map(expense -> modelMapper.map(expense, ExpenseDTO.class))
-                .collect(Collectors.toList());
+        Pageable expensePageable = PageRequest.of(expenseCriteria.getPageNum()-1, expenseCriteria.getAmount());
 
-        return expenseDTOList;
+        Page<Expense> expensePage = expenseRepository.findAll(expensePageable);
+        Page<ExpenseDTO> expenseDTO  = expensePage.map(expense -> modelMapper.map(expense, ExpenseDTO.class));
 
+        return expenseDTO;
     }
+
+
+//    public List<ExpenseDTO> getAllExpense() {
+//
+//        List<Expense> expenses = expenseRepository.findAll();
+//        List<ExpenseDTO> expenseDTOList = expenses.stream()
+//                .map(expense -> modelMapper.map(expense, ExpenseDTO.class))
+//                .collect(Collectors.toList());
+//
+//        return expenseDTOList;
+//
+//    }
 
     public ExpenseDTO detailExpenseReports(int expenseReportCode) {
         Expense expense = expenseRepository.findById(expenseReportCode).get();
@@ -81,4 +97,7 @@ public class ExpenseService {
         expenseRepository.deleteById(expenseReportCode);
         return "삭제 성공";
     }
+
+
+
 }

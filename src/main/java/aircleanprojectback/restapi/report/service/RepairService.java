@@ -1,5 +1,6 @@
 package aircleanprojectback.restapi.report.service;
 
+import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.report.dto.RepairDTO;
 import aircleanprojectback.restapi.report.entity.Expense;
 import aircleanprojectback.restapi.report.entity.Repair;
@@ -8,6 +9,9 @@ import aircleanprojectback.restapi.util.FileUploadUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,15 +40,25 @@ public class RepairService {
     }
 
     // 지점 수리보고서 전체조회
-    public List<RepairDTO> AllFindRepair() {
+    public Page<RepairDTO> AllFindRepair(Criteria repairCriteria) {
 
-        List<Repair> repairs = repairRepository.findAll();
-        List<RepairDTO> repairDTO = repairs.stream()
-                .map(repair -> modelMapper.map(repair, RepairDTO.class))
-                .collect(Collectors.toList());
+        Pageable repairPageable = PageRequest.of(repairCriteria.getPageNum() -1, repairCriteria.getAmount());
+
+        Page<Repair> repairs = repairRepository.findAll(repairPageable);
+        Page<RepairDTO> repairDTO = repairs.map(repair -> modelMapper.map(repair, RepairDTO.class));
 
         return repairDTO;
     }
+
+//    public List<RepairDTO> AllFindRepair() {
+//
+//        List<Repair> repairs = repairRepository.findAll();
+//        List<RepairDTO> repairDTO = repairs.stream()
+//                .map(repair -> modelMapper.map(repair, RepairDTO.class))
+//                .collect(Collectors.toList());
+//
+//        return repairDTO;
+//    }
 
 
     // 지점 수리보고서 세부조회
@@ -82,7 +96,7 @@ public class RepairService {
 
     // 지점 수리보고서 수정
     @Transactional
-    public Repair updateRepair(int repairReportCode, RepairDTO repairDTO) {
+    public Repair updateRepair(int repairReportCode, RepairDTO repairDTO, MultipartFile repairPhoto) {
 
         Repair repair = repairRepository.findById(repairReportCode)
                 .orElseThrow(() -> new RuntimeException("수리보고서를 찾을수 없습니다. ID: " + repairReportCode));
@@ -91,7 +105,22 @@ public class RepairService {
                 .repairReportStatus(repairDTO.getRepairReportStatus())
                 .repairContent(repairDTO.getRepairContent())
                 .facilityCount(repairDTO.getFacilityCount())
-                .facilityCode(repairDTO.getFacilityCode());
+                .facilityCode(repairDTO.getFacilityCode())
+                .facilityType(repairDTO.getFacilityType())
+                .repairPhoto(repairDTO.getRepairPhoto());
+
+        String repairImageNames = UUID.randomUUID().toString().replace("-", "");
+        String repairReplaceFileNames = null;
+        try {
+            if (repairPhoto != null && !repairPhoto.isEmpty()) {
+                repairReplaceFileNames = FileUploadUtils.saveFile(IMAGE_DIR, repairReplaceFileNames, repairPhoto);
+                repair.repairPhoto(repairReplaceFileNames);
+                System.out.println("여기로 오긴 하니?");
+                System.out.println("repairReplaceFileName = " + repairReplaceFileNames);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save image file", e);
+        }
 
         repairRepository.save(repair);
         return repair;
@@ -112,4 +141,6 @@ public class RepairService {
         repair.repairReportStatus(repairReportStatus);
         return repairRepository.save(repair);
     }
+
+
 }

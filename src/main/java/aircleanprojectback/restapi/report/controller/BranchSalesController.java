@@ -1,9 +1,11 @@
 package aircleanprojectback.restapi.report.controller;
 
+import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.service.BranchSalesService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +28,13 @@ public class BranchSalesController {
 
     // /company 매출보고서 전체 조회
     @GetMapping("/company/reports")
-    public ResponseEntity<ResponseDTO> selectAllBranchSales() {
+    public ResponseEntity<ResponseDTO> selectAllBranchSales(@RequestParam(defaultValue = "1") String offset) {
 
-        List<BranchSalesDTO> branchSales = branchSalesService.getAllBranchSales();
+        Criteria branchSalesCriteria = new Criteria();
+        branchSalesCriteria.setPageNum(Integer.parseInt(offset));
+        branchSalesCriteria.setAmount(6);
+        Page<BranchSalesDTO>branchSales = branchSalesService.getAllBranchSales(branchSalesCriteria);
+
         return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회성공", branchSales));
     }
 
