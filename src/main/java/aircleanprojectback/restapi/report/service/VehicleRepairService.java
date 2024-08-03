@@ -1,5 +1,6 @@
 package aircleanprojectback.restapi.report.service;
 
+import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.report.dto.VehicleRepairDTO;
 import aircleanprojectback.restapi.report.entity.VehicleRepair;
 import aircleanprojectback.restapi.report.repository.VehicleRepairRepository;
@@ -7,6 +8,9 @@ import aircleanprojectback.restapi.util.FileUploadUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,15 +41,24 @@ public class VehicleRepairService {
 
 
     // 차량보고서 전체  조회
-    public List<VehicleRepairDTO> getAllVehicleRepair() {
+    public Page<VehicleRepairDTO> getAllVehicleRepair(Criteria vehicleRepairCriteria) {
 
-        List<VehicleRepair> vehicleRepairs = vehicleRepairRepository.findAll();
-        List<VehicleRepairDTO> vehicleRepairDTOList = vehicleRepairs.stream()
-                .map(vehicleRepair -> modelMapper.map(vehicleRepair, VehicleRepairDTO.class))
-                .collect(Collectors.toList());
+        Pageable vehicleRepairPageable = PageRequest.of(vehicleRepairCriteria.getPageNum() -1, vehicleRepairCriteria.getAmount());
+        Page<VehicleRepair> vehicleRepairPage = vehicleRepairRepository.findAll(vehicleRepairPageable);
+        Page<VehicleRepairDTO> vehicleRepairDTO = vehicleRepairPage.map(vehicleRepair -> modelMapper.map(vehicleRepair, VehicleRepairDTO.class));
 
-        return vehicleRepairDTOList;
+        return vehicleRepairDTO;
     }
+
+//    public List<VehicleRepairDTO> getAllVehicleRepair() {
+//
+//        List<VehicleRepair> vehicleRepairs = vehicleRepairRepository.findAll();
+//        List<VehicleRepairDTO> vehicleRepairDTOList = vehicleRepairs.stream()
+//                .map(vehicleRepair -> modelMapper.map(vehicleRepair, VehicleRepairDTO.class))
+//                .collect(Collectors.toList());
+//
+//        return vehicleRepairDTOList;
+//    }
 
     // 차량보고서 세부조회
     public VehicleRepairDTO detailVehicleRepair(int vehicleReportCode) {
@@ -103,6 +116,7 @@ public class VehicleRepairService {
 
         return "보고서 등록성공";
     }
+
 
 
 }

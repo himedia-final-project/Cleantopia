@@ -23,33 +23,33 @@ import java.util.stream.Collectors;
 
 @Service
 public class CarService {
-    
+
     private final CarAndDriverRepostiory carAndDriverRepostiory;
     private final ModelMapper modelMapper;
     private final DriverRepository driverRepository;
     private final MemberNameAndDriverRepository memberNameAndDriverRepository;
 
-    public CarService(CarAndDriverRepostiory carAndDriverRepostiory, ModelMapper modelMapper,DriverRepository driverRepository
-    , MemberNameAndDriverRepository memberNameAndDriverRepository){
-        this.carAndDriverRepostiory=carAndDriverRepostiory;
-        this.modelMapper=modelMapper;
+    public CarService(CarAndDriverRepostiory carAndDriverRepostiory, ModelMapper modelMapper, DriverRepository driverRepository
+            , MemberNameAndDriverRepository memberNameAndDriverRepository) {
+        this.carAndDriverRepostiory = carAndDriverRepostiory;
+        this.modelMapper = modelMapper;
         this.memberNameAndDriverRepository = memberNameAndDriverRepository;
-        this.driverRepository=driverRepository;
+        this.driverRepository = driverRepository;
 
         modelMapper.createTypeMap(CarAndDriver.class, CarAndDriverDTO.class)
-                .addMapping(src->src.getDriverAndMember(),CarAndDriverDTO::setDriverAndMemberDTO);
+                .addMapping(src -> src.getDriverAndMember(), CarAndDriverDTO::setDriverAndMemberDTO);
 
         modelMapper.createTypeMap(DriverAndMember.class, DriverAndMemberDTO.class)
-                .addMapping(src->src.getMembers(),DriverAndMemberDTO::setMemberDTO);
+                .addMapping(src -> src.getMembers(), DriverAndMemberDTO::setMemberDTO);
     }
 
     public Page<CarAndDriverDTO> findAllCarWithPage(Criteria criteria) {
 
-        Pageable pageable = PageRequest.of(criteria.getPageNum()-1,criteria.getAmount());
-        
+        Pageable pageable = PageRequest.of(criteria.getPageNum() - 1, criteria.getAmount());
+
         Page<CarAndDriver> result = carAndDriverRepostiory.findAll(pageable);
-        
-        Page<CarAndDriverDTO> carList = result.map(car->modelMapper.map(car,CarAndDriverDTO.class));
+
+        Page<CarAndDriverDTO> carList = result.map(car -> modelMapper.map(car, CarAndDriverDTO.class));
 
         System.out.println("result.getContent() = " + result.getContent());
         System.out.println("carList.getContent() = " + carList.getContent());
@@ -59,13 +59,14 @@ public class CarService {
 
     public List<MemberNameAndDriverDTO> getDriverWithN() {
 
-        List<MemberNameAndDriver> result = memberNameAndDriverRepository.findAllByAssignCar("N","Y");
+        List<MemberNameAndDriver> result = memberNameAndDriverRepository.findAllByAssignCar("N", "Y");
 
         result.forEach(System.out::println);
 
-        List<MemberNameAndDriverDTO> driverList = result.stream().map(driver -> modelMapper.map(driver,MemberNameAndDriverDTO.class)).collect(Collectors.toList());
+        List<MemberNameAndDriverDTO> driverList = result.stream().map(driver -> modelMapper.map(driver, MemberNameAndDriverDTO.class)).collect(Collectors.toList());
 
         driverList.forEach(System.out::println);
         return driverList;
     }
+}
 

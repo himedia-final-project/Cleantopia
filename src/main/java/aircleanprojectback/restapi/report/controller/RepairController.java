@@ -1,9 +1,14 @@
 package aircleanprojectback.restapi.report.controller;
 
+import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 import aircleanprojectback.restapi.report.dto.RepairDTO;
+import aircleanprojectback.restapi.report.entity.Repair;
 import aircleanprojectback.restapi.report.service.RepairService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,11 +29,16 @@ public class RepairController {
 
     // 지점 시설물 수리보고서 전체 조회
     @GetMapping("/company/repair")
-    public ResponseEntity<ResponseDTO> AllFindRepair() {
+    public ResponseEntity<ResponseDTO> AllFindRepair(@RequestParam(defaultValue = "1") String offset) {
 
-        List<RepairDTO> repair = repairService.AllFindRepair();
+        Criteria repairCriteria = new Criteria();
+        repairCriteria.setPageNum(Integer.parseInt(offset));
+        repairCriteria.setAmount(6);
+        Page<RepairDTO> repairDTO = repairService.AllFindRepair(repairCriteria);
+
+
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "지점 수리보고서 전체 조회", repair));
+                .body(new ResponseDTO(HttpStatus.OK, "지점 수리보고서 전체 조회", repairDTO));
     }
 
     // 지점 수리보고서 세부조회
@@ -64,10 +74,12 @@ public class RepairController {
 
     // 시설물 수리보고서 수정
     @PutMapping("/location/repair/{repairReportCode}")
-    public ResponseEntity<ResponseDTO> UpdateRepair(@PathVariable int repairReportCode, @RequestBody RepairDTO repairDTO) {
+    public ResponseEntity<ResponseDTO> UpdateRepair(@PathVariable int repairReportCode,
+                                                    @ModelAttribute RepairDTO repairDTO,
+                                                    MultipartFile repairImages) {
 
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "지점 수리보고서 수정 성공적", repairService.updateRepair(repairReportCode,repairDTO)));
+                .body(new ResponseDTO(HttpStatus.OK, "지점 수리보고서 수정 성공적", repairService.updateRepair(repairReportCode,repairDTO,repairImages)));
     }
 
 

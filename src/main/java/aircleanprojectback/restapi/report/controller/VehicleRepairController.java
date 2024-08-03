@@ -1,12 +1,14 @@
 package aircleanprojectback.restapi.report.controller;
 
 
+import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 import aircleanprojectback.restapi.report.dto.CarMembersDTO;
 import aircleanprojectback.restapi.report.dto.VehicleRepairDTO;
 import aircleanprojectback.restapi.report.service.CarMembersService;
 import aircleanprojectback.restapi.report.service.VehicleRepairService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,12 +31,16 @@ public class VehicleRepairController {
 
     // 본사 차량보고서 전체조회
     @GetMapping("/company/newReports")
-    public ResponseEntity<ResponseDTO> selectAllVehicleRepairs() {
+    public ResponseEntity<ResponseDTO> selectAllVehicleRepairs(@RequestParam(defaultValue = "1") String offset) {
 
-        List<VehicleRepairDTO> vehicleRepair = vehicleRepairService.getAllVehicleRepair();
+        Criteria vehicleRepairCriteria = new Criteria();
+        vehicleRepairCriteria.setPageNum(Integer.parseInt(offset));
+        vehicleRepairCriteria.setAmount(6);
+        Page<VehicleRepairDTO> vehicleRepairDTO = vehicleRepairService.getAllVehicleRepair(vehicleRepairCriteria);
+
 
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "차량수리보고서 전체 조회성공", vehicleRepair));
+                .body(new ResponseDTO(HttpStatus.OK, "차량수리보고서 전체 조회성공", vehicleRepairDTO));
     }
 
     // 차량수리비 세부조회

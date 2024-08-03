@@ -1,9 +1,11 @@
 package aircleanprojectback.restapi.report.controller;
 
+import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 import aircleanprojectback.restapi.report.dto.ExpenseDTO;
 import aircleanprojectback.restapi.report.service.ExpenseService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +23,14 @@ public class ExpenseController {
         this.expenseService = expenseService;
     }
 
+    // 지출보고서 전체조회
     @GetMapping("/company/expenseReports")
-    public ResponseEntity<ResponseDTO> selectAllExpense() {
+    public ResponseEntity<ResponseDTO> selectAllExpense(@RequestParam(defaultValue = "1") String offset) {
 
-        List<ExpenseDTO> expense = expenseService.getAllExpense();
+        Criteria expenseCriteria = new Criteria();
+        expenseCriteria.setPageNum(Integer.parseInt(offset));
+        expenseCriteria.setAmount(6);
+        Page<ExpenseDTO>expense = expenseService.getAllExpense(expenseCriteria);
 
         return ResponseEntity.ok()
                 .body(new ResponseDTO(HttpStatus.OK, "매출보고서 조회에 성공하셨습니다", expense));
