@@ -23,4 +23,6 @@ public interface MemberRepository extends JpaRepository<Members, String> {
     Page<Members> findAllByMemberRoleAndMemberStatus(String b, String n, Pageable pageable);
 
     List<Members> findAllByMemberRoleAndBranchOwnership(String b, String n);
+
+    Members findByMemberIdAndMemberStatus(String memberId, String y);
 }
