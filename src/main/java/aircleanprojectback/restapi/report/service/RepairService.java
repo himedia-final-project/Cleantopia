@@ -50,17 +50,6 @@ public class RepairService {
         return repairDTO;
     }
 
-//    public List<RepairDTO> AllFindRepair() {
-//
-//        List<Repair> repairs = repairRepository.findAll();
-//        List<RepairDTO> repairDTO = repairs.stream()
-//                .map(repair -> modelMapper.map(repair, RepairDTO.class))
-//                .collect(Collectors.toList());
-//
-//        return repairDTO;
-//    }
-
-
     // 지점 수리보고서 세부조회
     public RepairDTO FindRepairByReportCode(int repairReportCode) {
 
@@ -72,59 +61,48 @@ public class RepairService {
     // 지점 수리보고서 등록
     @Transactional
     public Object insertRepair(RepairDTO repairDTO, MultipartFile repairPhoto) {
-
         Repair repair = modelMapper.map(repairDTO, Repair.class);
 
-        String repairImageName = UUID.randomUUID().toString().replace("-", "");
-        String repairReplaceFileName = null;
-        try {
-            if (repairPhoto != null && !repairPhoto.isEmpty()) {
-                repairReplaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, repairReplaceFileName, repairPhoto);
-                repair.repairPhoto(repairReplaceFileName);
-                System.out.println("여기로 오긴 하니?");
-                System.out.println("repairReplaceFileName = " + repairReplaceFileName);
+        if (repairPhoto != null && !repairPhoto.isEmpty()) {
+            String repairReplaceFileName = UUID.randomUUID().toString().replace("-", "");
+            try {
+                String savedFileName = FileUploadUtils.saveFile(IMAGE_DIR, repairReplaceFileName, repairPhoto);
+                repair.setRepairPhoto(savedFileName);
+                System.out.println("Saved File Name: " + savedFileName);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to save image file", e);
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to save image file", e);
         }
 
-
-        repairRepository.save(repair);
-
-        return repair;
+        return repairRepository.save(repair);
     }
+
 
     // 지점 수리보고서 수정
     @Transactional
     public Repair updateRepair(int repairReportCode, RepairDTO repairDTO, MultipartFile repairPhoto) {
-
         Repair repair = repairRepository.findById(repairReportCode)
-                .orElseThrow(() -> new RuntimeException("수리보고서를 찾을수 없습니다. ID: " + repairReportCode));
+                .orElseThrow(() -> new RuntimeException("수리보고서를 찾을 수 없습니다. ID: " + repairReportCode));
 
-        repair = repair
-                .repairReportStatus(repairDTO.getRepairReportStatus())
-                .repairContent(repairDTO.getRepairContent())
-                .facilityCount(repairDTO.getFacilityCount())
-                .facilityCode(repairDTO.getFacilityCode())
-                .facilityType(repairDTO.getFacilityType())
-                .repairPhoto(repairDTO.getRepairPhoto());
+        repair.setRepairReportStatus(repairDTO.getRepairReportStatus());
+        repair.setRepairContent(repairDTO.getRepairContent());
+        repair.setFacilityCount(repairDTO.getFacilityCount());
+        repair.setFacilityType(repairDTO.getFacilityType());
 
-        String repairImageNames = UUID.randomUUID().toString().replace("-", "");
-        String repairReplaceFileNames = null;
-        try {
-            if (repairPhoto != null && !repairPhoto.isEmpty()) {
-                repairReplaceFileNames = FileUploadUtils.saveFile(IMAGE_DIR, repairReplaceFileNames, repairPhoto);
-                repair.repairPhoto(repairReplaceFileNames);
-                System.out.println("여기로 오긴 하니?");
-                System.out.println("repairReplaceFileName = " + repairReplaceFileNames);
+        if (repairPhoto != null && !repairPhoto.isEmpty()) {
+            String repairReplaceFileName = UUID.randomUUID().toString().replace("-", "");
+            try {
+                String savedFileName = FileUploadUtils.saveFile(IMAGE_DIR, repairReplaceFileName, repairPhoto);
+                repair.setRepairPhoto(savedFileName);
+                System.out.println("Saved File Name: " + savedFileName);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to save image file", e);
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to save image file", e);
         }
 
-        repairRepository.save(repair);
-        return repair;
+        return repairRepository.save(repair);
     }
+
 
     // 시설물수리보고서  삭제
     public String  deleteRepair(int repairReportCode) {
@@ -138,7 +116,7 @@ public class RepairService {
 
         Repair repair = repairRepository.findById(repairReportCode)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid repairReportCode: " + repairReportCode));
-        repair.repairReportStatus(repairReportStatus);
+        repair.setRepairReportStatus(repairReportStatus);
         return repairRepository.save(repair);
     }
 
