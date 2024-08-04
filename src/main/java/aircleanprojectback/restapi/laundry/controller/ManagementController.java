@@ -1,16 +1,15 @@
 package aircleanprojectback.restapi.laundry.controller;
 
 import aircleanprojectback.restapi.laundry.Message.ResponseMessage;
+import aircleanprojectback.restapi.laundry.dto.LaundryDTO;
 import aircleanprojectback.restapi.laundry.dto.WaterTankDTO;
 import aircleanprojectback.restapi.laundry.service.ManagementService;
 import aircleanprojectback.restapi.water.dto.WaterSupplyDTO;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -64,6 +63,62 @@ public class ManagementController {
                 .headers(headers)
                 .body(new ResponseMessage(200, "BranchList 조회 성공", responseMap));
     }
+
+    @GetMapping("/selectLaundry/{branchCode}")
+    public ResponseEntity<ResponseMessage> selectLaundry(@PathVariable String branchCode) {
+
+//        System.out.println("너 실행되니?");
+//        System.out.println(branchCode);
+//        List<WaterSupplyDTO> waterSupplyList = managementService.SelectWaterSupply(branchCode);
+        List<LaundryDTO> selectLandryList = managementService.selectLaundry(branchCode);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("selectLandry", selectLandryList);
+
+//        System.out.println("여기확인");
+//        System.out.println(branchCode);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(new ResponseMessage(200, "laundry 조회 성공", responseMap));
+    }
+
+    @PostMapping("/updateLaundryStatus")
+    public ResponseEntity<ResponseMessage> updateLaundryStatus(@RequestBody Map<String, Object> payload) {
+        int laundryCode = (int) payload.get("laundryCode");
+        String statusType = (String) payload.get("statusType");
+        String statusValue = (String) payload.get("statusValue");
+
+        System.out.println("Updating laundry status:");
+        System.out.println("Laundry Code: " + laundryCode);
+        System.out.println("Status Type: " + statusType);
+        System.out.println("Status Value: " + statusValue);
+
+        boolean updateSuccess = managementService.updateLaundryStatus(laundryCode, statusType, statusValue);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("updateSuccess", updateSuccess);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        if (updateSuccess) {
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(new ResponseMessage(200, "laundry 상태 업데이트 성공", responseMap));
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .headers(headers)
+                    .body(new ResponseMessage(500, "laundry 상태 업데이트 실패", responseMap));
+        }
+
+    }
+
+
 
 
 
