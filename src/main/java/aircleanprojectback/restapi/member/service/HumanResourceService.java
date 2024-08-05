@@ -2,6 +2,9 @@ package aircleanprojectback.restapi.member.service;
 
 import aircleanprojectback.restapi.branch.repository.BranchRepository;
 import aircleanprojectback.restapi.car.dto.CarDTO;
+import aircleanprojectback.restapi.car.dto.DriverDTO;
+import aircleanprojectback.restapi.car.entity.Driver;
+import aircleanprojectback.restapi.car.repository.DriverRepository;
 import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.member.dto.*;
 import aircleanprojectback.restapi.member.entity.*;
@@ -36,6 +39,8 @@ public class HumanResourceService {
     private final OwnerRepository ownerRepository;
     private final MemberAndDriverRepository memberAndDriverRepository;
     private final DriverAndCarRepository driverAndCarRepository;
+    private final DriverCountRepository driverCountRepository;
+    private final DriverRepository driverRepository;
 
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
@@ -48,7 +53,10 @@ public class HumanResourceService {
     @Autowired
     public HumanResourceService(MembersAndEmployeeRepository repository, ModelMapper modelMapper,MemberRepository memberRepository,PasswordEncoder passwordEncoder
     ,BranchRepository branchRepository, OwnerRepository ownerRepository
-    ,MemberAndDriverRepository memberAndDriverRepository, DriverAndCarRepository driverAndCarRepository){
+    ,MemberAndDriverRepository memberAndDriverRepository, DriverAndCarRepository driverAndCarRepository,DriverCountRepository driverCountRepository
+    ,DriverRepository driverRepository){
+        this.driverRepository = driverRepository;
+        this.driverCountRepository=driverCountRepository;
         this.memberRepository = memberRepository;
         this.repository =repository;
         this.ownerRepository = ownerRepository;
@@ -475,6 +483,59 @@ public class HumanResourceService {
         System.out.println("삭제가능 차량기사 " +result.getContent());
 
         return driverList;
+    }
+
+    public List<DriverCountDTO> findDriverRegionCount() {
+
+        List<DriverCount> result = driverCountRepository.findDriverCount("Y");
+        System.out.println("result = " + result);
+
+        List<DriverCountDTO> driverCountDTOS =result.stream().map(driver-> modelMapper.map(driver,DriverCountDTO.class)).collect(Collectors.toList());
+
+        return driverCountDTOS;
+    }
+
+    @Transactional
+    public void registDriver(MemberDTO memberDTO, DriverDTO driverDTO, MultipartFile image) {
+
+        String lastMemberId = memberRepository.findLastMemberId("d");
+
+        memberDTO.setMemberId(MakeMemberId.incrementString(lastMemberId));
+        memberDTO.setMemberPassword(passwordEncoder.encode(RandomStringGenerator.getPassword()));
+        memberDTO.setMemberRole("d");
+        memberDTO.setMemberStatus("Y");
+        memberDTO.setBranchOwnership("N");
+
+        Members newMember = modelMapper.map(memberDTO,Members.class);
+
+        String imageName = UUID.randomUUID().toString().replace("-","");
+        String replaceFileName = null;
+        if(image!=null){
+            try{
+
+                System.out.println("이미지 있는가?");
+                replaceFileName = FileUploadUtils.saveFile(IMAGE_DIR,imageName,image);
+
+                newMember.memberImage(replaceFileName);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+
+        memberRepository.save(newMember);
+        memberRepository.flush();
+
+        driverDTO.setMemberId(newMember.getMemberId());
+        driverDTO.setAssignCar("N");
+
+        Driver newDriver= modelMapper.map(driverDTO,Driver.class);
+
+        driverRepository.save(newDriver);
+
+
     }
 
 //    public Page<DriverDTO> findAllDriver(Criteria cri) {

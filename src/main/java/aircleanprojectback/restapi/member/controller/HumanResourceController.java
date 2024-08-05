@@ -1,6 +1,7 @@
 package aircleanprojectback.restapi.member.controller;
 
 
+import aircleanprojectback.restapi.car.dto.DriverDTO;
 import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.common.dto.PageDTO;
 import aircleanprojectback.restapi.common.dto.PagingResponseDTO;
@@ -153,7 +154,15 @@ public class HumanResourceController {
 
     }
     @PostMapping("driver")
-    public ResponseEntity<ResponseDTO> registDriver(/*@RequestBody*/){
+    public ResponseEntity<ResponseDTO> registDriver(@ModelAttribute MemberDTO memberDTO , @ModelAttribute DriverDTO driverDTO , MultipartFile image){
+
+        System.out.println("memberDTO = " + memberDTO);
+        System.out.println("driverDTO = " + driverDTO);
+        System.out.println("image = " + image.getOriginalFilename());
+
+
+        service.registDriver(memberDTO,driverDTO,image);
+        
         return null;
     }
 
@@ -323,6 +332,14 @@ public class HumanResourceController {
 
     }
 
+    @GetMapping("driver/count")
+    public ResponseEntity<ResponseDTO> getBranchCount(){
+        System.out.println("getBranchCount");
+
+        List<DriverCountDTO> driverCountDTOS = service.findDriverRegionCount();
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"지역 조회",driverCountDTOS));
+    }
 
 
 
