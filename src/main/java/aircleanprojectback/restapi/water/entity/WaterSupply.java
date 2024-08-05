@@ -4,6 +4,8 @@ import aircleanprojectback.restapi.laundry.entity.WaterTank;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Date;
+
 @Entity
 @Table(name = "tbl_water_supply")
 @ToString
@@ -18,8 +20,8 @@ public class WaterSupply {
     @Column(name = "water_supply_code")
     private int waterSupplyCode;
 
-    @Column(name = "msr_date")
-    private String msrDate;
+    @Column(name = "supply_date")
+    private Date supplyDate;
 
     @Column(name = "site_id")
     private String siteId;
