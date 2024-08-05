@@ -120,6 +120,7 @@ public class WaterService {
 
         WaterTank waterTank = waterTankRepository.findByBranchCode(branchCode);
 
+
         LocalDate today = LocalDate.now();
         int currentYear = today.getYear();
 
@@ -130,7 +131,7 @@ public class WaterService {
         int waterCost = 0;
 
         for(WaterSupply water : result){
-            waterCost += Integer.parseInt(water.getWaterVolume())*52.7;
+            waterCost += Math.round( Integer.parseInt(water.getWaterVolume())*52.7);
         }
 
         return  waterCost+"";
