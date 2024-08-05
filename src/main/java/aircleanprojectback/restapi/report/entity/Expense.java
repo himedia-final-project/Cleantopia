@@ -41,6 +41,9 @@ public class Expense {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") // JSON 직렬화/역직렬화 형식 지정
     private Date expenseSubmissionDate;    // 제출일
 
+    @Column(name = "month_date")
+    private String monthDate;         //월에 쓴 날짜
+
     @Column(name = "expense_report_status", length = 200, nullable = false)
     private String expenseReportStatus = "접수";     // 보고서상태
 
@@ -95,6 +98,12 @@ public class Expense {
         return this;
     }
 
+
+    public Expense monthDate(String monthDate) {
+        this.monthDate = monthDate;
+        return this;
+    }
+
     public Expense expenseReportStatus(String expenseReportStatus) {
         this.expenseReportStatus = expenseReportStatus;
         return this;
@@ -129,6 +138,7 @@ public class Expense {
                 partTimeSalary,
                 repairCost,
                 expenseSubmissionDate,
+                monthDate,
                 expenseReportStatus,
                 totalExpenseCost,
                 memberName,
