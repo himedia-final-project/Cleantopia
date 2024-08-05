@@ -7,10 +7,15 @@ package aircleanprojectback.restapi.facility.service;
 import aircleanprojectback.restapi.branch.dto.FacilityDetailDTO;
 import aircleanprojectback.restapi.branch.entity.FacilityDetail;
 import aircleanprojectback.restapi.branchOrigin.dao.FacilityDetailRepository;
+import aircleanprojectback.restapi.facility.repository.UpdatateWaterTanckRepository;
+import aircleanprojectback.restapi.laundry.dto.WaterTankDTO;
+import aircleanprojectback.restapi.laundry.entity.WaterTank;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 //import org.springframework.ui.Model;
 //
 import java.util.List;
@@ -19,17 +24,16 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class FacilityService {
-//
-//    private final BranchFacilityDetailRepository branchFacilityDetailRepository;
-//
-//    private final FindBranchInfoRepository findBranchInfoRepository;
+
     private final ModelMapper modelMapper;
     private final FacilityDetailRepository facilityDetailRepository;
-//
+    private final UpdatateWaterTanckRepository updatateWaterTanckRepository;
+
     @Autowired
-    public FacilityService(ModelMapper modelMapper, FacilityDetailRepository facilityDetailRepository){
+    public FacilityService(ModelMapper modelMapper, FacilityDetailRepository facilityDetailRepository, UpdatateWaterTanckRepository updatateWaterTanckRepository){
         this.modelMapper = modelMapper;
         this.facilityDetailRepository = facilityDetailRepository;
+        this.updatateWaterTanckRepository = updatateWaterTanckRepository;
     }
 
     public List<FacilityDetailDTO> findFacilityByBranchCode(String branchCode) {
@@ -44,19 +48,17 @@ public class FacilityService {
 
         return facilityList;
     }
-//    public FacilityService(ModelMapper modelMapper, BranchFacilityDetailRepository branchFacilityDetailRepository, FindBranchInfoRepository findBranchInfoRepository) {
-//        this.branchFacilityDetailRepository = branchFacilityDetailRepository;
-//        this.findBranchInfoRepository = findBranchInfoRepository;
-//        this.modelMapper = modelMapper;
-//    }
-//    public List<FacilityDetailDTO> getFacilityDetailInfo(String sub) {
-//
-//        List<String> branchCodesListEntity = findBranchInfoRepository.findBranchCodesByMemberId(sub);
-//
-//        List<FacilityDetail> facilityDetails = branchFacilityDetailRepository.findByBranchCodes(branchCodesListEntity);
-//
-//        return facilityDetails.stream()
-//                .map(facilityDetail -> modelMapper.map(facilityDetail, FacilityDetailDTO.class))
-//                .collect(Collectors.toList());
-//    }
+
+    @Transactional
+    public void saveUpdaterWaterCapacity(WaterTankDTO waterTankDTO) {
+
+        WaterTank waterTank = updatateWaterTanckRepository.findByBranchCode(waterTankDTO.getBranchCode());
+
+        waterTank = waterTank.toBuilder()
+                .waterCurCapacity(waterTankDTO.getWaterCurCapacity())
+                .build();
+
+        updatateWaterTanckRepository.save(waterTank);
+
+    }
 }
