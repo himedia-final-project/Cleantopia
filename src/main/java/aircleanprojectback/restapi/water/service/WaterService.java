@@ -1,6 +1,7 @@
 package aircleanprojectback.restapi.water.service;
 
 import aircleanprojectback.restapi.branch.repository.BranchRepository;
+import aircleanprojectback.restapi.laundry.entity.WaterTank;
 import aircleanprojectback.restapi.member.entity.Branch;
 import aircleanprojectback.restapi.water.dao.WaterRepository;
 import aircleanprojectback.restapi.water.dao.WaterSupplyRepository;
@@ -13,6 +14,8 @@ import aircleanprojectback.restapi.water.entity.WaterSupply;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -108,5 +111,25 @@ public class WaterService {
         WaterSupply waterSupply = waterSupplyDTO.toEntity();
         waterSupplyRepository.save(waterSupply);
 
+    }
+
+    public String findWaterCost(String branchCode, String month) {
+
+        WaterTank waterTank = waterTankRepository.findByBranchCode(branchCode);
+
+        LocalDate today = LocalDate.now();
+        int currentYear = today.getYear();
+
+        List<WaterSupply> result = waterSupplyRepository.findAllByWaterTankNoAnd(currentYear,month,waterTank.getWaterTankNo());
+
+        result.forEach(System.out::println);
+
+        int waterCost = 0;
+
+        for(WaterSupply water : result){
+            waterCost += Integer.parseInt(water.getWaterVolume())*52.7;
+        }
+
+        return  waterCost+"";
     }
 }
