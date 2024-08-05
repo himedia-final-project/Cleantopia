@@ -6,15 +6,13 @@ import aircleanprojectback.restapi.branch.dto.FacilityDetailDTO;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 //import aircleanprojectback.restapi.facility.service.FacilityService;
 import aircleanprojectback.restapi.facility.service.FacilityService;
+import aircleanprojectback.restapi.laundry.dto.WaterTankDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 //
 import java.util.List;
 //
@@ -23,8 +21,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/location")
 public class FacilityController {
-//
-//    private final FacilityService facilityService;
+
     private final FacilityService service;
 //
     public FacilityController(FacilityService service) {
@@ -40,5 +37,19 @@ public class FacilityController {
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"시설물 조회 ",facilityList));
     }
+
+    @Tag(name = "물탱크 수량 업데이트")
+    @PutMapping("/facility/waterTankUpdate")
+    public ResponseEntity<ResponseDTO> updateCurWater(@RequestBody WaterTankDTO waterTankDTO) {
+
+        System.out.println("waterTankDTO" + waterTankDTO);
+
+        service.saveUpdaterWaterCapacity(waterTankDTO);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "수량 업데이트 완료", "수량 업데이트"));
+
+    }
+
+
 
 }
