@@ -116,15 +116,12 @@ public class WaterService {
 
     }
 
-    public String findWaterCost(String branchCode, String month) {
+    public String findWaterCost(String branchCode, String month, String year) {
 
         WaterTank waterTank = waterTankRepository.findByBranchCode(branchCode);
 
 
-        LocalDate today = LocalDate.now();
-        int currentYear = today.getYear();
-
-        List<WaterSupply> result = waterSupplyRepository.findAllByWaterTankNoAnd(currentYear,month,waterTank.getWaterTankNo());
+        List<WaterSupply> result = waterSupplyRepository.findAllByWaterTankNoAnd(Integer.parseInt(year),month,waterTank.getWaterTankNo());
 
         result.forEach(System.out::println);
 
