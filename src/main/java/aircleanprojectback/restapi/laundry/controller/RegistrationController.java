@@ -2,6 +2,9 @@ package aircleanprojectback.restapi.laundry.controller;
 
 
 import aircleanprojectback.restapi.laundry.Message.ResponseMessage;
+import aircleanprojectback.restapi.laundry.dto.LaundryDTO;
+import aircleanprojectback.restapi.laundry.dto.LaundryWayDTO;
+import aircleanprojectback.restapi.laundry.service.RegistrationService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,22 +13,32 @@ import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/registration")
 public class RegistrationController {
 
+    private final RegistrationService registrationService;
+
+    public RegistrationController(RegistrationService registrationService) {
+        this.registrationService = registrationService;
+    }
 
     @PostMapping("registLaundryWay")
     public ResponseEntity<ResponseMessage> updateLaundryStatus(@RequestBody Map<String, Object> payload) {
 
         System.out.println("여기를 확인해주세요");
         System.out.println("payload 너 뭐야?"+payload);
-        
+
+
+
+//        List<LaundryWayDTO> insertSuccess = registrationService.registLaundryWay(payload);
+
 
         Map<String, Object> responseMap = new HashMap<>();
-//        responseMap.put("updateSuccess", updateSuccess);
+//        responseMap.put("insertSuccess", insertSuccess);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
