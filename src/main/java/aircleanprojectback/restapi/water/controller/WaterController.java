@@ -55,10 +55,14 @@ public class WaterController {
     @GetMapping("/water/cost")
     public ResponseEntity<ResponseDTO> waterCost(@RequestParam String branchCode, @RequestParam String month){
         System.out.println("branchCode = " + branchCode);
+//        System.out.println("month = " + month);
+
+        String year = month.split("-")[0];
+        month = month.split("-")[1];
+        System.out.println("year = " + year);
         System.out.println("month = " + month);
 
-
-        String result = waterService.findWaterCost(branchCode,month);
+        String result = waterService.findWaterCost(branchCode,month,year);
 
         Map<String,String> waterCost= new HashMap<>();
 
