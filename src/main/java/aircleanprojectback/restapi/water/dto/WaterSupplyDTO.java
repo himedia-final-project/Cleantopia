@@ -6,10 +6,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.sql.Date;
+
 public class WaterSupplyDTO {
 
     private int waterSupplyCode;
-    private String msrDate;
+    private Date supplyDate;
     private String siteId;
     private String wTemp;
     private String wPh;
@@ -24,9 +26,9 @@ public class WaterSupplyDTO {
     public WaterSupplyDTO() {
     }
 
-    public WaterSupplyDTO(int waterSupplyCode, String msrDate, String siteId, String wTemp, String wPh, String wDo, String wTn, String wTp, String wCn, String wPhen, String waterVolume, String waterTankNo) {
+    public WaterSupplyDTO(int waterSupplyCode, Date supplyDate, String siteId, String wTemp, String wPh, String wDo, String wTn, String wTp, String wCn, String wPhen, String waterVolume, String waterTankNo) {
         this.waterSupplyCode = waterSupplyCode;
-        this.msrDate = msrDate;
+        this.supplyDate = supplyDate;
         this.siteId = siteId;
         this.wTemp = wTemp;
         this.wPh = wPh;
@@ -47,12 +49,12 @@ public class WaterSupplyDTO {
         this.waterSupplyCode = waterSupplyCode;
     }
 
-    public String getMsrDate() {
-        return msrDate;
+    public Date getSupplyDate() {
+        return supplyDate;
     }
 
-    public void setMsrDate(String msrDate) {
-        this.msrDate = msrDate;
+    public void setSupplyDate(Date supplyDate) {
+        this.supplyDate = supplyDate;
     }
 
     public String getSiteId() {
@@ -139,7 +141,7 @@ public class WaterSupplyDTO {
     public String toString() {
         return "WaterSupplyDTO{" +
                 "waterSupplyCode=" + waterSupplyCode +
-                ", msrDate='" + msrDate + '\'' +
+                ", supplyDate=" + supplyDate +
                 ", siteId='" + siteId + '\'' +
                 ", wTemp='" + wTemp + '\'' +
                 ", wPh='" + wPh + '\'' +
@@ -156,7 +158,7 @@ public class WaterSupplyDTO {
     public WaterSupply toEntity() {
         return WaterSupply.builder()
                 .waterSupplyCode(this.waterSupplyCode)
-                .msrDate(this.msrDate)
+                .supplyDate(this.supplyDate)
                 .siteId(this.siteId)
                 .wTemp(this.wTemp)
                 .wPh(this.wPh)

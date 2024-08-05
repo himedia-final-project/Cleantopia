@@ -13,6 +13,8 @@ import aircleanprojectback.restapi.water.entity.WaterSupply;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -68,6 +70,7 @@ public class WaterService {
         return waterCondition;
     }
 
+    // 수급일지 조회
     @Transactional
     public void registWaterSupply(WaterSupplyRequest request) {
 
@@ -92,7 +95,7 @@ public class WaterService {
         // 수급일지 regist
         WaterSupplyDTO waterSupplyDTO = new WaterSupplyDTO();
         waterSupplyDTO.setWaterTankNo(waterTankNo);
-        waterSupplyDTO.setMsrDate(formattedWaterLevel.getMsrDate());
+        waterSupplyDTO.setSupplyDate(Date.valueOf(LocalDate.now()));
         waterSupplyDTO.setSiteId(formattedWaterLevel.getSiteId());
         waterSupplyDTO.setwTemp(formattedWaterLevel.getWTemp());
         waterSupplyDTO.setwPh(formattedWaterLevel.getWPh());
