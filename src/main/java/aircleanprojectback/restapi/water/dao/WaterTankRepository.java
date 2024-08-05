@@ -18,4 +18,5 @@ public interface WaterTankRepository extends JpaRepository<WaterTank, Long> {
     String selectWaterTankNo(@Param("branchCode") String branchCode);
 
 
+    WaterTank findByBranchCode(String branchCode);
 }

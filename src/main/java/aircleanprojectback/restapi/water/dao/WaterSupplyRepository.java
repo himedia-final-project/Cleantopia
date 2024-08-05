@@ -15,5 +15,7 @@ public interface WaterSupplyRepository extends JpaRepository<WaterSupply, Long> 
     @Query(value = "SELECT * FROM tbl_water_supply WHERE water_tank_no = :waterTankNo", nativeQuery = true)
     List<WaterSupply> findByWaterTankNo(@Param("waterTankNo") String waterTankNo);
 
+    @Query(value = "select * from tbl_water_supply where water_tank_no = ?3 and YEAR(supply_date) = ?1 and MONTH(supply_date)=?2",nativeQuery = true)
+    List<WaterSupply> findAllByWaterTankNoAnd(int currentYear, String month, int waterTankNo);
 }
 

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -49,6 +50,21 @@ public class WaterController {
 
         ResponseDTO response = new ResponseDTO(HttpStatus.OK, "급수 완료", true);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/water/cost")
+    public ResponseEntity<ResponseDTO> waterCost(@RequestParam String branchCode, @RequestParam String month){
+        System.out.println("branchCode = " + branchCode);
+        System.out.println("month = " + month);
+
+
+        String result = waterService.findWaterCost(branchCode,month);
+
+        Map<String,String> waterCost= new HashMap<>();
+
+        waterCost.put("waterCost",result);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"상수도 금액",waterCost));
     }
 
 
