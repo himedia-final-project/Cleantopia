@@ -100,7 +100,10 @@ public class RepairService {
             }
         }
 
-        return repairRepository.save(repair);
+        Repair repair1 = repairRepository.save(repair);
+        repairRepository.flush();
+
+        return repair1;
     }
 
 

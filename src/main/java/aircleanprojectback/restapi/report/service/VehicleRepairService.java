@@ -75,7 +75,13 @@ public class VehicleRepairService {
         VehicleRepair vehicleRepair = vehicleRepairRepository.findById(vehicleReportCode)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid vehicleReportCode: " + vehicleReportCode));
         vehicleRepair.setVehicleRepairStatus(vehicleReportStatus);
-        return vehicleRepairRepository.save(vehicleRepair);
+
+        VehicleRepair vehicleRepair1 = vehicleRepairRepository.save(vehicleRepair);
+
+
+
+        return vehicleRepair1;
+
     }
 
 
@@ -113,6 +119,7 @@ public class VehicleRepairService {
         }
 
        vehicleRepairRepository.save(insertVehicleRepair);
+        vehicleRepairRepository.flush();
 
         return "보고서 등록성공";
     }
