@@ -17,5 +17,6 @@ public class MemberModifyDTO {
     private String email;
     private String address;
     private Boolean isPass;
+    private String driverRegion;
 
 }
