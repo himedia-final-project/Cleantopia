@@ -5,6 +5,7 @@ package aircleanprojectback.restapi.facility.controller;
 import aircleanprojectback.restapi.branch.dto.FacilityDetailDTO;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 //import aircleanprojectback.restapi.facility.service.FacilityService;
+import aircleanprojectback.restapi.facility.dto.FacilityDetailOnlyDTO;
 import aircleanprojectback.restapi.facility.service.FacilityService;
 import aircleanprojectback.restapi.laundry.dto.WaterTankDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -49,6 +50,31 @@ public class FacilityController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "수량 업데이트 완료", "수량 업데이트"));
 
     }
+
+    @Tag(name = "시설물 등록하기")
+    @PostMapping("/facility/register")
+    public ResponseEntity<ResponseDTO> registFacility(@RequestBody FacilityDetailOnlyDTO request) {
+
+        System.out.println("시설물 등록 request" + request);
+
+        service.saveRegisterFacility(request);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "시설물 등록 완료", "등록 완료"));
+
+    }
+
+    @Tag(name = "시설물 상태 업데이트")
+    @PutMapping("/facility/update")
+    public ResponseEntity<ResponseDTO> updateFacility(@RequestBody FacilityDetailOnlyDTO request) {
+
+        System.out.println("시설물 업데이트 request" + request);
+
+        service.updateFacilityStatus(request);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "시설물 업데이트 완료", "업데이트 완료"));
+
+    }
+
 
 
 
