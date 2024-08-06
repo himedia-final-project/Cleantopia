@@ -8,6 +8,7 @@ import aircleanprojectback.restapi.laundry.repository.LaundryWayRepository;
 import aircleanprojectback.restapi.laundry.service.GptApiService;
 import jakarta.transaction.Transactional;
 import org.json.JSONObject;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -23,11 +25,17 @@ public class RegistrationService {
     @Autowired
     private GptApiService gptApiService;
 
+    private final ModelMapper modelMapper;
     @Autowired
     private LaundryWayRepository laundryWayRepository;
 
     @Autowired
     private LaundryRepository laundryRepository;
+
+    public RegistrationService(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
 
     @Transactional
     public List<LaundryWayDTO> registLaundryWay(Map<String, Object> payload) throws IOException {
@@ -83,5 +91,14 @@ public class RegistrationService {
         }
 
         return result;
+    }
+
+    public List<LaundryWay> SelectLaundryWay(String branchCode) {
+        List<Integer> laundryCodes = laundryRepository.findLaundryCodesByBranchCode(branchCode);
+        List<LaundryWay> laundryWayList = laundryWayRepository.findByLaundryCodes(laundryCodes);
+
+        System.out.println("service 확인"+laundryWayList);
+
+        return laundryWayList;
     }
 }
