@@ -10,6 +10,7 @@ import java.sql.Date;
 public class VehicleRepairDTO {
     private int vehicleReportCode;              // 본사보고서코드
     private String vehicleReportStatus;         // 보고서상태
+    private String vehicleRepairApprove;        // 승인/반려
     private String beforeVehiclePhoto;          // 수리전사진
     private String afterVehiclePhoto;           // 수리후사진
     private String vehicleRemark;               // 비고
@@ -143,5 +144,13 @@ public class VehicleRepairDTO {
 
     public void setVehicleType(String vehicleType) {
         this.vehicleType = vehicleType;
+    }
+
+    public String getVehicleRepairApprove() {
+        return vehicleRepairApprove;
+    }
+
+    public void setVehicleRepairApprove(String vehicleRepairApprove) {
+        this.vehicleRepairApprove = vehicleRepairApprove;
     }
 }

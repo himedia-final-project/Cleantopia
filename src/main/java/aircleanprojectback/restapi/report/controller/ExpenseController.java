@@ -63,7 +63,7 @@ public class ExpenseController {
     @PutMapping("/company/reports/expenseApprove/{expenseReportCode}")
     public ResponseEntity<ResponseDTO> updateApproveExpense(@PathVariable int expenseReportCode){
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "지출보고서 상태수정 승인", expenseService.updateExpenseState(expenseReportCode, "승인")));
+                .body(new ResponseDTO(HttpStatus.OK, "지출보고서 상태수정 승인", expenseService.updateExpenseState(expenseReportCode, "Y", "Y")));
     }
 
 //     지출보고서 상태수정 - 반려
@@ -71,7 +71,7 @@ public class ExpenseController {
     @PutMapping("/company/reports/expenseReject/{expenseReportCode}")
     public ResponseEntity<ResponseDTO> updateRejectExpense(@PathVariable int expenseReportCode){
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "지출보고서 상태수정 반려성공", expenseService.updateExpenseState(expenseReportCode, "반려")));
+                .body(new ResponseDTO(HttpStatus.OK, "지출보고서 상태수정 반려성공", expenseService.updateExpenseState(expenseReportCode, "R", "N")));
     }
 
     // 등록

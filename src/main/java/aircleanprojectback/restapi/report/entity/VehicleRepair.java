@@ -21,6 +21,9 @@ public class VehicleRepair {
     @Column(name = "vehicle_report_status", length = 200)
     private String vehicleReportStatus;// 보고서상태
 
+    @Column(name = "vehicle_repair_approve")
+    private String vehicleRepairApprove;    // 승인/반려
+
     @Column(name = "before_vehicle_photo", length = 500, nullable = true)
     private String beforeVehiclePhoto; // 수리전사진
 
@@ -70,7 +73,6 @@ public class VehicleRepair {
 
 
     public VehicleRepair() {
-        this.vehicleReportStatus = "접수";
     }
 
     public VehicleRepair vehicleReportCode(String var) {
@@ -80,6 +82,11 @@ public class VehicleRepair {
 
     public VehicleRepair vehicleReportStatus(String var) {
         vehicleReportStatus = var;
+        return this;
+    }
+
+    public VehicleRepair vehicleRepairApprove(String var) {
+        vehicleRepairApprove = var;
         return this;
     }
 
@@ -152,6 +159,7 @@ public class VehicleRepair {
         return new VehicleRepair(
                 this.vehicleReportCode,
                 this.vehicleReportStatus,
+                this.vehicleRepairApprove,
                 this.beforeVehiclePhoto,
                 this.afterVehiclePhoto,
                 this.vehicleRemark,
@@ -167,11 +175,9 @@ public class VehicleRepair {
                 this.carNumber);
     }
 
-//    public void setBeforeVehiclePhoto(String beforeVehiclePhoto) {
-//        this.beforeVehiclePhoto = beforeVehiclePhoto;
-//    }
-//
-//    public void setAfterVehiclePhoto(String afterVehiclePhoto) {
-//        this.afterVehiclePhoto = afterVehiclePhoto;
-//    }
+    public void setVehicleRepairApprove(String vehicleRepairApprove) {
+        this.vehicleRepairApprove = vehicleRepairApprove;
+    }
+
+
 }

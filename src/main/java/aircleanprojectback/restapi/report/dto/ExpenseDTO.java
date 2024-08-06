@@ -21,6 +21,7 @@ public class ExpenseDTO {
     private Date expenseSubmissionDate;     // 제출일
     private String monthDate;                 // 이번달 지출일
     private String expenseReportStatus;     // 보고서상태
+    private String expenseApprove;          // 승인/반려
     private int totalExpenseCost;           // 총지출금액
     private String memberName;              // 지점장
     private String branchName;              // 지점명

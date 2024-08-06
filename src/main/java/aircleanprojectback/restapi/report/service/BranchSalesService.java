@@ -106,11 +106,12 @@ public class BranchSalesService {
 
     // 매출보고서 승인/반려
     @Transactional
-    public BranchSales updateBranchSalesState(int branchReportCode, String branchReportStatus) {
+    public BranchSales updateBranchSalesState(int branchReportCode, String branchReportApprove, String branchReportStatus) {
 
         BranchSales branchSales = branchSalesRepository.findById(branchReportCode)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid branch report code: " + branchReportCode));
         branchSales.setBranchReportStatus(branchReportStatus);
+        branchSales.setBranchReportApprove(branchReportApprove);
          return branchSalesRepository.save(branchSales);
     }
 

@@ -127,11 +127,12 @@ public class RepairService {
     }
 
     // 시설물수리보고서 승인/반려
-    public Repair updateRepairStatus(int repairReportCode, String repairReportStatus) {
+    public Repair updateRepairStatus(int repairReportCode, String repairReportStatus, String repairApprove) {
 
         Repair repair = repairRepository.findById(repairReportCode)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid repairReportCode: " + repairReportCode));
         repair.setRepairReportStatus(repairReportStatus);
+        repair.setRepairApprove(repairApprove);
         return repairRepository.save(repair);
     }
 
