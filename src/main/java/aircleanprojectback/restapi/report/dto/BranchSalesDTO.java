@@ -15,6 +15,7 @@ public class BranchSalesDTO {
     private Date branchSubmissionDate;      // 제출일
     private String officeSales;                // 오프라인매출
     private String branchReportStatus;      // 보고서상태
+    private String branchReportApprove;     // 승인/반려
     private String detergent;               // 세제
     private String fabricSoftener;          // 섬유유연제
     private String bleach;                  // 표백제

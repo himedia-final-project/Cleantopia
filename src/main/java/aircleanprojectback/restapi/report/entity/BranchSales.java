@@ -29,8 +29,11 @@ public class BranchSales {
     @Column(name = "offline_sales", nullable = true)
     private String officeSales;                // 오프라인매출
 
-    @Column(name = "branch_report_status", length = 100, nullable = false)
-    private String branchReportStatus = "접수";      // 보고서상태
+    @Column(name = "branch_report_status", length = 100)
+    private String branchReportStatus ;      // 보고서상태
+
+    @Column(name = "branch_report_approve")
+    private String branchReportApprove;      // 승인/ 반려
 
     @Column(name = "detergent", length = 200, nullable = true)
     private String detergent;               // 세제
@@ -68,7 +71,6 @@ public class BranchSales {
 
     public BranchSales() {
 
-        this.branchReportStatus = "접수";
     }
 
    public  BranchSales branchReportCode(int branchReportCode) {
@@ -88,6 +90,11 @@ public class BranchSales {
 
    public  BranchSales branchReportStatus(String branchReportStatus) {
         this.branchReportStatus = branchReportStatus;
+        return this;
+   }
+
+   public  BranchSales branchReportApprove(String branchReportApprove) {
+        this.branchReportApprove = branchReportApprove;
         return this;
    }
 
@@ -153,6 +160,7 @@ public class BranchSales {
                 branchSubmissionDate,
                 officeSales,
                 branchReportStatus,
+                branchReportApprove,
                 detergent,
                 fabricSoftener,
                 bleach,
@@ -169,5 +177,9 @@ public class BranchSales {
 
     public void setBranchReportStatus(String branchReportStatus) {
         this.branchReportStatus = branchReportStatus;
+    }
+
+    public void setBranchReportApprove(String branchReportApprove) {
+        this.branchReportApprove = branchReportApprove;
     }
 }
