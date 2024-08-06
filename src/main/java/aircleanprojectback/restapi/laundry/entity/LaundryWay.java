@@ -1,5 +1,6 @@
 package aircleanprojectback.restapi.laundry.entity;
 
+import aircleanprojectback.restapi.laundry.entity.Laundry;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,31 +18,26 @@ public class LaundryWay {
     @Column(name = "laundry_way_id")
     private int laundryWayId;
 
-    @OneToOne
+    @ManyToOne // Many-to-One 관계로 설정
     @JoinColumn(name = "laundry_code", referencedColumnName = "laundry_code")
-    private Laundry laundry;
+    private Laundry laundry; // Laundry 엔티티를 참조
 
-    // 세탁시간 int로
     @Column(name = "laundry_time")
-    private int laundryTime;
-
-    // 픽업상태
-    @Column(name = "laundry_pick_up_status")
-    private String laundryPickUpStatus;
+    private String laundryTime;
 
     // 세제량
     @Column(name = "laundry_detergent_amount")
-    private int laundryDetergentAmount;
+    private String laundryDetergentAmount;
 
     // 세탁용 물량
     @Column(name = "laundry_water_amount")
-    private int laundryWaterAmount;
+    private String laundryWaterAmount;
 
     // 건조 시간
     @Column(name = "laundry_drying_time")
-    private int laundryDryingTime;
+    private String laundryDryingTime;
 
     // 드라이클리닝 시간
     @Column(name = "laundry_dry_cleaning_time")
-    private int laundryDryCleaningTime;
+    private String laundryDryCleaningTime;
 }
