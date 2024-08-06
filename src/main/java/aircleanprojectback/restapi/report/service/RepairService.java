@@ -1,7 +1,9 @@
 package aircleanprojectback.restapi.report.service;
 
 import aircleanprojectback.restapi.common.dto.Criteria;
+import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.dto.RepairDTO;
+import aircleanprojectback.restapi.report.entity.BranchSales;
 import aircleanprojectback.restapi.report.entity.Expense;
 import aircleanprojectback.restapi.report.entity.Repair;
 import aircleanprojectback.restapi.report.repository.RepairRepository;
@@ -50,7 +52,17 @@ public class RepairService {
         return repairDTO;
     }
 
-    // 지점 수리보고서 세부조회
+    // 시설물보고서 필터링 전체조회
+    public Page<RepairDTO> findRepairMemberName(Criteria repairCriteriaMemberName, String memberName) {
+
+        Pageable repairMemberNamePageable = PageRequest.of(repairCriteriaMemberName.getPageNum() -1, repairCriteriaMemberName.getAmount());
+        Page<Repair> repairMemberNameList = repairRepository.findByMemberName(memberName, repairMemberNamePageable);
+        Page<RepairDTO> repairMemberNameDTO = repairMemberNameList.map(repair -> modelMapper.map(repair, RepairDTO.class));
+
+        return repairMemberNameDTO;
+    }
+
+    // 시설물수리보고서 세부조회
     public RepairDTO FindRepairByReportCode(int repairReportCode) {
 
         Repair repair = repairRepository.findById(repairReportCode).get();
@@ -122,6 +134,7 @@ public class RepairService {
         repair.setRepairReportStatus(repairReportStatus);
         return repairRepository.save(repair);
     }
+
 
 
 }

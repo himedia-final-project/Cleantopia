@@ -38,6 +38,20 @@ public class BranchSalesController {
         return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회성공", branchSales));
     }
 
+    // 매출보고서 필터링 조회
+    @GetMapping("/location/branch-sales")
+    public ResponseEntity<ResponseDTO> locationBranchSales(@RequestParam(defaultValue = "1") String offset,
+                                                           @RequestParam String memberName) {
+        Criteria branchSalesCriteriaMemberName = new Criteria();
+        branchSalesCriteriaMemberName.setPageNum(Integer.parseInt(offset));
+        branchSalesCriteriaMemberName.setAmount(6);
+        Page<BranchSalesDTO> branchSalesMemberName = branchSalesService.findBranchSalesMemberName(branchSalesCriteriaMemberName,memberName);
+
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK,"필터링조회 완료", branchSalesMemberName));
+
+    }
+
     // /company 매출보고서 세부조회
     @GetMapping("/company/{branchCode}/detailBranch")
     public ResponseEntity<ResponseDTO> selectBranchSalesByBranchCode(@PathVariable int branchCode) {
