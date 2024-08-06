@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
@@ -27,14 +28,12 @@ public class RegistrationController {
     }
 
     @PostMapping("registLaundryWay")
-    public ResponseEntity<ResponseMessage> updateLaundryStatus(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<ResponseMessage> updateLaundryStatus(@RequestBody Map<String, Object> payload) throws IOException {
 
         System.out.println("여기를 확인해주세요");
-        System.out.println("payload 너 뭐야?"+payload);
+//        System.out.println("payload 너 뭐야?"+payload);
 
-
-
-//        List<LaundryWayDTO> insertSuccess = registrationService.registLaundryWay(payload);
+        List<LaundryWayDTO> insertSuccess = registrationService.registLaundryWay(payload);
 
 
         Map<String, Object> responseMap = new HashMap<>();
