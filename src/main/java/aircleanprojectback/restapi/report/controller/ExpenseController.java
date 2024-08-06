@@ -2,6 +2,7 @@ package aircleanprojectback.restapi.report.controller;
 
 import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
+import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.dto.ExpenseDTO;
 import aircleanprojectback.restapi.report.service.ExpenseService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,20 @@ public class ExpenseController {
 
         return ResponseEntity.ok()
                 .body(new ResponseDTO(HttpStatus.OK, "매출보고서 조회에 성공하셨습니다", expense));
+    }
+
+    // 지출보고서 필터링조회
+    @GetMapping("/location/expense")
+    public ResponseEntity<ResponseDTO> locationExpense(@RequestParam(defaultValue = "1") String offset,
+                                                           @RequestParam String memberName) {
+        Criteria expenseCriteriaMemberName = new Criteria();
+        expenseCriteriaMemberName.setPageNum(Integer.parseInt(offset));
+        expenseCriteriaMemberName.setAmount(6);
+        Page<ExpenseDTO> expenseMemberName = expenseService.findExpenseMemberName(expenseCriteriaMemberName,memberName);
+
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK,"필터링조회 완료", expenseMemberName));
+
     }
 
     // 지출보고서 상세조회
