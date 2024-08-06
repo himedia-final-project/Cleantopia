@@ -3,7 +3,9 @@ package aircleanprojectback.restapi.member.service;
 import aircleanprojectback.restapi.branch.repository.BranchRepository;
 import aircleanprojectback.restapi.car.dto.CarDTO;
 import aircleanprojectback.restapi.car.dto.DriverDTO;
+import aircleanprojectback.restapi.car.entity.Car;
 import aircleanprojectback.restapi.car.entity.Driver;
+import aircleanprojectback.restapi.car.repository.CarRepository;
 import aircleanprojectback.restapi.car.repository.DriverRepository;
 import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.member.dto.*;
@@ -41,6 +43,7 @@ public class HumanResourceService {
     private final DriverAndCarRepository driverAndCarRepository;
     private final DriverCountRepository driverCountRepository;
     private final DriverRepository driverRepository;
+    private final CarRepository carRepository;
 
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
@@ -54,7 +57,8 @@ public class HumanResourceService {
     public HumanResourceService(MembersAndEmployeeRepository repository, ModelMapper modelMapper,MemberRepository memberRepository,PasswordEncoder passwordEncoder
     ,BranchRepository branchRepository, OwnerRepository ownerRepository
     ,MemberAndDriverRepository memberAndDriverRepository, DriverAndCarRepository driverAndCarRepository,DriverCountRepository driverCountRepository
-    ,DriverRepository driverRepository){
+    ,DriverRepository driverRepository,CarRepository carRepository){
+        this.carRepository = carRepository;
         this.driverRepository = driverRepository;
         this.driverCountRepository=driverCountRepository;
         this.memberRepository = memberRepository;
@@ -409,7 +413,13 @@ public class HumanResourceService {
 
         Page<Members> result = memberRepository.findAllByMemberRoleAndMemberStatus("b","N",pageable);
 
-        return result.map(r->modelMapper.map(r,MemberDTO.class));
+        Page<MemberDTO> members = result.map(r->modelMapper.map(r,MemberDTO.class));
+
+        for(int i =0 ;i<members.toList().size() ;i++){
+            members.toList().get(i).setMemberImage(IMAGE_URL+members.toList().get(i).getMemberImage());
+        }
+
+        return members;
     }
 
     public BranchOwnerDTO findOwnBranchByMemberId(String memberId) {
@@ -474,12 +484,13 @@ public class HumanResourceService {
 
         Pageable pageable = PageRequest.of(cri.getPageNum()-1,cri.getAmount());
 
-        Page<MemberAndDriver> result = memberAndDriverRepository.findAllByMemberStatus("N",pageable);
+        Page<MemberAndDriver> result = memberAndDriverRepository.findAllByMemberStatusAndMemberRole("N","d",pageable);
 
         Page<MemberAndDriverDTO> driverList = result.map(driver->modelMapper.map(driver,MemberAndDriverDTO.class));
 
-
-
+        for(int i =0 ;i<driverList.toList().size() ;i++){
+            driverList.toList().get(i).setMemberImage(IMAGE_URL+driverList.toList().get(i).getMemberImage());
+        }
         System.out.println("삭제가능 차량기사 " +result.getContent());
 
         return driverList;
@@ -538,25 +549,103 @@ public class HumanResourceService {
 
     }
 
-//    public Page<DriverDTO> findAllDriver(Criteria cri) {
-//
-//        Pageable pageable = PageRequest.of(cri.getPageNum()-1,cri.getAmount());
-//
-////        Page<Driver> result = driverRepository.findAllByMemberStatusAndMemberRole("Y","d",pageable);
-//
-////        Page<Driver> result = driverRepository.findAllByMembersMemberStatusAndMembersMemberRole("Y","d",pageable);
-////        System.out.println("잘 들어 왔을가요 ? "+result.getContent());
-//
-//        return null;
-//    }
+    @Transactional
+    public void modifyBranchManagerInfo(String memberId, MemberModifyDTO memberModifyDTO, MultipartFile image) {
 
-//    public Page<BranchOwnerDTO> getBranchWithN(Criteria cri) {
-//
-//        int index = cri.getPageNum()-1;
-//        int count = cri.getAmount();
-//
-//        Pageable pageable = PageRequest.of(index,count);
-//
-//        Page<BranchOwner> result = ownerRepository.findAllByMemberStatusAndMemberRole("N","b",pageable);
-//    }
+        Members member = memberRepository.findByMemberId(memberId);
+
+        String imageName = UUID.randomUUID().toString().replace("-","");
+        String replaceFileName = null;
+        int result = 0;
+        if(image!=null){
+            try{
+
+                System.out.println("이미지 있는가?");
+                replaceFileName = FileUploadUtils.saveFile(IMAGE_DIR,imageName,image);
+
+                member.memberImage(replaceFileName);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        MemberDTO memberDTO = new MemberDTO();
+        if(memberModifyDTO.getIsPass()){
+            String newPass = RandomStringGenerator.getPassword();
+            System.out.println("newPass = " + newPass);
+            member.memberPassword(passwordEncoder.encode(newPass)).builder();
+        }
+        if(memberModifyDTO.getMemberName()!=null){
+            member.memberName(memberModifyDTO.getMemberName()).builder();
+        }
+        if(memberModifyDTO.getEmail()!=null){
+            member.memberEmail(memberModifyDTO.getEmail()).builder();
+        }
+        if(memberModifyDTO.getPhone()!=null){
+            member.memberPhoneNumber(memberModifyDTO.getPhone()).builder();
+        }
+        if(memberModifyDTO.getAddress()!=null){
+            member.memberAddress(memberModifyDTO.getAddress()).builder();
+        }
+
+        memberRepository.save(member);
+
+
+        System.out.println("member = " + member);
+
+    }
+
+    @Transactional
+    public void modifyDriverInfo(String memberId, MemberModifyDTO memberModifyDTO, MultipartFile image) {
+
+        Members member = memberRepository.findByMemberId(memberId);
+
+        Driver driver = driverRepository.findByMemberId(memberId);
+
+
+        String imageName = UUID.randomUUID().toString().replace("-","");
+        String replaceFileName = null;
+        int result = 0;
+        if(image!=null){
+            try{
+
+                System.out.println("이미지 있는가?");
+                replaceFileName = FileUploadUtils.saveFile(IMAGE_DIR,imageName,image);
+
+                member.memberImage(replaceFileName);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if(memberModifyDTO.getMemberName()!=null){
+            member.memberName(memberModifyDTO.getMemberName()).builder();
+        }
+        if(memberModifyDTO.getEmail()!=null){
+            member.memberEmail(memberModifyDTO.getEmail()).builder();
+        }
+        if(memberModifyDTO.getPhone()!=null){
+            member.memberPhoneNumber(memberModifyDTO.getPhone()).builder();
+        }
+        if(memberModifyDTO.getAddress()!=null){
+            member.memberAddress(memberModifyDTO.getAddress()).builder();
+        }
+
+        if(memberModifyDTO.getDriverRegion()!=null){
+            driver.driverRegion(memberModifyDTO.getDriverRegion());
+        }
+
+        System.out.println("member = " + member);
+        System.out.println("driver = " + driver);
+
+        memberRepository.save(member);
+        memberRepository.flush();
+        driverRepository.save(driver);
+        driverRepository.flush();
+
+
+
+    }
+
+
 }
