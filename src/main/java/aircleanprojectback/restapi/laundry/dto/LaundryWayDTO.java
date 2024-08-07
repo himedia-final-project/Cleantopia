@@ -4,21 +4,19 @@ public class LaundryWayDTO {
 
     private int laundryWayId;
     private int laundryCode;
-    private int laundryTime;
-    private String laundryPickUpStatus;
-    private int laundryDetergentAmount;
-    private int laundryWaterAmount;
-    private int laundryDryingTime;
-    private int laundryDryCleaningTime;
+    private String laundryTime;
+    private String laundryDetergentAmount;
+    private String laundryWaterAmount;
+    private String laundryDryingTime;
+    private String laundryDryCleaningTime;
 
     public LaundryWayDTO() {
     }
 
-    public LaundryWayDTO(int laundryWayId, int laundryCode, int laundryTime, String laundryPickUpStatus, int laundryDetergentAmount, int laundryWaterAmount, int laundryDryingTime, int laundryDryCleaningTime) {
+    public LaundryWayDTO(int laundryWayId, int laundryCode, String laundryTime, String laundryDetergentAmount, String laundryWaterAmount, String laundryDryingTime, String laundryDryCleaningTime) {
         this.laundryWayId = laundryWayId;
         this.laundryCode = laundryCode;
         this.laundryTime = laundryTime;
-        this.laundryPickUpStatus = laundryPickUpStatus;
         this.laundryDetergentAmount = laundryDetergentAmount;
         this.laundryWaterAmount = laundryWaterAmount;
         this.laundryDryingTime = laundryDryingTime;
@@ -33,7 +31,7 @@ public class LaundryWayDTO {
         this.laundryWayId = laundryWayId;
     }
 
-    public int getLaundryCode() {
+    public long getLaundryCode() {
         return laundryCode;
     }
 
@@ -41,51 +39,43 @@ public class LaundryWayDTO {
         this.laundryCode = laundryCode;
     }
 
-    public int getLaundryTime() {
+    public String getLaundryTime() {
         return laundryTime;
     }
 
-    public void setLaundryTime(int laundryTime) {
+    public void setLaundryTime(String laundryTime) {
         this.laundryTime = laundryTime;
     }
 
-    public String getLaundryPickUpStatus() {
-        return laundryPickUpStatus;
-    }
-
-    public void setLaundryPickUpStatus(String laundryPickUpStatus) {
-        this.laundryPickUpStatus = laundryPickUpStatus;
-    }
-
-    public int getLaundryDetergentAmount() {
+    public String getLaundryDetergentAmount() {
         return laundryDetergentAmount;
     }
 
-    public void setLaundryDetergentAmount(int laundryDetergentAmount) {
+    public void setLaundryDetergentAmount(String laundryDetergentAmount) {
         this.laundryDetergentAmount = laundryDetergentAmount;
     }
 
-    public int getLaundryWaterAmount() {
+    public String getLaundryWaterAmount() {
         return laundryWaterAmount;
     }
 
-    public void setLaundryWaterAmount(int laundryWaterAmount) {
+    public void setLaundryWaterAmount(String laundryWaterAmount) {
         this.laundryWaterAmount = laundryWaterAmount;
     }
 
-    public int getLaundryDryingTime() {
+    public String getLaundryDryingTime() {
         return laundryDryingTime;
     }
 
-    public void setLaundryDryingTime(int laundryDryingTime) {
+    public void setLaundryDryingTime(String laundryDryingTime) {
         this.laundryDryingTime = laundryDryingTime;
     }
 
-    public int getLaundryDryCleaningTime() {
+    public String getLaundryDryCleaningTime() {
         return laundryDryCleaningTime;
     }
 
-    public void setLaundryDryCleaningTime(int laundryDryCleaningTime) {
+    public void setLaundryDryCleaningTime(String laundryDryCleaningTime) {
         this.laundryDryCleaningTime = laundryDryCleaningTime;
     }
 
@@ -94,12 +84,11 @@ public class LaundryWayDTO {
         return "LaundryWayDTO{" +
                 "laundryWayId=" + laundryWayId +
                 ", laundryCode=" + laundryCode +
-                ", laundryTime=" + laundryTime +
-                ", laundryPickUpStatus='" + laundryPickUpStatus + '\'' +
-                ", laundryDetergentAmount=" + laundryDetergentAmount +
-                ", laundryWaterAmount=" + laundryWaterAmount +
-                ", laundryDryingTime=" + laundryDryingTime +
-                ", laundryDryCleaningTime=" + laundryDryCleaningTime +
+                ", laundryTime='" + laundryTime + '\'' +
+                ", laundryDetergentAmount='" + laundryDetergentAmount + '\'' +
+                ", laundryWaterAmount='" + laundryWaterAmount + '\'' +
+                ", laundryDryingTime='" + laundryDryingTime + '\'' +
+                ", laundryDryCleaningTime='" + laundryDryCleaningTime + '\'' +
                 '}';
     }
 }

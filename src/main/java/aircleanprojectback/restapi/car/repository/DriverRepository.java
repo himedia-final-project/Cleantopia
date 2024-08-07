@@ -7,10 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DriverRepository extends JpaRepository<Driver, String> {
+public interface DriverRepository extends JpaRepository<Driver, Long> {
 
 
     List<Driver> findAllByAssignCar(String n);
-
-    Driver findByMemberId(String memberId);
 }

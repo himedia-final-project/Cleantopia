@@ -49,11 +49,12 @@ public class FacilityService {
         this.facilityDetailOnlyRepository = facilityDetailOnlyRepository;
         this.facilityLaundryRepository = facilityLaundryRepository;
         this.facilityLaundryWayRepository = facilityLaundryWayRepository;
+
     }
 
     public List<FacilityDetailDTO> findFacilityByBranchCode(String branchCode) {
 
-        List<FacilityDetail> result = facilityDetailRepository.findAllByBranchBranchCodeAndStatus(branchCode);
+        List<FacilityDetail> result = facilityDetailRepository.findAllByBranchBranchCode(branchCode);
 
         result.forEach(System.out::println);
 
@@ -114,4 +115,5 @@ public class FacilityService {
 
 
     }
+
 }

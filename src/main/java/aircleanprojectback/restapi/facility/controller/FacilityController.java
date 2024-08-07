@@ -5,7 +5,6 @@ package aircleanprojectback.restapi.facility.controller;
 import aircleanprojectback.restapi.branch.dto.FacilityDetailDTO;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 //import aircleanprojectback.restapi.facility.service.FacilityService;
-import aircleanprojectback.restapi.facility.dto.FacilityDetailOnlyDTO;
 import aircleanprojectback.restapi.facility.service.FacilityService;
 import aircleanprojectback.restapi.laundry.dto.LaundryWayDTO;
 import aircleanprojectback.restapi.laundry.dto.WaterTankDTO;
@@ -85,8 +84,5 @@ public class FacilityController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "시설 도출된 세탁정보 조회 완료", "도출된 데이터 조회 완료"));
 
     }
-
-
-
 
 }

@@ -2,7 +2,6 @@ package aircleanprojectback.restapi.report.controller;
 
 import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
-import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.dto.RepairDTO;
 import aircleanprojectback.restapi.report.entity.Repair;
 import aircleanprojectback.restapi.report.service.RepairService;
@@ -40,20 +39,6 @@ public class RepairController {
 
         return ResponseEntity.ok()
                 .body(new ResponseDTO(HttpStatus.OK, "지점 수리보고서 전체 조회", repairDTO));
-    }
-
-    // 시설물수리보고서 필터링 조회
-    @GetMapping("/location/repair")
-    public ResponseEntity<ResponseDTO> repairMemberName(@RequestParam(defaultValue = "1") String offset,
-                                                           @RequestParam String memberName) {
-        Criteria repairCriteriaMemberName = new Criteria();
-        repairCriteriaMemberName.setPageNum(Integer.parseInt(offset));
-        repairCriteriaMemberName.setAmount(6);
-        Page<RepairDTO> repairMemberName = repairService.findRepairMemberName(repairCriteriaMemberName,memberName);
-
-        return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK,"필터링조회 완료", repairMemberName));
-
     }
 
     // 지점 수리보고서 세부조회

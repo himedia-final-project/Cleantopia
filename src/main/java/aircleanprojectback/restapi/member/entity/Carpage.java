@@ -15,13 +15,13 @@ import java.sql.Date;
 @ToString
 public class Carpage  {
     @Id
-    @Column(name = "car_number", nullable = false, length = 500)
+    @Column(name = "car_number",  length = 500)
     private String carNumber;
 
     @Column(name = "driver_license_number", length = 50)
     private String driverLicenseNumber;
 
-    @Column(name = "car_photo", nullable = false, length = 255)
+    @Column(name = "car_photo",  length = 255)
     private String carPhoto;
 
     @Column(name = "car_front_image")
@@ -29,7 +29,7 @@ public class Carpage  {
     @Column(name = "car_rear_image")
     private String carRearImage;
 
-    @Column(name = "car_assigned_status", nullable = false, length = 200)
+    @Column(name = "car_assigned_status",  length = 200)
     private String carAssignedStatus;
 
 

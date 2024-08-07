@@ -1,9 +1,7 @@
 package aircleanprojectback.restapi.report.service;
 
 import aircleanprojectback.restapi.common.dto.Criteria;
-import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.dto.ExpenseDTO;
-import aircleanprojectback.restapi.report.entity.BranchSales;
 import aircleanprojectback.restapi.report.entity.Expense;
 import aircleanprojectback.restapi.report.repository.ExpenseRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -40,18 +38,18 @@ public class ExpenseService {
         return expenseDTO;
     }
 
-    // 지출보고서 필터링 전체조회
-    public Page<ExpenseDTO> findExpenseMemberName(Criteria expenseCriteriaMemberName, String memberName) {
 
-        Pageable expenseMemberNamePageable = PageRequest.of(expenseCriteriaMemberName.getPageNum() -1, expenseCriteriaMemberName.getAmount());
-        Page<Expense> expenseMemberNameList = expenseRepository.findByMemberName(memberName, expenseMemberNamePageable);
-        Page<ExpenseDTO> expenseDTOMemberNameDTO = expenseMemberNameList.map(expense -> modelMapper.map(expense, ExpenseDTO.class));
+//    public List<ExpenseDTO> getAllExpense() {
+//
+//        List<Expense> expenses = expenseRepository.findAll();
+//        List<ExpenseDTO> expenseDTOList = expenses.stream()
+//                .map(expense -> modelMapper.map(expense, ExpenseDTO.class))
+//                .collect(Collectors.toList());
+//
+//        return expenseDTOList;
+//
+//    }
 
-        return expenseDTOMemberNameDTO;
-
-    }
-
-    // 지출보고서 세부조회
     public ExpenseDTO detailExpenseReports(int expenseReportCode) {
         Expense expense = expenseRepository.findById(expenseReportCode).get();
         ExpenseDTO expenseDTO = modelMapper.map(expense, ExpenseDTO.class);
