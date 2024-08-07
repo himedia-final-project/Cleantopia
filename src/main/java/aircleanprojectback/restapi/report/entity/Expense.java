@@ -62,6 +62,9 @@ public class Expense {
     @Column(name = "branch_code", length = 200, nullable = true)
     private String branchCode;              // 지점코드
 
+    @Column(name = "expense_remark")
+    private String expenseRemark;           // 비고
+
     public Expense() {
 
     }
@@ -137,6 +140,11 @@ public class Expense {
         return this;
     }
 
+    public Expense expenseRemark(String expenseRemark) {
+        this.expenseRemark = expenseRemark;
+        return this;
+    }
+
     public Expense build(){
         return new Expense(
                 expenseReportCode,
@@ -152,7 +160,8 @@ public class Expense {
                 totalExpenseCost,
                 memberName,
                 branchName,
-                branchCode
+                branchCode,
+                expenseRemark
         );
     }
 

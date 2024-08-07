@@ -34,16 +34,16 @@ public class VehicleRepair {
     private String vehicleRemark; // 비고
 
     @Column(name = "vehicle_fuel_cost", nullable = true)
-    private String vehicleFuelCost; // 주유비
+    private int vehicleFuelCost; // 주유비
 
     @Column(name = "vehicle_regular_inspection", length = 200, nullable = true)
-    private String vehicleRegularInspection; // 정기점검
+    private int vehicleRegularInspection; // 정기점검
 
     @Column(name = "vehicle_vehicle_repair_cost", nullable = true)
-    private String vehicleVehicleRepairCost; // 수리비
+    private int vehicleVehicleRepairCost; // 수리비
 
     @Column(name = "vehicle_miscellaneous", length = 200, nullable = true)
-    private String vehicleMiscellaneous; // 기타
+    private int vehicleMiscellaneous; // 기타
 
     @Column(name = "vehicle_type", length = 100)
     private String vehicleType; // 종류 컬럼 추가
@@ -105,22 +105,22 @@ public class VehicleRepair {
         return this;
     }
 
-    public VehicleRepair vehicleFuelCost(String var) {
+    public VehicleRepair vehicleFuelCost(int var) {
         vehicleFuelCost = var;
         return this;
     }
 
-    public VehicleRepair vehicleRegularInspection(String var) {
+    public VehicleRepair vehicleRegularInspection(int var) {
         vehicleRegularInspection = var;
         return this;
     }
 
-    public VehicleRepair vehicleVehicleRepairCost(String var) {
+    public VehicleRepair vehicleVehicleRepairCost(int var) {
         vehicleVehicleRepairCost = var;
         return this;
     }
 
-    public VehicleRepair vehicleMiscellaneous(String var) {
+    public VehicleRepair vehicleMiscellaneous(int var) {
         vehicleMiscellaneous = var;
         return this;
     }
