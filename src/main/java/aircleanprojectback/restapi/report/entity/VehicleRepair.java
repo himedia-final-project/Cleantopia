@@ -21,9 +21,6 @@ public class VehicleRepair {
     @Column(name = "vehicle_report_status", length = 200)
     private String vehicleReportStatus;// 보고서상태
 
-    @Column(name = "vehicle_repair_approve")
-    private String vehicleRepairApprove;    // 승인/반려
-
     @Column(name = "before_vehicle_photo", length = 500, nullable = true)
     private String beforeVehiclePhoto; // 수리전사진
 
@@ -34,16 +31,16 @@ public class VehicleRepair {
     private String vehicleRemark; // 비고
 
     @Column(name = "vehicle_fuel_cost", nullable = true)
-    private int vehicleFuelCost; // 주유비
+    private String vehicleFuelCost; // 주유비
 
     @Column(name = "vehicle_regular_inspection", length = 200, nullable = true)
-    private int vehicleRegularInspection; // 정기점검
+    private String vehicleRegularInspection; // 정기점검
 
     @Column(name = "vehicle_vehicle_repair_cost", nullable = true)
-    private int vehicleVehicleRepairCost; // 수리비
+    private String vehicleVehicleRepairCost; // 수리비
 
     @Column(name = "vehicle_miscellaneous", length = 200, nullable = true)
-    private int vehicleMiscellaneous; // 기타
+    private String vehicleMiscellaneous; // 기타
 
     @Column(name = "vehicle_type", length = 100)
     private String vehicleType; // 종류 컬럼 추가
@@ -73,6 +70,7 @@ public class VehicleRepair {
 
 
     public VehicleRepair() {
+        this.vehicleReportStatus = "접수";
     }
 
     public VehicleRepair vehicleReportCode(String var) {
@@ -82,11 +80,6 @@ public class VehicleRepair {
 
     public VehicleRepair vehicleReportStatus(String var) {
         vehicleReportStatus = var;
-        return this;
-    }
-
-    public VehicleRepair vehicleRepairApprove(String var) {
-        vehicleRepairApprove = var;
         return this;
     }
 
@@ -105,22 +98,22 @@ public class VehicleRepair {
         return this;
     }
 
-    public VehicleRepair vehicleFuelCost(int var) {
+    public VehicleRepair vehicleFuelCost(String var) {
         vehicleFuelCost = var;
         return this;
     }
 
-    public VehicleRepair vehicleRegularInspection(int var) {
+    public VehicleRepair vehicleRegularInspection(String var) {
         vehicleRegularInspection = var;
         return this;
     }
 
-    public VehicleRepair vehicleVehicleRepairCost(int var) {
+    public VehicleRepair vehicleVehicleRepairCost(String var) {
         vehicleVehicleRepairCost = var;
         return this;
     }
 
-    public VehicleRepair vehicleMiscellaneous(int var) {
+    public VehicleRepair vehicleMiscellaneous(String var) {
         vehicleMiscellaneous = var;
         return this;
     }
@@ -159,7 +152,6 @@ public class VehicleRepair {
         return new VehicleRepair(
                 this.vehicleReportCode,
                 this.vehicleReportStatus,
-                this.vehicleRepairApprove,
                 this.beforeVehiclePhoto,
                 this.afterVehiclePhoto,
                 this.vehicleRemark,
@@ -175,9 +167,11 @@ public class VehicleRepair {
                 this.carNumber);
     }
 
-    public void setVehicleRepairApprove(String vehicleRepairApprove) {
-        this.vehicleRepairApprove = vehicleRepairApprove;
-    }
-
-
+//    public void setBeforeVehiclePhoto(String beforeVehiclePhoto) {
+//        this.beforeVehiclePhoto = beforeVehiclePhoto;
+//    }
+//
+//    public void setAfterVehiclePhoto(String afterVehiclePhoto) {
+//        this.afterVehiclePhoto = afterVehiclePhoto;
+//    }
 }

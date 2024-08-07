@@ -50,6 +50,15 @@ public class VehicleRepairService {
         return vehicleRepairDTO;
     }
 
+//    public List<VehicleRepairDTO> getAllVehicleRepair() {
+//
+//        List<VehicleRepair> vehicleRepairs = vehicleRepairRepository.findAll();
+//        List<VehicleRepairDTO> vehicleRepairDTOList = vehicleRepairs.stream()
+//                .map(vehicleRepair -> modelMapper.map(vehicleRepair, VehicleRepairDTO.class))
+//                .collect(Collectors.toList());
+//
+//        return vehicleRepairDTOList;
+//    }
 
     // 차량보고서 세부조회
     public VehicleRepairDTO detailVehicleRepair(int vehicleReportCode) {
@@ -60,13 +69,12 @@ public class VehicleRepairService {
 
     }
 
-    // 차량보고서 승인/ 반려
-    public VehicleRepair updateVehicleRepairStatus(int vehicleReportCode, String vehicleReportStatus, String vehicleRepairApprove) {
+    // 차량보고서 수정
+    public VehicleRepair updateVehicleRepairStatus(int vehicleReportCode, String vehicleReportStatus) {
 
         VehicleRepair vehicleRepair = vehicleRepairRepository.findById(vehicleReportCode)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid vehicleReportCode: " + vehicleReportCode));
         vehicleRepair.setVehicleRepairStatus(vehicleReportStatus);
-        vehicleRepair.setVehicleRepairApprove(vehicleRepairApprove);
 
         VehicleRepair vehicleRepair1 = vehicleRepairRepository.save(vehicleRepair);
 

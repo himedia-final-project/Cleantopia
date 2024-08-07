@@ -2,6 +2,7 @@
 package aircleanprojectback.restapi.car.controller;
 
 import aircleanprojectback.restapi.car.dto.CarAndDriverDTO;
+import aircleanprojectback.restapi.car.dto.CarDTO;
 import aircleanprojectback.restapi.car.dto.DriverDTO;
 import aircleanprojectback.restapi.car.dto.MemberNameAndDriverDTO;
 import aircleanprojectback.restapi.car.service.CarService;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class CarController {
     public ResponseEntity<ResponseDTO> selectCarList(@RequestParam(defaultValue = "1") String offset) {
         Criteria criteria = new Criteria();
         criteria.setPageNum(Integer.parseInt(offset));
-        criteria.setAmount(6);
+        criteria.setAmount(5);
         Page<CarAndDriverDTO> carList = carService.findAllCarWithPage(criteria);
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회 성공", carList));
     }
@@ -48,6 +50,26 @@ public class CarController {
 
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"배정안된 차량기사",driverList));
+    }
+
+    @PostMapping("car")
+    public ResponseEntity<ResponseDTO> insertCar(@ModelAttribute CarDTO carDTO , MultipartFile photo1 , MultipartFile photo2){
+        System.out.println("carDTO = " + carDTO);
+        System.out.println("photo1 = " + photo1.getOriginalFilename());
+        System.out.println("photo2 = " + photo2.getOriginalFilename());
+
+        CarDTO newCar = carService.insertCar(carDTO,photo1,photo2);
+
+        return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"차량등록 성공",newCar));
+    }
+
+    @DeleteMapping("car")
+    public ResponseEntity<ResponseDTO> deleteCar(@RequestBody List<String> selectedCars){
+        selectedCars.forEach(System.out::println);
+
+        carService.deleteAll(selectedCars);
+
+        return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"차량삭제 성공",selectedCars));
     }
 
 //    @PostMapping("/company/assignDriver")

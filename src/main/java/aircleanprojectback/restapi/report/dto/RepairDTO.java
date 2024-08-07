@@ -15,16 +15,14 @@ public class RepairDTO {
     private int repairReportCode;                 // 본사수리보고서코드
     private Date repairSubmissionDate;            // 보고서 제출일
     private String repairReportStatus;            // 보고서상태
-    private String repairApprove;                 // 승인/반려
     private String repairContent;                 // 내용
     private int facilityCount;                    // 시설물갯수
     private int facilityCode;                     // 시설물코드
     private String memberName;                    // 지점장
     private String branchName;                    // 지점명
     private  String branchCode;                   // 지점코드
-    private String facilityType;                  // 시설물 종류
-    private String repairPhoto;                   // 첨부사진
-    private String branchRemark;                  //비고
+    private String facilityType;
+    private String repairPhoto;
 
     public int getRepairReportCode() {
         return repairReportCode;
@@ -113,19 +111,4 @@ public class RepairDTO {
     public void setRepairPhoto(String repairPhoto) {
         this.repairPhoto = repairPhoto;
     }
-
-    public String getRepairApprove() {
-        return repairApprove;
-    }
-
-    public void setRepairApprove(String repairApprove) {
-        this.repairApprove = repairApprove;
-    }
-
-    public String getBranchRemark() { return branchRemark; }
-
-    public void setBranchRemark(String branchRemark) { this.branchRemark = branchRemark; }
-
 }
-
-
