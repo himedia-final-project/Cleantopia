@@ -7,6 +7,7 @@ import aircleanprojectback.restapi.common.dto.ResponseDTO;
 //import aircleanprojectback.restapi.facility.service.FacilityService;
 import aircleanprojectback.restapi.facility.dto.FacilityDetailOnlyDTO;
 import aircleanprojectback.restapi.facility.service.FacilityService;
+import aircleanprojectback.restapi.laundry.dto.LaundryWayDTO;
 import aircleanprojectback.restapi.laundry.dto.WaterTankDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
@@ -72,6 +73,16 @@ public class FacilityController {
         service.updateFacilityStatus(request);
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "시설물 업데이트 완료", "업데이트 완료"));
+
+    }
+
+    @Tag(name = "시설물 도출된 세탁 정보 조회하기")
+    @GetMapping("/facility/laundryWay")
+    public ResponseEntity<ResponseDTO> getLaundryWay(@RequestParam String branchCode) {
+
+        List<LaundryWayDTO> laundryWayList = service.findMyLaundryWay(branchCode);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "시설 도출된 세탁정보 조회 완료", "도출된 데이터 조회 완료"));
 
     }
 

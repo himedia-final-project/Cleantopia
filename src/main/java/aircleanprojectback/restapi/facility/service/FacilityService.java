@@ -10,8 +10,14 @@ import aircleanprojectback.restapi.branchOrigin.dao.FacilityDetailRepository;
 import aircleanprojectback.restapi.facility.dto.FacilityDetailOnlyDTO;
 import aircleanprojectback.restapi.facility.entity.FacilityDetailOnly;
 import aircleanprojectback.restapi.facility.repository.FacilityDetailOnlyRepository;
+import aircleanprojectback.restapi.facility.repository.FacilityLaundryRepository;
+import aircleanprojectback.restapi.facility.repository.FacilityLaundryWayRepository;
 import aircleanprojectback.restapi.facility.repository.UpdatateWaterTanckRepository;
+import aircleanprojectback.restapi.laundry.dto.LaundryDTO;
+import aircleanprojectback.restapi.laundry.dto.LaundryWayDTO;
 import aircleanprojectback.restapi.laundry.dto.WaterTankDTO;
+import aircleanprojectback.restapi.laundry.entity.Laundry;
+import aircleanprojectback.restapi.laundry.entity.LaundryWay;
 import aircleanprojectback.restapi.laundry.entity.WaterTank;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -32,13 +38,17 @@ public class FacilityService {
     private final FacilityDetailRepository facilityDetailRepository;
     private final UpdatateWaterTanckRepository updatateWaterTanckRepository;
     private final FacilityDetailOnlyRepository facilityDetailOnlyRepository;
+    private final FacilityLaundryRepository facilityLaundryRepository;
+    private final FacilityLaundryWayRepository facilityLaundryWayRepository;
 
     @Autowired
-    public FacilityService(FacilityDetailOnlyRepository facilityDetailOnlyRepository ,ModelMapper modelMapper, FacilityDetailRepository facilityDetailRepository, UpdatateWaterTanckRepository updatateWaterTanckRepository){
+    public FacilityService(FacilityLaundryRepository facilityLaundryRepository, FacilityLaundryWayRepository facilityLaundryWayRepository ,FacilityDetailOnlyRepository facilityDetailOnlyRepository ,ModelMapper modelMapper, FacilityDetailRepository facilityDetailRepository, UpdatateWaterTanckRepository updatateWaterTanckRepository){
         this.modelMapper = modelMapper;
         this.facilityDetailRepository = facilityDetailRepository;
         this.updatateWaterTanckRepository = updatateWaterTanckRepository;
         this.facilityDetailOnlyRepository = facilityDetailOnlyRepository;
+        this.facilityLaundryRepository = facilityLaundryRepository;
+        this.facilityLaundryWayRepository = facilityLaundryWayRepository;
     }
 
     public List<FacilityDetailDTO> findFacilityByBranchCode(String branchCode) {
@@ -86,6 +96,22 @@ public class FacilityService {
                 .build();
 
         facilityDetailOnlyRepository.save(facilityDetailOnly);
+
+    }
+
+    public List<LaundryWayDTO> findMyLaundryWay(String branchCode) {
+
+        List<Laundry> result1 = facilityLaundryRepository.findAllByBranchCode(branchCode);
+
+        List<Integer> laundryCodes = result1.stream()
+                .map(dto -> dto.getLaundryCode())
+                .collect(Collectors.toList());
+
+        List<LaundryWay> result2 = facilityLaundryWayRepository.findAllByLaundryLaundryCodeIn(laundryCodes);
+
+
+        return result2.stream().map(result -> modelMapper.map(result, LaundryWayDTO.class)).collect(Collectors.toList());
+
 
     }
 }
