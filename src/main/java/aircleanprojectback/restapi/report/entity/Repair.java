@@ -56,6 +56,9 @@ public class Repair {
     @Column(name = "branch_code", length = 200)
     private  String branchCode;                   // 지점코드
 
+    @Column(name = "branch_remark")
+    private String branchRemark;                // 비고
+
     public Repair() {
     }
 
@@ -103,6 +106,12 @@ public class Repair {
         this.branchCode = branchCode;
     }
 
+    public void setRepairApprove(String repairApprove) {
+        this.repairApprove = repairApprove;
+    }
+
+    public void setBranchRemark(String branchRemark) { this.branchRemark = branchRemark; }
+
     public Repair build() {
         return new Repair(
                 repairReportCode,
@@ -116,11 +125,10 @@ public class Repair {
                 memberName,
                 branchName,
                 branchCode,
-                repairPhoto
+                repairPhoto,
+                branchRemark
         );
     }
 
-    public void setRepairApprove(String repairApprove) {
-        this.repairApprove = repairApprove;
-    }
+
 }

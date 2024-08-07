@@ -22,8 +22,9 @@ public class RepairDTO {
     private String memberName;                    // 지점장
     private String branchName;                    // 지점명
     private  String branchCode;                   // 지점코드
-    private String facilityType;
-    private String repairPhoto;
+    private String facilityType;                  // 시설물 종류
+    private String repairPhoto;                   // 첨부사진
+    private String branchRemark;                  //비고
 
     public int getRepairReportCode() {
         return repairReportCode;
@@ -120,6 +121,10 @@ public class RepairDTO {
     public void setRepairApprove(String repairApprove) {
         this.repairApprove = repairApprove;
     }
+
+    public String getBranchRemark() { return branchRemark; }
+
+    public void setBranchRemark(String branchRemark) { this.branchRemark = branchRemark; }
 
 }
 

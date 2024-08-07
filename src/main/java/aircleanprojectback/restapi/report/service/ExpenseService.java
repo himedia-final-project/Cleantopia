@@ -88,7 +88,8 @@ public class ExpenseService {
                 .waterBill(expenseDTO.getWaterBill())
                 .gasBill(expenseDTO.getGasBill())
                 .partTimeSalary(expenseDTO.getPartTimeSalary())
-                .repairCost(expenseDTO.getRepairCost());
+                .repairCost(expenseDTO.getRepairCost())
+                .expenseRemark(expenseDTO.getExpenseRemark());
 
         expenseRepository.save(expense);
         return expense;
