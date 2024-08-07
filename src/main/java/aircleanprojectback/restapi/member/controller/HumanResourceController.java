@@ -178,22 +178,12 @@ public class HumanResourceController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"일단 들어옴",memberModifyDTO));
     }
     @PutMapping("branch/{memberId}")
-    public ResponseEntity<ResponseDTO> modifyBranch(@PathVariable String memberId, @ModelAttribute MemberModifyDTO memberModifyDTO,MultipartFile image){
-
-        System.out.println("memberId = " + memberId);
-        System.out.println("memberModifyDTO = " + memberModifyDTO);
-
-        service.modifyBranchManagerInfo(memberId,memberModifyDTO,image);
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"지점장 정보 수정","수정 성공"));
+    public ResponseEntity<ResponseDTO> modifyBranch(/*@RequestBody*/@PathVariable String memberId){
+        return null;
     }
     @PutMapping("driver/{memberId}")
-    public ResponseEntity<ResponseDTO> modifyDriver( @PathVariable String memberId, @ModelAttribute MemberModifyDTO memberModifyDTO, MultipartFile image){
-        System.out.println("memberId = " + memberId);
-        System.out.println("memberModifyDTO = " + memberModifyDTO);
-
-
-        service.modifyDriverInfo(memberId,memberModifyDTO,image);
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"차량기사 정보 수정","수정 성공"));
+    public ResponseEntity<ResponseDTO> modifyDriver(/*@RequestBody*/ @PathVariable String memberId){
+        return null;
     }
 
     // softDelete
@@ -288,6 +278,8 @@ public class HumanResourceController {
         PagingResponseDTO pagingResponseDTO = new PagingResponseDTO();
 
         Page<MemberAndDriverDTO> driverList = service.getDriverWithN(cri);
+
+        System.out.println("branchMangerList = " + driverList.getContent());
 
         pagingResponseDTO.setData(driverList);
 

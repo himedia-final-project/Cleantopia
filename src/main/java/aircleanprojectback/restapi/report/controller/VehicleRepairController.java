@@ -64,14 +64,14 @@ public class VehicleRepairController {
     @PutMapping("/company/reports/vehicleRepairApprove/{vehicleReportCode}")
     public ResponseEntity<ResponseDTO> updateVehicleRepairApprove(@PathVariable int vehicleReportCode){
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "차량수리비보고서 상태수정 승인완료", vehicleRepairService.updateVehicleRepairStatus(vehicleReportCode,"Y", "Y")));
+                .body(new ResponseDTO(HttpStatus.OK, "차량수리비보고서 상태수정 승인완료", vehicleRepairService.updateVehicleRepairStatus(vehicleReportCode,"승인")));
     }
 
     // 차량수리비보고서 상태 - 반려
     @PutMapping("/company/reports/vehicleRepairReject/{vehicleReportCode}")
     public ResponseEntity<ResponseDTO> updateVehicleRepairReject(@PathVariable int vehicleReportCode){
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "차량수리비보고서 상태수정 반려완료", vehicleRepairService.updateVehicleRepairStatus(vehicleReportCode,"R", "N")));
+                .body(new ResponseDTO(HttpStatus.OK, "차량수리비보고서 상태수정 반려완료", vehicleRepairService.updateVehicleRepairStatus(vehicleReportCode,"반려")));
     }
 
     // 차량수리비보고서 등록

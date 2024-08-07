@@ -3,7 +3,8 @@ package aircleanprojectback.restapi.car.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 @Getter
 
@@ -20,10 +21,10 @@ public class Car {
     @Column(name = "driver_license_number", length = 50)
     private String driverLicenseNumber; // 면허번호
 
-    @Column(name = "car_photo", nullable = false, length = 255)
+    @Column(name = "car_photo", length = 255)
     private String carPhoto; // 사진
 
-    @Column(name = "car_assigned_status", nullable = false, length = 200)
+    @Column(name = "car_assigned_status", length = 200)
     private String carAssignedStatus; // 배정여부
 
     @Temporal(TemporalType.DATE)
@@ -35,6 +36,12 @@ public class Car {
 
     @Column(name = "branch_region")
     private String branchRegion;        // 지역
+
+    @Column(name = "car_front_image")
+    private String carFrontImage;
+
+    @Column(name = "car_rear_image")
+    private String carRearImage;
 
 
 
@@ -62,16 +69,14 @@ public class Car {
 
 
 
-    public Car carDate(Date carDate) {
-        return null;
-    }
+
 
     public Car carEtc(String carEtc) {
         this.carEtc = carEtc;
         return this;
     }
 
-    public Car build() {return new Car (carNumber,driverLicenseNumber,carPhoto,carAssignedStatus,carDate,carEtc,branchRegion);}
+    public Car build() {return new Car (carNumber,driverLicenseNumber,carPhoto,carAssignedStatus,carDate,carEtc,branchRegion,carFrontImage,carRearImage)    ;}
 
 
     public void setDriverLicenseNumber(String driverName) {

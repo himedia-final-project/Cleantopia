@@ -73,5 +73,7 @@ public class Laundry {
     // 세탁 완료 상태
     @Column(name = "laundry_completed_state")
     private String laundryCompleted;
-    
+
+    @OneToOne(mappedBy = "laundry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private LaundryWay laundryWay;
 }

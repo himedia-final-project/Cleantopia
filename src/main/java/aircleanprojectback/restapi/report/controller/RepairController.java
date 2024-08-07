@@ -2,7 +2,6 @@ package aircleanprojectback.restapi.report.controller;
 
 import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
-import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.dto.RepairDTO;
 import aircleanprojectback.restapi.report.entity.Repair;
 import aircleanprojectback.restapi.report.service.RepairService;
@@ -42,20 +41,6 @@ public class RepairController {
                 .body(new ResponseDTO(HttpStatus.OK, "지점 수리보고서 전체 조회", repairDTO));
     }
 
-    // 시설물수리보고서 필터링 조회
-    @GetMapping("/location/repair")
-    public ResponseEntity<ResponseDTO> repairMemberName(@RequestParam(defaultValue = "1") String offset,
-                                                           @RequestParam String memberName) {
-        Criteria repairCriteriaMemberName = new Criteria();
-        repairCriteriaMemberName.setPageNum(Integer.parseInt(offset));
-        repairCriteriaMemberName.setAmount(6);
-        Page<RepairDTO> repairMemberName = repairService.findRepairMemberName(repairCriteriaMemberName,memberName);
-
-        return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK,"필터링조회 완료", repairMemberName));
-
-    }
-
     // 지점 수리보고서 세부조회
     @GetMapping("/company/repair/{repairReportCode}")
     public ResponseEntity<ResponseDTO> FindRepairByReportCode(@PathVariable int repairReportCode) {
@@ -78,13 +63,13 @@ public class RepairController {
     @PutMapping("/company/reports/repairApprove/{repairReportCode}")
     public ResponseEntity<ResponseDTO> updateRepairApprove(@PathVariable int repairReportCode){
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "시설물수리보고서 승인 완료",repairService.updateRepairStatus(repairReportCode,"Y", "Y")));
+                .body(new ResponseDTO(HttpStatus.OK, "시설물수리보고서 승인 완료",repairService.updateRepairStatus(repairReportCode,"승인")));
     }
     // 시설물수리보고서 상태 - 반려
     @PutMapping("/company/reports/repairReject/{repairReportCode}")
     public ResponseEntity<ResponseDTO> updateRepairReject(@PathVariable int repairReportCode){
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK,"시설물수리보고서 반려 완료", repairService.updateRepairStatus(repairReportCode,"R", "N")));
+                .body(new ResponseDTO(HttpStatus.OK,"시설물수리보고서 반려 완료", repairService.updateRepairStatus(repairReportCode,"반려")));
     }
 
     // 시설물 수리보고서 수정

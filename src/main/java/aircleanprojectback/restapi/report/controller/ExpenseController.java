@@ -2,7 +2,6 @@ package aircleanprojectback.restapi.report.controller;
 
 import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
-import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.dto.ExpenseDTO;
 import aircleanprojectback.restapi.report.service.ExpenseService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,20 +36,6 @@ public class ExpenseController {
                 .body(new ResponseDTO(HttpStatus.OK, "매출보고서 조회에 성공하셨습니다", expense));
     }
 
-    // 지출보고서 필터링조회
-    @GetMapping("/location/expense")
-    public ResponseEntity<ResponseDTO> locationExpense(@RequestParam(defaultValue = "1") String offset,
-                                                           @RequestParam String memberName) {
-        Criteria expenseCriteriaMemberName = new Criteria();
-        expenseCriteriaMemberName.setPageNum(Integer.parseInt(offset));
-        expenseCriteriaMemberName.setAmount(6);
-        Page<ExpenseDTO> expenseMemberName = expenseService.findExpenseMemberName(expenseCriteriaMemberName,memberName);
-
-        return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK,"필터링조회 완료", expenseMemberName));
-
-    }
-
     // 지출보고서 상세조회
     @GetMapping("/company/detailExpenseReports/{expenseReportCode}")
     public ResponseEntity<ResponseDTO> detailExpense(@PathVariable int expenseReportCode) {
@@ -63,7 +48,7 @@ public class ExpenseController {
     @PutMapping("/company/reports/expenseApprove/{expenseReportCode}")
     public ResponseEntity<ResponseDTO> updateApproveExpense(@PathVariable int expenseReportCode){
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "지출보고서 상태수정 승인", expenseService.updateExpenseState(expenseReportCode, "Y", "Y")));
+                .body(new ResponseDTO(HttpStatus.OK, "지출보고서 상태수정 승인", expenseService.updateExpenseState(expenseReportCode, "승인")));
     }
 
 //     지출보고서 상태수정 - 반려
@@ -71,7 +56,7 @@ public class ExpenseController {
     @PutMapping("/company/reports/expenseReject/{expenseReportCode}")
     public ResponseEntity<ResponseDTO> updateRejectExpense(@PathVariable int expenseReportCode){
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "지출보고서 상태수정 반려성공", expenseService.updateExpenseState(expenseReportCode, "R", "N")));
+                .body(new ResponseDTO(HttpStatus.OK, "지출보고서 상태수정 반려성공", expenseService.updateExpenseState(expenseReportCode, "반려")));
     }
 
     // 등록
