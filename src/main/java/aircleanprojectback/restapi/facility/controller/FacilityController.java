@@ -5,6 +5,7 @@ package aircleanprojectback.restapi.facility.controller;
 import aircleanprojectback.restapi.branch.dto.FacilityDetailDTO;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 //import aircleanprojectback.restapi.facility.service.FacilityService;
+import aircleanprojectback.restapi.facility.dto.FacilityDetailOnlyDTO;
 import aircleanprojectback.restapi.facility.service.FacilityService;
 import aircleanprojectback.restapi.laundry.dto.LaundryWayDTO;
 import aircleanprojectback.restapi.laundry.dto.WaterTankDTO;
