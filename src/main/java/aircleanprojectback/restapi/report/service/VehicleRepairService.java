@@ -50,15 +50,6 @@ public class VehicleRepairService {
         return vehicleRepairDTO;
     }
 
-//    public List<VehicleRepairDTO> getAllVehicleRepair() {
-//
-//        List<VehicleRepair> vehicleRepairs = vehicleRepairRepository.findAll();
-//        List<VehicleRepairDTO> vehicleRepairDTOList = vehicleRepairs.stream()
-//                .map(vehicleRepair -> modelMapper.map(vehicleRepair, VehicleRepairDTO.class))
-//                .collect(Collectors.toList());
-//
-//        return vehicleRepairDTOList;
-//    }
 
     // 차량보고서 세부조회
     public VehicleRepairDTO detailVehicleRepair(int vehicleReportCode) {
@@ -69,12 +60,13 @@ public class VehicleRepairService {
 
     }
 
-    // 차량보고서 수정
-    public VehicleRepair updateVehicleRepairStatus(int vehicleReportCode, String vehicleReportStatus) {
+    // 차량보고서 승인/ 반려
+    public VehicleRepair updateVehicleRepairStatus(int vehicleReportCode, String vehicleReportStatus, String vehicleRepairApprove) {
 
         VehicleRepair vehicleRepair = vehicleRepairRepository.findById(vehicleReportCode)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid vehicleReportCode: " + vehicleReportCode));
         vehicleRepair.setVehicleRepairStatus(vehicleReportStatus);
+        vehicleRepair.setVehicleRepairApprove(vehicleRepairApprove);
 
         VehicleRepair vehicleRepair1 = vehicleRepairRepository.save(vehicleRepair);
 
@@ -118,7 +110,7 @@ public class VehicleRepairService {
             throw new RuntimeException("Failed to save image file", e);
         }
 
-       vehicleRepairRepository.save(insertVehicleRepair);
+        vehicleRepairRepository.save(insertVehicleRepair);
         vehicleRepairRepository.flush();
 
         return "보고서 등록성공";

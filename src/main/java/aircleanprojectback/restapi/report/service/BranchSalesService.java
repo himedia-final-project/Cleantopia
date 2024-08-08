@@ -29,6 +29,33 @@ public class BranchSalesService {
         this.modelMapper = modelMapper;
     }
 
+    // 매출보고서 전체조회
+    public Page<BranchSalesDTO> getAllBranchSales(Criteria branchSalesCriteria) {
+
+        Pageable branchSalesPageable = PageRequest.of(branchSalesCriteria.getPageNum() -1, branchSalesCriteria.getAmount());
+
+        Page<BranchSales> branchSalesList = branchSalesRepository.findAll(branchSalesPageable);
+        Page<BranchSalesDTO> branchSalesDTO = branchSalesList.map(branchSales -> modelMapper.map(branchSales, BranchSalesDTO.class));
+
+        System.out.println("branchSalesList.getContent() = " +  branchSalesList.getContent());
+        System.out.println("branchSalesDTO.getContent() = " +  branchSalesDTO.getContent());
+        return branchSalesDTO;
+
+
+    }
+
+    // 매출보고서 필터링조회
+    public Page<BranchSalesDTO> findBranchSalesMemberName(Criteria branchSalesCriteriaMemberName, String memberName) {
+
+        Pageable branchSalesMemberNamePageable = PageRequest.of(branchSalesCriteriaMemberName.getPageNum() -1, branchSalesCriteriaMemberName.getAmount());
+        Page<BranchSales> branchSalesMemberNameList = branchSalesRepository.findByMemberName(memberName, branchSalesMemberNamePageable);
+        Page<BranchSalesDTO> branchSalesMemberNameDTO = branchSalesMemberNameList.map(branchSales -> modelMapper.map(branchSales, BranchSalesDTO.class));
+
+        return branchSalesMemberNameDTO;
+
+    }
+
+
     // 매출 보고서 등록
     @Transactional
     public String insertBranchSales(BranchSalesDTO branchSalesDTO) {
@@ -68,19 +95,6 @@ public class BranchSalesService {
         return "삭제 성공";
     }
 
-//    // 매출보고서 전체조회
-//    public List<BranchSalesDTO> getAllBranchSales() {
-//
-//
-//        List<BranchSales> branchSalesList = branchSalesRepository.findAll();
-//        List<BranchSalesDTO> branchSalesDTOList = branchSalesList.stream()
-//                .map(branchSales -> modelMapper.map(branchSales, BranchSalesDTO.class))
-//                .collect(Collectors.toList());      // 변환된 BranchSalesDTO 객체들을 리스트로 수집합니다.
-//
-//        return branchSalesDTOList;
-//    }
-
-
     // /company 매출보고서 세부 조회
     public BranchSalesDTO detailBranchSales(int branchCode) {
 
@@ -92,27 +106,17 @@ public class BranchSalesService {
 
     // 매출보고서 승인/반려
     @Transactional
-    public BranchSales updateBranchSalesState(int branchReportCode, String branchReportStatus) {
+    public BranchSales updateBranchSalesState(int branchReportCode, String branchReportApprove, String branchReportStatus) {
 
         BranchSales branchSales = branchSalesRepository.findById(branchReportCode)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid branch report code: " + branchReportCode));
         branchSales.setBranchReportStatus(branchReportStatus);
-         return branchSalesRepository.save(branchSales);
+        branchSales.setBranchReportApprove(branchReportApprove);
+        return branchSalesRepository.save(branchSales);
     }
 
 
-    // 매출보고서 전체조회
-    public Page<BranchSalesDTO> getAllBranchSales(Criteria branchSalesCriteria) {
-
-        Pageable branchSalesPageable = PageRequest.of(branchSalesCriteria.getPageNum() -1, branchSalesCriteria.getAmount());
-
-        Page<BranchSales> branchSalesList = branchSalesRepository.findAll(branchSalesPageable);
-        Page<BranchSalesDTO> branchSalesDTO = branchSalesList.map(branchSales -> modelMapper.map(branchSales, BranchSalesDTO.class));
-
-        System.out.println("branchSalesList.getContent() = " +  branchSalesList.getContent());
-        System.out.println("branchSalesDTO.getContent() = " +  branchSalesDTO.getContent());
-        return branchSalesDTO;
 
 
-    }
+
 }

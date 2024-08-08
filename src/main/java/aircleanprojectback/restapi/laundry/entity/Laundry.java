@@ -16,6 +16,7 @@ public class Laundry {
 
     @Id
     @Column(name = "laundry_code")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int laundryCode;
 
     // 도착여부(승낙)
