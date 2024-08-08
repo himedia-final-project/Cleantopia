@@ -3,8 +3,10 @@ package aircleanprojectback.restapi.mainpage.controller;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 import aircleanprojectback.restapi.mainpage.model.service.MainService;
 import aircleanprojectback.restapi.member.dto.BranchDTO;
+import aircleanprojectback.restapi.report.dto.ExpenseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,4 +32,13 @@ public class MainController {
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"브랜치 조회 성공",branchList));
     }
+
+    @GetMapping("utilityCost")
+    public ResponseEntity<ResponseDTO> getUtilityCost(@RequestParam String month ){
+
+        List<ExpenseDTO> expenseDTOS = service.getUtilityCost(month);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"수도광열비 제공",expenseDTOS));
+    }
+
 }

@@ -29,4 +29,18 @@ public class Driver {
     @Column(name = "member_id")
     private String memberId;
 
+    public Driver driverLicenseNumber(String var){
+        driverLicenseNumber= var;
+        return this;
+    };
+
+    public Driver driverRegion(String var){
+        driverRegion=var;
+        return  this;
+    }
+
+    public Driver assignCar(String var){
+        assignCar=var;
+        return this;
+    }
 }

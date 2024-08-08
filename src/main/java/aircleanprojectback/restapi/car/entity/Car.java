@@ -45,6 +45,7 @@ public class Car {
 
 
 
+
     public Car() {}
 
     public Car carNumber(String carNumber) {
@@ -67,6 +68,10 @@ public class Car {
         return this;
     }
 
+    public Car branchRegion(String var){
+        branchRegion=var;
+        return this;
+    }
 
 
 
