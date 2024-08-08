@@ -13,8 +13,12 @@ public class LaundryStatusInitializer implements CommandLineRunner {
     public LaundryStatusInitializer(ManagementService laundryService) {
         this.laundryService = laundryService;
     }
+
     @Override
     public void run(String... args) throws Exception {
         laundryService.updateLaundryArrivedStatus();
+        laundryService.updateLaundryBringCustomerStatus();
     }
+
+
 }

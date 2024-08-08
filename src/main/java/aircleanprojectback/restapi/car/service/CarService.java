@@ -5,11 +5,10 @@ import aircleanprojectback.restapi.car.dto.*;
 import aircleanprojectback.restapi.car.entity.*;
 
 
-import aircleanprojectback.restapi.car.repository.CarAndDriverRepostiory;
-import aircleanprojectback.restapi.car.repository.CarRepository;
-import aircleanprojectback.restapi.car.repository.DriverRepository;
-import aircleanprojectback.restapi.car.repository.MemberNameAndDriverRepository;
+import aircleanprojectback.restapi.car.repository.*;
 import aircleanprojectback.restapi.common.dto.Criteria;
+import aircleanprojectback.restapi.member.dto.DriverAndCarDTO;
+import aircleanprojectback.restapi.member.entity.DriverAndCar;
 import aircleanprojectback.restapi.util.FileUploadUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +28,7 @@ import java.util.stream.Collectors;
 @Service
 public class CarService {
 
+    private final LaundryAndDriverRepository laundryAndDriverRepository;
     @Value("${image.image-dir}")
     private String IMAGE_DIR;
 
@@ -43,18 +43,22 @@ public class CarService {
     private final CarRepository carRepository;
 
     public CarService(CarAndDriverRepostiory carAndDriverRepostiory, ModelMapper modelMapper, DriverRepository driverRepository
-            , MemberNameAndDriverRepository memberNameAndDriverRepository, CarRepository carRepository) {
+            , MemberNameAndDriverRepository memberNameAndDriverRepository, CarRepository carRepository, LaundryAndDriverRepository laundryAndDriverRepository) {
         this.carAndDriverRepostiory = carAndDriverRepostiory;
         this.modelMapper = modelMapper;
         this.memberNameAndDriverRepository = memberNameAndDriverRepository;
         this.driverRepository = driverRepository;
         this.carRepository = carRepository;
+        this.laundryAndDriverRepository = laundryAndDriverRepository;
 
         modelMapper.createTypeMap(CarAndDriver.class, CarAndDriverDTO.class)
                 .addMapping(src -> src.getDriverAndMember(), CarAndDriverDTO::setDriverAndMemberDTO);
 
         modelMapper.createTypeMap(DriverAndMember.class, DriverAndMemberDTO.class)
                 .addMapping(src -> src.getMembers(), DriverAndMemberDTO::setMemberDTO);
+
+
+
     }
 
     public Page<CarAndDriverDTO> findAllCarWithPage(Criteria criteria) {
@@ -169,6 +173,24 @@ public class CarService {
         driver.assignCar("N");
 
         return modelMapper.map(driver,DriverDTO.class);
+    }
+
+    public Page<LaundryAndDriverDTO> getCarWithLaundry(Criteria cri,  String branchCode ,String isFoward) {
+
+
+        Pageable pageable = PageRequest.of(cri.getPageNum()-1,cri.getAmount());
+
+        Page<LaundryAndDriver> result =null;
+        if(isFoward.equals("false")){
+            result = laundryAndDriverRepository.findAllByBranchCodeAndLaundryCollectionStatusAndLaundryCompleted(branchCode,"Y","N",pageable);
+            System.out.println("false resultToBranch.getContent() = " + result.getContent());
+        }else{
+            result  = laundryAndDriverRepository.findAllByBranchCodeAndLaundryCompleted(branchCode,"Y",pageable);
+            System.out.println("true result.getContent() = " + result.getContent());
+        }
+
+
+        return result.map(laundry->modelMapper.map(laundry, LaundryAndDriverDTO.class));
     }
 }
 
