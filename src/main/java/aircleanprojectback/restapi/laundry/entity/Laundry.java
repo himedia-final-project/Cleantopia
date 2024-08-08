@@ -79,5 +79,17 @@ public class Laundry {
     @Column(name = "laundry_completed_date")
     private Date laundryCompletedDate;
 
+    public Laundry laundryArriveStatus(String var){
+        laundryArriveStatus=var;
+        return this;
+    }
+
+    @Column(name = "pickup_driver")
+    private String pickupDriver;
+
+    @Column(name = "delivery_driver")
+    private String deliveryDriver;
+
+
 
 }

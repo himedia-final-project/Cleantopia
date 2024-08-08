@@ -1,5 +1,6 @@
 package aircleanprojectback.restapi.laundry.controller;
 
+import aircleanprojectback.restapi.common.dto.ResponseDTO;
 import aircleanprojectback.restapi.laundry.Message.ResponseMessage;
 import aircleanprojectback.restapi.laundry.dto.LaundryDTO;
 import aircleanprojectback.restapi.laundry.dto.WaterTankDTO;
@@ -87,7 +88,17 @@ public class ManagementController {
                 .body(new ResponseMessage(200, "laundry 조회 성공", responseMap));
     }
 
-    @PostMapping("/updateLaundryStatus")
+    @GetMapping("arrivedLaundry/{branchCode}")
+    public ResponseEntity<ResponseDTO> getLaundryArrived(@PathVariable String branchCode){
+
+        List<LaundryDTO> arrivedLaundryList = managementService.getLaundryArrived(branchCode);
+
+        System.out.println("arrivedLaundryList = " + arrivedLaundryList);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"도착한 세탁물 ",arrivedLaundryList));
+    }
+
+    @PutMapping("/updateLaundryStatus")
     public ResponseEntity<ResponseMessage> updateLaundryStatus(@RequestBody Map<String, Object> payload) {
         int laundryCode = (int) payload.get("laundryCode");
         String statusType = (String) payload.get("statusType");

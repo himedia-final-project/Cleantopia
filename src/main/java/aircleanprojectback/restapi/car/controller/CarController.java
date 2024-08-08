@@ -92,6 +92,12 @@ public class CarController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"배정 취소",driverDTO));
     }
 
+
+    @GetMapping("branch/laundry")
+    public ResponseEntity<ResponseDTO> getCarWithLaundry(@RequestParam(defaultValue = "1")String offset, @RequestParam(defaultValue = "false") String isFoward){
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"차량기사 정보 제공","간디"));
+    }
 //    @PostMapping("/company/assignDriver")
 //    public ResponseEntity<ResponseDTO> assignDriverToCar(@RequestBody CarAndDriverDTO carAndDriverDTO) {
 //        carService.assignDriverToCar(carAndDriverDTO.getCarNumber(), carAndDriverDTO.getDriverAndMemberDTO().getDriverLicenseNumber());

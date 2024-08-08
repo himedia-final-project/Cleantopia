@@ -12,4 +12,6 @@ public interface DriverRepository extends JpaRepository<Driver, String> {
 
     List<Driver> findAllByAssignCar(String n);
     Driver findByMemberId(String memberId);
+
+    List<Driver> findAllByDriverRegionAndAssignCar(String branchRegion, String y);
 }
