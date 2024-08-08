@@ -44,8 +44,11 @@ public class Expense {
     @Column(name = "month_date")
     private String monthDate;         //월에 쓴 날짜
 
-    @Column(name = "expense_report_status", length = 200, nullable = false)
-    private String expenseReportStatus = "접수";     // 보고서상태
+    @Column(name = "expense_report_status", length = 200)
+    private String expenseReportStatus;     // 보고서상태
+
+    @Column(name = "expense_approve")
+    private String expenseApprove;      // 승인/반려
 
     @Column(name = "total_expense_cost")
     private int totalExpenseCost;               // 총금액
@@ -59,8 +62,11 @@ public class Expense {
     @Column(name = "branch_code", length = 200, nullable = true)
     private String branchCode;              // 지점코드
 
+    @Column(name = "expense_remark")
+    private String expenseRemark;           // 비고
+
     public Expense() {
-        this.expenseReportStatus = "접수";
+
     }
 
     public Expense expenseReportCode(int expenseReportCode) {
@@ -109,6 +115,11 @@ public class Expense {
         return this;
     }
 
+    public Expense expenseApprove(String expenseApprove) {
+        this.expenseApprove = expenseApprove;
+        return this;
+    }
+
     public Expense totalExpenseCost(int totalExpenseCost) {
         this.totalExpenseCost = totalExpenseCost;
         return this;
@@ -129,6 +140,11 @@ public class Expense {
         return this;
     }
 
+    public Expense expenseRemark(String expenseRemark) {
+        this.expenseRemark = expenseRemark;
+        return this;
+    }
+
     public Expense build(){
         return new Expense(
                 expenseReportCode,
@@ -140,14 +156,20 @@ public class Expense {
                 expenseSubmissionDate,
                 monthDate,
                 expenseReportStatus,
+                expenseApprove,
                 totalExpenseCost,
                 memberName,
                 branchName,
-                branchCode
+                branchCode,
+                expenseRemark
         );
     }
 
     public void setExpenseReportStatus(String expenseReportStatus) {
         this.expenseReportStatus = expenseReportStatus;
+    }
+
+    public void setExpenseApprove(String expenseApprove) {
+        this.expenseApprove = expenseApprove;
     }
 }

@@ -64,22 +64,22 @@ public class VehicleRepairController {
     @PutMapping("/company/reports/vehicleRepairApprove/{vehicleReportCode}")
     public ResponseEntity<ResponseDTO> updateVehicleRepairApprove(@PathVariable int vehicleReportCode){
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "차량수리비보고서 상태수정 승인완료", vehicleRepairService.updateVehicleRepairStatus(vehicleReportCode,"승인")));
+                .body(new ResponseDTO(HttpStatus.OK, "차량수리비보고서 상태수정 승인완료", vehicleRepairService.updateVehicleRepairStatus(vehicleReportCode,"Y", "Y")));
     }
 
     // 차량수리비보고서 상태 - 반려
     @PutMapping("/company/reports/vehicleRepairReject/{vehicleReportCode}")
     public ResponseEntity<ResponseDTO> updateVehicleRepairReject(@PathVariable int vehicleReportCode){
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "차량수리비보고서 상태수정 반려완료", vehicleRepairService.updateVehicleRepairStatus(vehicleReportCode,"반려")));
+                .body(new ResponseDTO(HttpStatus.OK, "차량수리비보고서 상태수정 반려완료", vehicleRepairService.updateVehicleRepairStatus(vehicleReportCode,"R", "N")));
     }
 
     // 차량수리비보고서 등록
     // VehicleRepairDTO 에서 의 컬럼명과 MultipartFile 컬럼명을 같게 하는 바람에 DTO 로 인식을 하고 멀티풀 파일에서 안먹히고 있었음
     @PostMapping("/vehicle-repair")
     public ResponseEntity<ResponseDTO> insertVehicleRepair(@ModelAttribute VehicleRepairDTO vehicleRepairDTO,
-                                                            MultipartFile beforeImage,
-                                                            MultipartFile afterImage) {
+                                                           MultipartFile beforeImage,
+                                                           MultipartFile afterImage) {
 
         System.out.println("vehicleRepairDTO = " + vehicleRepairDTO);
         System.out.println("beforeVehicleRepairImage = " + beforeImage);
