@@ -8,6 +8,7 @@ import aircleanprojectback.restapi.branch.dto.FacilityDetailDTO;
 import aircleanprojectback.restapi.branch.entity.FacilityDetail;
 import aircleanprojectback.restapi.branchOrigin.dao.FacilityDetailRepository;
 import aircleanprojectback.restapi.facility.dto.FacilityDetailOnlyDTO;
+import aircleanprojectback.restapi.facility.dto.LaundryAndLaundryWayDTO;
 import aircleanprojectback.restapi.facility.entity.FacilityDetailOnly;
 import aircleanprojectback.restapi.facility.repository.FacilityDetailOnlyRepository;
 import aircleanprojectback.restapi.facility.repository.FacilityLaundryRepository;
@@ -100,7 +101,7 @@ public class FacilityService {
 
     }
 
-    public List<LaundryWayDTO> findMyLaundryWay(String branchCode) {
+    public List<LaundryAndLaundryWayDTO> findMyLaundryWay(String branchCode) {
 
         List<Laundry> result1 = facilityLaundryRepository.findAllByBranchCode(branchCode);
 
@@ -111,7 +112,7 @@ public class FacilityService {
         List<LaundryWay> result2 = facilityLaundryWayRepository.findAllByLaundryLaundryCodeIn(laundryCodes);
 
 
-        return result2.stream().map(result -> modelMapper.map(result, LaundryWayDTO.class)).collect(Collectors.toList());
+        return result2.stream().map(result -> modelMapper.map(result, LaundryAndLaundryWayDTO.class)).collect(Collectors.toList());
 
 
     }

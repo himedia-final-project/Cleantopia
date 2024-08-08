@@ -20,11 +20,12 @@ public class LaundryDTO {
     private String driverLicenseNumber;
     private Date laundryDriverPickupDate;
     private String laundryCompleted;
+    private Date laundryCompletedDate;
 
     public LaundryDTO() {
     }
 
-    public LaundryDTO(int laundryCode, String laundryCollectionStatus, String laundryArriveStatus, String laundryCustomerName, int laundryWeight, String laundryFabricType, Date laundryCustomerRegistDate, String laundryWashingInstructionStatus, Date laundryApprovalDate, String laundryDryCleaningStatus, int laundryDirtyLevel, String branchCode, String driverLicenseNumber, Date laundryDriverPickupDate, String laundryCompleted) {
+    public LaundryDTO(int laundryCode, String laundryCollectionStatus, String laundryArriveStatus, String laundryCustomerName, int laundryWeight, String laundryFabricType, Date laundryCustomerRegistDate, String laundryWashingInstructionStatus, Date laundryApprovalDate, String laundryDryCleaningStatus, int laundryDirtyLevel, String branchCode, String driverLicenseNumber, Date laundryDriverPickupDate, String laundryCompleted, Date laundryCompletedDate) {
         this.laundryCode = laundryCode;
         this.laundryCollectionStatus = laundryCollectionStatus;
         this.laundryArriveStatus = laundryArriveStatus;
@@ -40,6 +41,7 @@ public class LaundryDTO {
         this.driverLicenseNumber = driverLicenseNumber;
         this.laundryDriverPickupDate = laundryDriverPickupDate;
         this.laundryCompleted = laundryCompleted;
+        this.laundryCompletedDate = laundryCompletedDate;
     }
 
     public int getLaundryCode() {
@@ -162,6 +164,14 @@ public class LaundryDTO {
         this.laundryCompleted = laundryCompleted;
     }
 
+    public Date getLaundryCompletedDate() {
+        return laundryCompletedDate;
+    }
+
+    public void setLaundryCompletedDate(Date laundryCompletedDate) {
+        this.laundryCompletedDate = laundryCompletedDate;
+    }
+
     @Override
     public String toString() {
         return "LaundryDTO{" +
@@ -180,6 +190,7 @@ public class LaundryDTO {
                 ", driverLicenseNumber='" + driverLicenseNumber + '\'' +
                 ", laundryDriverPickupDate=" + laundryDriverPickupDate +
                 ", laundryCompleted='" + laundryCompleted + '\'' +
+                ", laundryCompletedDate='" + laundryCompletedDate + '\'' +
                 '}';
     }
 }
