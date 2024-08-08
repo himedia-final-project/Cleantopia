@@ -72,6 +72,26 @@ public class CarController {
         return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"차량삭제 성공",selectedCars));
     }
 
+    @PutMapping("assign")
+    public ResponseEntity<ResponseDTO> assignDriver (@RequestParam String selectedDriver, @RequestParam String selectedCar){
+        System.out.println("selectedDriver = " + selectedDriver);
+        System.out.println("selectedCar = " + selectedCar);
+
+        DriverDTO driverDTO = carService.assignDriver(selectedDriver,selectedCar);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"차량기사 등록 됨",driverDTO));
+    }
+
+    @PutMapping("unassign")
+    public ResponseEntity<ResponseDTO> unAssignDriver(@RequestParam String selectedDriver, @RequestParam String selectedCar){
+        System.out.println("selectedDriver = " + selectedDriver);
+        System.out.println("selectedCar = " + selectedCar);
+
+        DriverDTO driverDTO = carService.unAssignDriver(selectedDriver,selectedCar);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"배정 취소",driverDTO));
+    }
+
 //    @PostMapping("/company/assignDriver")
 //    public ResponseEntity<ResponseDTO> assignDriverToCar(@RequestBody CarAndDriverDTO carAndDriverDTO) {
 //        carService.assignDriverToCar(carAndDriverDTO.getCarNumber(), carAndDriverDTO.getDriverAndMemberDTO().getDriverLicenseNumber());

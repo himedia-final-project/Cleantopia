@@ -13,4 +13,6 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
 
     @Query(value = "select * from tbl_expense_report where YEAR(expense_submission_date)=?1 and MONTH(epxense_submission_date)=?2 and expense_report_status =?3", nativeQuery = true)
     List<Expense> findAllExpense(String year, String month, String y);
+
 }
+

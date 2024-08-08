@@ -10,10 +10,8 @@ import aircleanprojectback.restapi.car.repository.CarRepository;
 import aircleanprojectback.restapi.car.repository.DriverRepository;
 import aircleanprojectback.restapi.car.repository.MemberNameAndDriverRepository;
 import aircleanprojectback.restapi.common.dto.Criteria;
-import aircleanprojectback.restapi.member.dto.MemberAndDriverDTO;
 import aircleanprojectback.restapi.util.FileUploadUtils;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -123,8 +122,53 @@ public class CarService {
     @Transactional
     public void deleteAll(List<String> selectedCars) {
 
+        List<Car> carList = carRepository.findAllByCarNumberIn(selectedCars);
+        List<String> licenses = new ArrayList<>();
+
+        carList.forEach(car->licenses.add(car.getDriverLicenseNumber()));
+        List<Driver> drivers = driverRepository.findAllById(licenses);
+
+        drivers.forEach(driver->driver.assignCar("N"));
+
         carRepository.deleteAllByIdInBatch(selectedCars);
 
+
+    }
+
+    @Transactional
+    public DriverDTO assignDriver(String selectedDriver, String selectedCar) {
+
+
+        Driver driver = driverRepository.findByMemberId(selectedDriver);
+
+        Car car = carRepository.findByCarNumber(selectedCar);
+
+        car.driverLicenseNumber(driver.getDriverLicenseNumber());
+        car.carAssignedStatus("Y");
+        car.branchRegion(driver.getDriverRegion());
+
+        System.out.println("car = " + car);
+
+        driver.assignCar("Y");
+        System.out.println("driver = " + driver);
+
+        return modelMapper.map(driver,DriverDTO.class);
+    }
+
+    @Transactional
+    public DriverDTO unAssignDriver(String selectedDriver, String selectedCar) {
+
+        Car car = carRepository.findByCarNumber(selectedCar);
+
+        car.driverLicenseNumber(null);
+        car.carAssignedStatus("N");
+        car.branchRegion(null);
+
+        Driver driver = driverRepository.findByMemberId(selectedDriver);
+
+        driver.assignCar("N");
+
+        return modelMapper.map(driver,DriverDTO.class);
     }
 }
 

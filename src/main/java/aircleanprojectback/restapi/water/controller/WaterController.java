@@ -58,7 +58,10 @@ public class WaterController {
         System.out.println("month = " + month);
 
 
-        String result = waterService.findWaterCost(branchCode,month);
+        String year = month.split("-")[0];
+        month = month.split("-")[1];
+        System.out.println("year = " + year);
+        String result = waterService.findWaterCost(branchCode,month,year);
 
         Map<String,String> waterCost= new HashMap<>();
 

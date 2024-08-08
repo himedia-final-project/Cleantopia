@@ -10,4 +10,8 @@ import java.util.List;
 public interface CarRepository extends JpaRepository<Car, String> {
 
 
+    Car findByCarNumber(String selectedCar);
+
+
+    List<Car> findAllByCarNumberIn(List<String> selectedCars);
 }
