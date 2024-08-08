@@ -10,19 +10,20 @@ import java.sql.Date;
 public class VehicleRepairDTO {
     private int vehicleReportCode;              // 본사보고서코드
     private String vehicleReportStatus;         // 보고서상태
+    private String vehicleRepairApprove;        // 승인/반려
     private String beforeVehiclePhoto;          // 수리전사진
     private String afterVehiclePhoto;           // 수리후사진
     private String vehicleRemark;               // 비고
-    private String vehicleFuelCost;             // 주유비
-    private String vehicleRegularInspection;    // 정기점검
-    private String vehicleVehicleRepairCost;    // 수리비
-    private String vehicleMiscellaneous;        // 기타
+    private int vehicleFuelCost;                // 주유비
+    private int vehicleRegularInspection;       // 정기점검
+    private int vehicleVehicleRepairCost;       // 수리비
+    private int vehicleMiscellaneous;           // 기타
     private Date vehicleSubmissionDate;         // 제출일
     private String driverLicenseNumber;         // 면허번호
-    private int totalVehicleRepairCost;     // 총 수리비 금액
-    private String memberName;
-    private String carNumber;
-    private String vehicleType;
+    private int totalVehicleRepairCost;         // 총 수리비 금액
+    private String memberName;                  // 차량기사 이름
+    private String carNumber;                   // 차량번호
+    private String vehicleType;                 // 차량비용 종류
 
 
     public int getVehicleReportCode() {
@@ -65,35 +66,35 @@ public class VehicleRepairDTO {
         this.vehicleRemark = vehicleRemark;
     }
 
-    public String getVehicleFuelCost() {
+    public int getVehicleFuelCost() {
         return vehicleFuelCost;
     }
 
-    public void setVehicleFuelCost(String vehicleFuelCost) {
+    public void setVehicleFuelCost(int vehicleFuelCost) {
         this.vehicleFuelCost = vehicleFuelCost;
     }
 
-    public String getVehicleRegularInspection() {
+    public int getVehicleRegularInspection() {
         return vehicleRegularInspection;
     }
 
-    public void setVehicleRegularInspection(String vehicleRegularInspection) {
+    public void setVehicleRegularInspection(int vehicleRegularInspection) {
         this.vehicleRegularInspection = vehicleRegularInspection;
     }
 
-    public String getVehicleVehicleRepairCost() {
+    public int getVehicleVehicleRepairCost() {
         return vehicleVehicleRepairCost;
     }
 
-    public void setVehicleVehicleRepairCost(String vehicleVehicleRepairCost) {
+    public void setVehicleVehicleRepairCost(int vehicleVehicleRepairCost) {
         this.vehicleVehicleRepairCost = vehicleVehicleRepairCost;
     }
 
-    public String getVehicleMiscellaneous() {
+    public int getVehicleMiscellaneous() {
         return vehicleMiscellaneous;
     }
 
-    public void setVehicleMiscellaneous(String vehicleMiscellaneous) {
+    public void setVehicleMiscellaneous(int vehicleMiscellaneous) {
         this.vehicleMiscellaneous = vehicleMiscellaneous;
     }
 
@@ -143,5 +144,13 @@ public class VehicleRepairDTO {
 
     public void setVehicleType(String vehicleType) {
         this.vehicleType = vehicleType;
+    }
+
+    public String getVehicleRepairApprove() {
+        return vehicleRepairApprove;
+    }
+
+    public void setVehicleRepairApprove(String vehicleRepairApprove) {
+        this.vehicleRepairApprove = vehicleRepairApprove;
     }
 }

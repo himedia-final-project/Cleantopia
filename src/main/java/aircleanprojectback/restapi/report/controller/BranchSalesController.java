@@ -38,6 +38,20 @@ public class BranchSalesController {
         return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회성공", branchSales));
     }
 
+    // 매출보고서 필터링 조회
+    @GetMapping("/location/branch-sales")
+    public ResponseEntity<ResponseDTO> locationBranchSales(@RequestParam(defaultValue = "1") String offset,
+                                                           @RequestParam String memberName) {
+        Criteria branchSalesCriteriaMemberName = new Criteria();
+        branchSalesCriteriaMemberName.setPageNum(Integer.parseInt(offset));
+        branchSalesCriteriaMemberName.setAmount(6);
+        Page<BranchSalesDTO> branchSalesMemberName = branchSalesService.findBranchSalesMemberName(branchSalesCriteriaMemberName,memberName);
+
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(HttpStatus.OK,"필터링조회 완료", branchSalesMemberName));
+
+    }
+
     // /company 매출보고서 세부조회
     @GetMapping("/company/{branchCode}/detailBranch")
     public ResponseEntity<ResponseDTO> selectBranchSalesByBranchCode(@PathVariable int branchCode) {
@@ -80,15 +94,14 @@ public class BranchSalesController {
     public ResponseEntity<ResponseDTO> updateApproveBranchSales(@PathVariable int branchReportCode) {
 
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "매출보고서 상태수정 승인 성공", branchSalesService.updateBranchSalesState(branchReportCode, "승인")));
-
+                .body(new ResponseDTO(HttpStatus.OK, "매출보고서 상태수정 승인 성공", branchSalesService.updateBranchSalesState(branchReportCode, "Y", "Y")));
     }
 
     // 매출보고서 상태변화 수정 - 반려
     @PutMapping("/company/reports/reject/{branchReportCode}")
     public ResponseEntity<ResponseDTO> updateRejectBranchSales(@PathVariable int branchReportCode) {
         return ResponseEntity.ok()
-                .body(new ResponseDTO(HttpStatus.OK, "매출보고서 상태수정 반려 성공", branchSalesService.updateBranchSalesState(branchReportCode, "반려")));
+                .body(new ResponseDTO(HttpStatus.OK, "매출보고서 상태수정 반려 성공", branchSalesService.updateBranchSalesState(branchReportCode, "N", "R")));
     }
 
     // /location 지점장이 매출보고서 삭제
