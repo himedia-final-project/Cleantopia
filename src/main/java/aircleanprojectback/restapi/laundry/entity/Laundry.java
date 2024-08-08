@@ -75,5 +75,9 @@ public class Laundry {
     @Column(name = "laundry_completed_state")
     private String laundryCompleted;
 
+    // 세탁 완료 날짜
+    @Column(name = "laundry_completed_date")
+    private Date laundryCompletedDate;
+
 
 }

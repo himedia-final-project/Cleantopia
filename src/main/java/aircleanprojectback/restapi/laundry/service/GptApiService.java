@@ -34,11 +34,11 @@ public class GptApiService {
                             "}. \n" +
                             "The required fields are: \n" +
                             "    \"laundryCode\": (return the original laundryCode as provided),\n" +
-                            "    \"laundryTime\": (optimized laundry time),\n" +
-                            "    \"laundryDetergentAmount\": (optimized detergent amount),\n" +
-                            "    \"laundryWaterAmount\": (optimized water amount),\n" +
-                            "    \"laundryDryingTime\": (optimized drying time),\n" +
-                            "    \"laundryDryCleaningTime\": (if 'Y', provide dry cleaning time; if 'N', set to 0).\n" +
+                            "    \"laundryTime\": (optimized laundry time in minutes),\n" +
+                            "    \"laundryDetergentAmount\": (optimized detergent amount in mL),\n" +
+                            "    \"laundryWaterAmount\": (optimized water amount in L),\n" +
+                            "    \"laundryDryingTime\": (optimized drying time in minutes),\n" +
+                            "    \"laundryDryCleaningTime\": (if 'Y', provide dry cleaning time in minutes; if 'N', set to 0).\n" +
                             "Return the result as a JSON object with these fields.",
                     laundryCode, laundryWeight, laundryFabricType, laundryDryCleaningStatus, laundryDirtyLevel
             );

@@ -26,8 +26,6 @@ public class LaundryWay {
     @Column(name = "laundry_time")
     private String laundryTime;
 
-
-
     // 세제량
     @Column(name = "laundry_detergent_amount")
     private String laundryDetergentAmount;

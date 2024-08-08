@@ -6,6 +6,7 @@ import aircleanprojectback.restapi.branch.dto.FacilityDetailDTO;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 //import aircleanprojectback.restapi.facility.service.FacilityService;
 import aircleanprojectback.restapi.facility.dto.FacilityDetailOnlyDTO;
+import aircleanprojectback.restapi.facility.dto.LaundryAndLaundryWayDTO;
 import aircleanprojectback.restapi.facility.service.FacilityService;
 import aircleanprojectback.restapi.laundry.dto.LaundryWayDTO;
 import aircleanprojectback.restapi.laundry.dto.WaterTankDTO;
@@ -80,9 +81,9 @@ public class FacilityController {
     @GetMapping("/facility/laundryWay")
     public ResponseEntity<ResponseDTO> getLaundryWay(@RequestParam String branchCode) {
 
-        List<LaundryWayDTO> laundryWayList = service.findMyLaundryWay(branchCode);
+        List<LaundryAndLaundryWayDTO> laundryWayList = service.findMyLaundryWay(branchCode);
 
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "시설 도출된 세탁정보 조회 완료", "도출된 데이터 조회 완료"));
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "시설 도출된 세탁정보 조회 완료", laundryWayList));
 
     }
 
