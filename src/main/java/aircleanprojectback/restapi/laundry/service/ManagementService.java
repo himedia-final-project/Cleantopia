@@ -146,6 +146,14 @@ public class ManagementService {
     }
 
     @Transactional
+    public void updateLaundryBringCustomerStatus(){
+        List<Laundry> result = laundryRepository.findAllByLaundryCompletedDate(LocalDate.now().minusDays(1));
+        for (Laundry laundry :result){
+            laundry.bringCustomerStatus("Y");
+        }
+    }
+
+    @Transactional
     public List<LaundryDTO> getLaundryArrived(String branchCode) {
 
         List<Laundry> result = laundryRepository.findAllByLaundryApprovalDate(LocalDate.now().minusDays(1));

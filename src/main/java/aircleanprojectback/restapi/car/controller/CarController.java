@@ -1,10 +1,7 @@
 
 package aircleanprojectback.restapi.car.controller;
 
-import aircleanprojectback.restapi.car.dto.CarAndDriverDTO;
-import aircleanprojectback.restapi.car.dto.CarDTO;
-import aircleanprojectback.restapi.car.dto.DriverDTO;
-import aircleanprojectback.restapi.car.dto.MemberNameAndDriverDTO;
+import aircleanprojectback.restapi.car.dto.*;
 import aircleanprojectback.restapi.car.service.CarService;
 import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
@@ -94,9 +91,17 @@ public class CarController {
 
 
     @GetMapping("branch/laundry")
-    public ResponseEntity<ResponseDTO> getCarWithLaundry(@RequestParam(defaultValue = "1")String offset, @RequestParam(defaultValue = "false") String isFoward){
+    public ResponseEntity<ResponseDTO> getCarWithLaundry(@RequestParam(defaultValue = "1")String offset ,@RequestParam String branchCode,@RequestParam(defaultValue = "false")String isFoward){
 
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"차량기사 정보 제공","간디"));
+
+        Criteria cri = new Criteria();
+        cri.setPageNum(Integer.parseInt(offset));
+        cri.setAmount(5);
+        Page<LaundryAndDriverDTO> laundryAndDriverDTOS = carService.getCarWithLaundry(cri,branchCode,isFoward);
+
+        System.out.println("laundryAndDriverDTOS.getContent() = " + laundryAndDriverDTOS.getContent());
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"차량기사 정보 제공",laundryAndDriverDTOS));
     }
 //    @PostMapping("/company/assignDriver")
 //    public ResponseEntity<ResponseDTO> assignDriverToCar(@RequestBody CarAndDriverDTO carAndDriverDTO) {

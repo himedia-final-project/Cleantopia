@@ -1,4 +1,4 @@
-package aircleanprojectback.restapi.laundry.entity;
+package aircleanprojectback.restapi.car.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +12,7 @@ import java.sql.Date;
 @Getter
 @Builder(toBuilder = true)
 @ToString
-public class Laundry {
+public class LaundryAndDriver {
 
     @Id
     @Column(name = "laundry_code")
@@ -79,23 +79,15 @@ public class Laundry {
     @Column(name = "laundry_completed_date")
     private Date laundryCompletedDate;
 
-    public Laundry laundryArriveStatus(String var){
-        laundryArriveStatus=var;
-        return this;
-    }
-
-    @Column(name = "pickup_driver")
-    private String pickupDriver;
-
-    @Column(name = "delivery_driver")
-    private String deliveryDriver;
-
-
+    // 고객 세탁물 완료후 반환 여부
     @Column(name = "bring_customer_status")
     private String bringCustomerStatus;
 
-    public Laundry bringCustomerStatus(String var) {
-        bringCustomerStatus = var;
-        return this;
-    }
+    @ManyToOne
+    @JoinColumn(name = "pickup_driver")
+    DriverAndMember pickDriverMember;
+
+    @ManyToOne
+    @JoinColumn(name = "delivery_driver")
+    DriverAndMember deliveryDriverMember;
 }

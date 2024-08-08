@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface LaundryRepository extends JpaRepository<Laundry, Long> {
-    
+
 
     List<Laundry> findByBranchCode(String branchCode);
 
@@ -27,4 +27,6 @@ public interface LaundryRepository extends JpaRepository<Laundry, Long> {
 
 
     List<Laundry> findAllByLaundryApprovalDate(LocalDate localDate);
+
+    List<Laundry> findAllByLaundryCompletedDate(LocalDate localDate);
 }
