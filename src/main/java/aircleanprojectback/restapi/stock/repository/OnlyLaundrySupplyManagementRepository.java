@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface OnlyLaundrySupplyManagementRepository extends JpaRepository<LaundrySupplyManagement, String> {
     List<LaundrySupplyManagement> findByLaundrySupplyCode(String laundrySupplyCode);
+
+    LaundrySupplyManagement findByBranchCodeAndLaundrySupplyCode(String branchCode, String ls001);
 }

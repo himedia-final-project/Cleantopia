@@ -60,6 +60,35 @@ public class FacilityController {
 
     }
 
+    @PutMapping("/facility/dryupdate")
+    public ResponseEntity<ResponseDTO> updateDryer(@RequestParam String laundryCode,@RequestParam String branchCode) {
+
+
+
+        System.out.println("laundryCode = " + laundryCode);
+
+
+
+        service.saveDryUpdate(laundryCode,branchCode);
+
+
+
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "수량 업데이트 완료", "수량 업데이트"));
+
+    }
+
+    @PutMapping("/facility/cleanerupdate")
+    public ResponseEntity<ResponseDTO> updateCleaner(@RequestParam String laundryCode,@RequestParam String branchCode) {
+
+        System.out.println("laundryCode = " + laundryCode);
+
+        service.saveCleanerUpdate(laundryCode,branchCode);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "수량 업데이트 완료", "수량 업데이트"));
+
+    }
+
     @Tag(name = "시설물 등록하기")
     @PostMapping("/facility/register")
     public ResponseEntity<ResponseDTO> registFacility(@RequestBody FacilityDetailOnlyDTO request) {
