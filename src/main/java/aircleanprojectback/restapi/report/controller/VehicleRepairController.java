@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -129,10 +131,10 @@ public class VehicleRepairController {
     public ResponseEntity<ResponseDTO> insertVehicleRepair(
             @Parameter(description = "차량수리비보고서 데이터", required = true)
             @ModelAttribute VehicleRepairDTO vehicleRepairDTO,
-            @Parameter(description = "수리 전 이미지 파일", required = true)
-            @RequestParam MultipartFile beforeImage,
-            @Parameter(description = "수리 후 이미지 파일", required = true)
-            @RequestParam MultipartFile afterImage) {
+            @Parameter(description = "수리 전 이미지 파일", required = false)
+            @RequestParam(required = false) MultipartFile beforeImage,
+            @Parameter(description = "수리 후 이미지 파일", required = false)
+            @RequestParam(required = false) MultipartFile afterImage) {
 
         System.out.println("vehicleRepairDTO = " + vehicleRepairDTO);
         System.out.println("beforeVehicleRepairImage = " + beforeImage);
@@ -146,4 +148,7 @@ public class VehicleRepairController {
         return ResponseEntity.ok()
                 .body(new ResponseDTO(HttpStatus.OK, "등록 성공", vehicleRepairDTO));
     }
+
+
+
 }

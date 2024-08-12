@@ -102,8 +102,8 @@ public class RepairController {
     public ResponseEntity<ResponseDTO> NewRepair(
             @Parameter(description = "수리보고서 데이터", required = true)
             @ModelAttribute RepairDTO repairDTO,
-            @Parameter(description = "수리 이미지 파일", required = true)
-            @RequestParam MultipartFile repairImage) {
+            @Parameter(description = "수리 이미지 파일", required = false)
+            @RequestParam(required = false)MultipartFile repairImage) {
 
         System.out.println("repairDTO = " + repairDTO);
         System.out.println("repairImage = " + repairImage);
