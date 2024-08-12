@@ -29,7 +29,7 @@ public class StockController {
     }
 
     // React 에서 토큰 정보 땡겨와서 하기!
-    @Tag(name = "세탁용품 재고 정보 조회")
+    @Tag(name = "세탁용품 재고 정보 조회", description = "본사 세탁용품 재고정보 전체 조회")
     @GetMapping("/company/stock/detergents")
     public ResponseEntity<ResponseDTO> showDetergentsInfo(@RequestParam Map<String,String> members) {
 
@@ -46,7 +46,7 @@ public class StockController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회 성공", detergentsStockInfo));
     }
 
-    @Tag(name = "부품 재고 정보 조회")
+    @Tag(name = "부품 재고 정보 조회", description = "본사 세탁부품 재고정보 전체 조회")
     @GetMapping("/company/stock/parts")
     public ResponseEntity<ResponseDTO> showPartsInfo(@RequestParam Map<String, String> members) {
 
@@ -61,7 +61,7 @@ public class StockController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "조회 성공", partsStockInfo));
     }
 
-    @Tag(name = "본사 재고 신청")
+    @Tag(name = "본사 재고 신청", description = "본사에서 재고 신청서 작성 시 신청서 DB 업데이트")
     @PostMapping("/company/stock/application")
     public ResponseEntity<ResponseDTO> headStockApplication(@RequestBody HeadStockApplicationDTO headStockApplicationDTO) {
 
@@ -74,7 +74,7 @@ public class StockController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"들어옴","headStockApplication"));
     }
 
-    @Tag(name = "지점 발주 신청")
+    @Tag(name = "지점 발주 신청", description = "지점에서 발주 신청서 작성 시 신청서 DB 업데이트")
     @PostMapping("/client/stock/application")
     public ResponseEntity<ResponseDTO> branchStockApplication(@RequestBody BranchStockApplicationDTO branchStockApplicationDTO) {
 
@@ -86,7 +86,7 @@ public class StockController {
 
     }
 
-    @Tag(name = "본사 재고 업데이트")
+    @Tag(name = "본사 재고 업데이트", description = "본사에서 재고 신청 시 전체 재고 업데이트")
     @PutMapping("/company/stock/update")
     public ResponseEntity<ResponseDTO> headStockUpdate(@RequestBody HeadStockUpdate request) {
 
@@ -97,7 +97,7 @@ public class StockController {
 
     }
 
-    @Tag(name = "본사 재고 신청내역 조회")
+    @Tag(name = "본사 재고 신청내역 조회", description = "본사에서 재고 신청 정보 'E 또는 A' 로 시작하는 memberId로 조회하기")
     @GetMapping("/company/stock/application")
     public ResponseEntity<ResponseDTO> headStockHistory() {
 
@@ -110,7 +110,7 @@ public class StockController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "내역조회 성공", headStockApplicationDTO));
     }
 
-    @Tag(name = "본사 지점발주내역 조회")
+    @Tag(name = "본사 지점발주내역 조회", description = "본사에서 지점의 발주내역 조회하기")
     @GetMapping("/company/stock/branchApplication")
     public ResponseEntity<ResponseDTO> headBranchApplication() {
 
@@ -122,7 +122,7 @@ public class StockController {
 
     }
 
-    @Tag(name = "본사 지점발주내역 승인 및 본사 재고 업데이트")
+    @Tag(name = "본사 지점발주내역 승인 및 본사 재고 업데이트", description = "본사에서 지점의 발주 승인 시 상태변경 및 본사 재고 업데이트")
     @PutMapping("/company/stock/branchStockUpdate")
     public ResponseEntity<ResponseDTO> headBranchStockUpdate(@RequestBody HeadStockUpdate request) {
 
@@ -133,7 +133,7 @@ public class StockController {
 
     }
 
-    @Tag(name = "본사 지점발주신청 정보 업데이트")
+    @Tag(name = "본사 지점발주신청 정보 업데이트", description = "본사에서 지점 발주신청 관련 정보(승인자, 승인일, 승인상태) 업데이트")
     @PutMapping("/company/stock/branchApplication/{bApplicationCode}")
     public ResponseEntity<ResponseDTO> headBranchStatusUpdate(@PathVariable int bApplicationCode, @RequestBody BranchStockApplicationDTO request) {
 
@@ -145,7 +145,7 @@ public class StockController {
 
     }
 
-    @Tag(name = "지점 신청내역 정보 조회")
+    @Tag(name = "지점 신청내역 정보 조회", description = "지점에서 발주내역 조회하기")
     @GetMapping("/client/stock/branchHistory")
     public ResponseEntity<ResponseDTO> specificBranchHistory(@RequestParam String branchCode) {
 
@@ -155,7 +155,7 @@ public class StockController {
 
     }
 
-    @Tag(name = "지점 배송완료 상태 업데이트")
+    @Tag(name = "지점 배송완료 상태 업데이트", description = "지점에서 배송완료 선택 시 상태 업데이트")
     @PutMapping("/client/stock/deliveryUpdate")
     public ResponseEntity<ResponseDTO> branchDeliveryUpdate(@RequestBody BranchStockApplicationDTO branchStockApplicationDTO) {
 
@@ -167,7 +167,7 @@ public class StockController {
 
     }
 
-    @Tag(name = "지점 세탁용품 재고 업데이트")
+    @Tag(name = "지점 세탁용품 재고 업데이트", description = "지점에서 배송완료 선택 시 지점 세탁용품 재고 업데이트")
     @PostMapping("/client/stock/updateLaundrySupplyManagement")
     public ResponseEntity<ResponseDTO> branchSupplyUpdate(@RequestBody BranchStockUpdate request) {
 
@@ -179,7 +179,7 @@ public class StockController {
 
     }
 
-    @Tag(name = "지점 세탁부품 재고 업데이트")
+    @Tag(name = "지점 세탁부품 재고 업데이트", description = "지점에서 배송완료 선택 시 지점 세탁부품 재고 업데이트")
     @PostMapping("/client/stock/updateLaundryPartManagement")
     public ResponseEntity<ResponseDTO> branchPartUpdate(@RequestBody BranchStockUpdate request) {
 
