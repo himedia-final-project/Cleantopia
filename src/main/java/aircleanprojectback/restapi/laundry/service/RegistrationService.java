@@ -42,9 +42,13 @@ public class RegistrationService {
     public List<LaundryWayDTO> registLaundryWay(Map<String, Object> payload) throws IOException {
         List<Map<String, Object>> selectedItems = (List<Map<String, Object>>) payload.get("selectedItems");
 
+
         List<LaundryWayDTO> result = new ArrayList<>();
 
         for (Map<String, Object> item : selectedItems) {
+
+            System.out.println("item.get(\"laundryDryCleaningStatus\") = " + item.get("laundryDryCleaningStatus"));
+
             int laundryCode = (Integer) item.get("laundryCode");
             int laundryWeight = (Integer) item.get("laundryWeight");
             String laundryFabricType = (String) item.get("laundryFabricType");

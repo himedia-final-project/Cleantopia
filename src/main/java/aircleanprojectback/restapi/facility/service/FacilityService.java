@@ -14,20 +14,20 @@ import aircleanprojectback.restapi.facility.repository.FacilityDetailOnlyReposit
 import aircleanprojectback.restapi.facility.repository.FacilityLaundryRepository;
 import aircleanprojectback.restapi.facility.repository.FacilityLaundryWayRepository;
 import aircleanprojectback.restapi.facility.repository.UpdatateWaterTanckRepository;
-import aircleanprojectback.restapi.laundry.dto.LaundryDTO;
-import aircleanprojectback.restapi.laundry.dto.LaundryWayDTO;
 import aircleanprojectback.restapi.laundry.dto.WaterTankDTO;
 import aircleanprojectback.restapi.laundry.entity.Laundry;
 import aircleanprojectback.restapi.laundry.entity.LaundryWay;
 import aircleanprojectback.restapi.laundry.entity.WaterTank;
+import aircleanprojectback.restapi.laundry.repository.LaundryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 //import org.springframework.ui.Model;
 //
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 //
@@ -41,16 +41,17 @@ public class FacilityService {
     private final FacilityDetailOnlyRepository facilityDetailOnlyRepository;
     private final FacilityLaundryRepository facilityLaundryRepository;
     private final FacilityLaundryWayRepository facilityLaundryWayRepository;
+    private final LaundryRepository laundryRepository;
 
     @Autowired
-    public FacilityService(FacilityLaundryRepository facilityLaundryRepository, FacilityLaundryWayRepository facilityLaundryWayRepository ,FacilityDetailOnlyRepository facilityDetailOnlyRepository ,ModelMapper modelMapper, FacilityDetailRepository facilityDetailRepository, UpdatateWaterTanckRepository updatateWaterTanckRepository){
+    public FacilityService(FacilityLaundryRepository facilityLaundryRepository, FacilityLaundryWayRepository facilityLaundryWayRepository , FacilityDetailOnlyRepository facilityDetailOnlyRepository , ModelMapper modelMapper, FacilityDetailRepository facilityDetailRepository, UpdatateWaterTanckRepository updatateWaterTanckRepository, LaundryRepository laundryRepository){
         this.modelMapper = modelMapper;
         this.facilityDetailRepository = facilityDetailRepository;
         this.updatateWaterTanckRepository = updatateWaterTanckRepository;
         this.facilityDetailOnlyRepository = facilityDetailOnlyRepository;
         this.facilityLaundryRepository = facilityLaundryRepository;
         this.facilityLaundryWayRepository = facilityLaundryWayRepository;
-
+        this.laundryRepository = laundryRepository;
     }
 
     public List<FacilityDetailDTO> findFacilityByBranchCode(String branchCode) {
@@ -67,7 +68,7 @@ public class FacilityService {
     }
 
     @Transactional
-    public void saveUpdaterWaterCapacity(WaterTankDTO waterTankDTO) {
+    public void saveUpdaterWaterCapacity(WaterTankDTO waterTankDTO, String laundryDetergentAmount, String laundryCode) {
 
         WaterTank waterTank = updatateWaterTanckRepository.findByBranchCode(waterTankDTO.getBranchCode());
 
@@ -75,8 +76,19 @@ public class FacilityService {
                 .waterCurCapacity(waterTankDTO.getWaterCurCapacity())
                 .build();
 
-        updatateWaterTanckRepository.save(waterTank);
 
+
+        Laundry updateLaundry = laundryRepository.findByLaundryCode(Integer.parseInt(laundryCode));
+        updateLaundry.laundryCompletedDate(Date.valueOf(LocalDate.now()));
+        updateLaundry.laundryCompleted("Y");
+
+
+
+        System.out.println("updateLaundry = " + updateLaundry);
+
+
+        updatateWaterTanckRepository.save(waterTank);
+        laundryRepository.save(updateLaundry);
     }
 
     @Transactional
@@ -116,5 +128,6 @@ public class FacilityService {
 
 
     }
+
 
 }

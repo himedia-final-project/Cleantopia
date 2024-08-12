@@ -29,4 +29,6 @@ public interface LaundryRepository extends JpaRepository<Laundry, Long> {
     List<Laundry> findAllByLaundryApprovalDate(LocalDate localDate);
 
     List<Laundry> findAllByLaundryCompletedDate(LocalDate localDate);
+
+    Laundry findByLaundryCode(int laundryCode);
 }
