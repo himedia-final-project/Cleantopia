@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,7 +44,7 @@ public class VehicleRepairService {
     // 차량보고서 전체  조회
     public Page<VehicleRepairDTO> getAllVehicleRepair(Criteria vehicleRepairCriteria) {
 
-        Pageable vehicleRepairPageable = PageRequest.of(vehicleRepairCriteria.getPageNum() -1, vehicleRepairCriteria.getAmount());
+        Pageable vehicleRepairPageable = PageRequest.of(vehicleRepairCriteria.getPageNum() -1, vehicleRepairCriteria.getAmount(), Sort.by(Sort.Direction.DESC, "vehicleReportCode"));
         Page<VehicleRepair> vehicleRepairPage = vehicleRepairRepository.findAll(vehicleRepairPageable);
         Page<VehicleRepairDTO> vehicleRepairDTO = vehicleRepairPage.map(vehicleRepair -> modelMapper.map(vehicleRepair, VehicleRepairDTO.class));
 
@@ -115,6 +116,8 @@ public class VehicleRepairService {
 
         return "보고서 등록성공";
     }
+
+
 
 
 

@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/paper")
 @Slf4j
-@Tag(name = "각 지점 매출보고서", description = "지점매출보고서 관리 API")
+@Tag(name = "지점 매출보고서", description = "지점매출보고서 관리 API")
 public class BranchSalesController {
 
     private final BranchSalesService branchSalesService;

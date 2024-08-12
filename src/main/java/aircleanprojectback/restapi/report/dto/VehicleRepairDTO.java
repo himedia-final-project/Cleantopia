@@ -19,6 +19,7 @@ public class VehicleRepairDTO {
     private int vehicleVehicleRepairCost;       // 수리비
     private int vehicleMiscellaneous;           // 기타
     private Date vehicleSubmissionDate;         // 제출일
+    private Date vehicleRepairDate;             // 영수증 날짜
     private String driverLicenseNumber;         // 면허번호
     private int totalVehicleRepairCost;         // 총 수리비 금액
     private String memberName;                  // 차량기사 이름
