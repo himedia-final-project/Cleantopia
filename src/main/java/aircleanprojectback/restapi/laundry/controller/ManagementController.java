@@ -88,16 +88,23 @@ public class ManagementController {
                 .body(new ResponseMessage(200, "laundry 조회 성공", responseMap));
     }
 
+    // 도착된 세탁 조회
     @GetMapping("arrivedLaundry/{branchCode}")
     public ResponseEntity<ResponseDTO> getLaundryArrived(@PathVariable String branchCode){
 
+        System.out.println("arrivedLaundry 실행됨" + branchCode );
+
         List<LaundryDTO> arrivedLaundryList = managementService.getLaundryArrived(branchCode);
 
+
+        
         System.out.println("arrivedLaundryList = " + arrivedLaundryList);
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"도착한 세탁물 ",arrivedLaundryList));
     }
 
+
+    // 승낙 버튼 눌렀을때 동작
     @PutMapping("/updateLaundryStatus")
     public ResponseEntity<ResponseMessage> updateLaundryStatus(@RequestBody Map<String, Object> payload) {
         int laundryCode = (int) payload.get("laundryCode");
@@ -110,6 +117,7 @@ public class ManagementController {
         System.out.println("Status Value: " + statusValue);
 
         boolean updateSuccess = managementService.updateLaundryStatus(laundryCode, statusType, statusValue);
+
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("updateSuccess", updateSuccess);

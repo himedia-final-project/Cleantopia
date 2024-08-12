@@ -53,6 +53,8 @@ public class RegistrationService {
             int laundryWeight = (Integer) item.get("laundryWeight");
             String laundryFabricType = (String) item.get("laundryFabricType");
             String laundryDryCleaningStatus = (String) item.get("laundryDryCleaningStatus");
+
+            System.out.println("확인좀 해봐라잉"+laundryDryCleaningStatus);
             int laundryDirtyLevel = (Integer) item.get("laundryDirtyLevel");
 
             laundryRepository.updateWashingInstructionStatus("Y", laundryCode);
