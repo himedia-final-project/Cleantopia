@@ -33,6 +33,9 @@ public class LaundryDTO {
     private String bringCustomerStatus;
     private String cleaningStatus;
     private String dryStatus;
+    private String allComplete;
+    private Date allCompleteDate;
+
 //    public LaundryDTO() {
 //    }
 //

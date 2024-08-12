@@ -79,6 +79,24 @@ public class Laundry {
     @Column(name = "laundry_completed_date")
     private Date laundryCompletedDate;
 
+    // 모든 세탁 종료 상태
+    @Column(name = "all_complete")
+    private String allComplete;
+
+    public Laundry allComplete(String var){
+        allComplete= var;
+        return this;
+    }
+
+    // 모든 세탁 종료일
+    @Column(name = "all_complete_date")
+    private Date allCompleteDate;
+
+    public Laundry allCompleteDate(Date var){
+        allCompleteDate= var;
+        return this;
+    }
+
     public Laundry laundryArriveStatus(String var){
         laundryArriveStatus=var;
         return this;
@@ -114,6 +132,16 @@ public class Laundry {
 
     public Laundry laundryCompleted(String var){
         laundryCompleted = var;
+        return this;
+    }
+
+    public Laundry dryStatus(String var){
+        dryStatus = var;
+        return this;
+    }
+
+    public Laundry cleaningStatus(String var){
+        cleaningStatus = var;
         return this;
     }
 }

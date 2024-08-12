@@ -19,6 +19,8 @@ import aircleanprojectback.restapi.laundry.entity.Laundry;
 import aircleanprojectback.restapi.laundry.entity.LaundryWay;
 import aircleanprojectback.restapi.laundry.entity.WaterTank;
 import aircleanprojectback.restapi.laundry.repository.LaundryRepository;
+import aircleanprojectback.restapi.stock.entity.LaundrySupplyManagement;
+import aircleanprojectback.restapi.stock.repository.OnlyLaundrySupplyManagementRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +44,10 @@ public class FacilityService {
     private final FacilityLaundryRepository facilityLaundryRepository;
     private final FacilityLaundryWayRepository facilityLaundryWayRepository;
     private final LaundryRepository laundryRepository;
+    private final OnlyLaundrySupplyManagementRepository onlyLaundrySupplyManagementRepository;
 
     @Autowired
-    public FacilityService(FacilityLaundryRepository facilityLaundryRepository, FacilityLaundryWayRepository facilityLaundryWayRepository , FacilityDetailOnlyRepository facilityDetailOnlyRepository , ModelMapper modelMapper, FacilityDetailRepository facilityDetailRepository, UpdatateWaterTanckRepository updatateWaterTanckRepository, LaundryRepository laundryRepository){
+    public FacilityService(FacilityLaundryRepository facilityLaundryRepository, FacilityLaundryWayRepository facilityLaundryWayRepository , FacilityDetailOnlyRepository facilityDetailOnlyRepository , ModelMapper modelMapper, FacilityDetailRepository facilityDetailRepository, UpdatateWaterTanckRepository updatateWaterTanckRepository, LaundryRepository laundryRepository, OnlyLaundrySupplyManagementRepository onlyLaundrySupplyManagementRepository){
         this.modelMapper = modelMapper;
         this.facilityDetailRepository = facilityDetailRepository;
         this.updatateWaterTanckRepository = updatateWaterTanckRepository;
@@ -52,6 +55,7 @@ public class FacilityService {
         this.facilityLaundryRepository = facilityLaundryRepository;
         this.facilityLaundryWayRepository = facilityLaundryWayRepository;
         this.laundryRepository = laundryRepository;
+        this.onlyLaundrySupplyManagementRepository = onlyLaundrySupplyManagementRepository;
     }
 
     public List<FacilityDetailDTO> findFacilityByBranchCode(String branchCode) {
@@ -82,13 +86,61 @@ public class FacilityService {
         updateLaundry.laundryCompletedDate(Date.valueOf(LocalDate.now()));
         updateLaundry.laundryCompleted("Y");
 
+        LaundrySupplyManagement updateDetergent = onlyLaundrySupplyManagementRepository.findByBranchCodeAndLaundrySupplyCode(waterTankDTO.getBranchCode(),"LS001");
 
+        LaundrySupplyManagement updateSoftner = onlyLaundrySupplyManagementRepository.findByBranchCodeAndLaundrySupplyCode(waterTankDTO.getBranchCode(),"LS002");
+
+        LaundrySupplyManagement updateTubCleaner = onlyLaundrySupplyManagementRepository.findByBranchCodeAndLaundrySupplyCode(waterTankDTO.getBranchCode(),"LS005");
+        updateDetergent.laundrySupplyStock(updateDetergent.getLaundrySupplyStock()-Integer.parseInt(laundryDetergentAmount));
+        updateSoftner.laundrySupplyStock((int) (updateSoftner.getLaundrySupplyStock()-Integer.parseInt(laundryDetergentAmount)*1.2));
+        updateTubCleaner.laundrySupplyStock(updateTubCleaner.getLaundrySupplyStock()-1);
+
+        onlyLaundrySupplyManagementRepository.save(updateDetergent);
+        onlyLaundrySupplyManagementRepository.save(updateSoftner);
+        onlyLaundrySupplyManagementRepository.save(updateTubCleaner);
 
         System.out.println("updateLaundry = " + updateLaundry);
 
 
         updatateWaterTanckRepository.save(waterTank);
         laundryRepository.save(updateLaundry);
+    }
+
+    @Transactional
+    public void saveDryUpdate(String laundryCode, String branchCode) {
+
+        LaundrySupplyManagement updateDryer = onlyLaundrySupplyManagementRepository.findByBranchCodeAndLaundrySupplyCode(branchCode,"LS006");
+
+        updateDryer.laundrySupplyStock(updateDryer.getLaundrySupplyStock()-1);
+
+        onlyLaundrySupplyManagementRepository.save(updateDryer);
+
+        Laundry laundry = laundryRepository.findByLaundryCode(Integer.parseInt(laundryCode));
+
+        laundry.dryStatus("Y");
+
+        if(laundry.getCleaningStatus().equals("N")){
+            laundry.allComplete("Y");
+            laundry.allCompleteDate(Date.valueOf(LocalDate.now()));
+        }
+
+        laundryRepository.save(laundry);
+
+
+    }
+
+    @Transactional
+    public void saveCleanerUpdate(String laundryCode, String branchCode) {
+
+        Laundry laundry = laundryRepository.findByLaundryCode(Integer.parseInt(laundryCode));
+
+        laundry.cleaningStatus("Y");
+        laundry.allComplete("Y");
+        laundry.allCompleteDate(Date.valueOf(LocalDate.now()));
+
+        laundryRepository.save(laundry);
+
+
     }
 
     @Transactional
@@ -128,6 +180,7 @@ public class FacilityService {
 
 
     }
+
 
 
 }
