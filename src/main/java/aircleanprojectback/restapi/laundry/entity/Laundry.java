@@ -94,8 +94,26 @@ public class Laundry {
     @Column(name = "bring_customer_status")
     private String bringCustomerStatus;
 
+    // 건조기 돌렸는지 여부
+    @Column(name = "dry_status")
+    private String dryStatus;
+
+    // 드라이클리닝 완료여부
+    @Column(name = "cleaning_status")
+    private String cleaningStatus;
+
     public Laundry bringCustomerStatus(String var) {
         bringCustomerStatus = var;
+        return this;
+    }
+
+    public Laundry laundryCompletedDate(Date var){
+        laundryCompletedDate = var;
+        return this;
+    }
+
+    public Laundry laundryCompleted(String var){
+        laundryCompleted = var;
         return this;
     }
 }

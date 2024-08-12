@@ -31,7 +31,8 @@ public class LaundryDTO {
     private String deliveryDriver;
     private String pickupDriver;
     private String bringCustomerStatus;
-
+    private String cleaningStatus;
+    private String dryStatus;
 //    public LaundryDTO() {
 //    }
 //

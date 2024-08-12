@@ -43,14 +43,17 @@ public class FacilityController {
 
     @Tag(name = "물탱크 수량 업데이트")
     @PutMapping("/facility/laundryupdate")
-    public ResponseEntity<ResponseDTO> updateCurWater(@RequestBody WaterTankDTO updateTank ,@RequestParam String laundryDetergentAmount) {
+    public ResponseEntity<ResponseDTO> updateCurWater(@RequestBody WaterTankDTO updateTank ,@RequestParam String laundryDetergentAmount,@RequestParam String laundryCode) {
 
         System.out.println("waterTankDTO" + updateTank);
 
+        System.out.println("laundryCode = " + laundryCode);
+
         System.out.println("laundryDetergentAmount = " + laundryDetergentAmount);
 
+        service.saveUpdaterWaterCapacity(updateTank ,laundryDetergentAmount,laundryCode);
 
-        service.saveUpdaterWaterCapacity(updateTank);
+
 
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "수량 업데이트 완료", "수량 업데이트"));
