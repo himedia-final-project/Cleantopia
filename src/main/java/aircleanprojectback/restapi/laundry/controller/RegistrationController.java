@@ -29,6 +29,7 @@ public class RegistrationController {
         this.registrationService = registrationService;
     }
 
+    // 세탁 방법 도출 하기
     @PostMapping("registLaundryWay")
     public ResponseEntity<ResponseMessage> updateLaundryStatus(@RequestBody Map<String, Object> payload) throws IOException {
 
@@ -51,6 +52,7 @@ public class RegistrationController {
                 .body(new ResponseMessage(200, "세탁 방법 도출 성공", responseMap));
     }
 
+    // 도출된 세탁방법 조회
     @GetMapping("/selectLaundryWay/{branchCode}")
     public ResponseEntity<ResponseMessage> selectLaundryWay(@PathVariable String branchCode) {
 

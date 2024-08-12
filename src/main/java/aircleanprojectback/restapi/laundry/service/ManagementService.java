@@ -162,8 +162,11 @@ public class ManagementService {
             laundry.laundryArriveStatus("Y");
         }
 
+        List<Laundry> selectLaundry = laundryRepository.findByBranchCode(branchCode);
 
-        return result.stream().map(r->modelMapper.map(r,LaundryDTO.class)).collect(Collectors.toList());
+        return selectLaundry.stream()
+                .map(laundry -> modelMapper.map(laundry, LaundryDTO.class))
+                .collect(Collectors.toList());
     }
 
 }
