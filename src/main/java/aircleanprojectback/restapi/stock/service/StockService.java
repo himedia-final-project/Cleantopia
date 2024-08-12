@@ -2,11 +2,9 @@ package aircleanprojectback.restapi.stock.service;
 
 import aircleanprojectback.restapi.stock.dto.*;
 import aircleanprojectback.restapi.stock.entity.*;
-import aircleanprojectback.restapi.stock.repository.HeadBranchStockApplicationRepository;
-import aircleanprojectback.restapi.stock.repository.HeadStockApplicationRepository;
-import aircleanprojectback.restapi.stock.repository.LaundryPartManagementRepository;
-import aircleanprojectback.restapi.stock.repository.LaundrySupplyManagementRepository;
+import aircleanprojectback.restapi.stock.repository.*;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.ManyToAny;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,15 +25,22 @@ public class StockService {
 
     private final HeadBranchStockApplicationRepository headBranchStockApplicationRepository;
 
+    private final BranchStockApplicationRepository branchStockApplicationRepository;
+    private final OnlyLaundrySupplyManagementRepository onlyLaundrySupplyManagementRepository;
+    private final OnlyLaundryPartManagementRepository onlyLaundryPartManagementRepository;
+
     private final ModelMapper modelMapper;
 
     @Autowired
-    public StockService(LaundryPartManagementRepository laundryPartManagementRepository, LaundrySupplyManagementRepository laundrySupplyManagementRepository, ModelMapper modelMapper, HeadStockApplicationRepository headStockApplicationRepository, HeadBranchStockApplicationRepository headBranchStockApplicationRepository) {
+    public StockService(OnlyLaundrySupplyManagementRepository onlyLaundrySupplyManagementRepository, OnlyLaundryPartManagementRepository onlyLaundryPartManagementRepository ,BranchStockApplicationRepository branchStockApplicationRepository, LaundryPartManagementRepository laundryPartManagementRepository, LaundrySupplyManagementRepository laundrySupplyManagementRepository, ModelMapper modelMapper, HeadStockApplicationRepository headStockApplicationRepository, HeadBranchStockApplicationRepository headBranchStockApplicationRepository) {
         this.laundryPartManagementRepository = laundryPartManagementRepository;
         this.laundrySupplyManagementRepository = laundrySupplyManagementRepository;
         this.modelMapper = modelMapper;
         this.headStockApplicationRepository = headStockApplicationRepository;
         this.headBranchStockApplicationRepository = headBranchStockApplicationRepository;
+        this.branchStockApplicationRepository = branchStockApplicationRepository;
+        this.onlyLaundryPartManagementRepository = onlyLaundryPartManagementRepository;
+        this.onlyLaundrySupplyManagementRepository = onlyLaundrySupplyManagementRepository;
     }
 
     public List<LaundryPartAndManagementDTO> selectAllHPart() {
@@ -108,6 +113,20 @@ public class StockService {
     }
 
     @Transactional
+    public BranchStockApplicationDTO saveBranchStockApplication(BranchStockApplicationDTO branchStockApplicationDTO) {
+
+        BranchStockApplication branchStockApplication = modelMapper.map(branchStockApplicationDTO, BranchStockApplication.class);
+
+        System.out.println("branchStockApplication = " + branchStockApplication);
+        BranchStockApplication branchStockApplication1 = branchStockApplicationRepository.save(branchStockApplication);
+
+        System.out.println("branchStockApplication1 = " + branchStockApplication1);
+        return modelMapper.map(branchStockApplication1, BranchStockApplicationDTO.class);
+
+    }
+
+
+    @Transactional
     public void updateStock(HeadStockUpdate request) {
 
         for (LaundrySupplyAndManagementDTO detergentDTO : request.getDetergents()) {
@@ -140,6 +159,18 @@ public class StockService {
 
     }
 
+    public List<BranchStockApplicationDTO> getBranchStockHistory(String branchCode) {
+
+        List<BranchStockApplication> branchApplicationEntity = branchStockApplicationRepository.findAllByBranchCode(branchCode);
+
+        List<BranchStockApplicationDTO> branchStockAPplicationDTO = branchApplicationEntity.stream()
+                .map(entity -> modelMapper.map(entity, BranchStockApplicationDTO.class))
+                .collect(Collectors.toList());
+
+        return branchStockAPplicationDTO;
+
+    }
+
     public List<BranchStockApplicationDTO> getHeadBranchStockApplication() {
 
         List<BranchStockApplication> branchStockApplicationEntity = headBranchStockApplicationRepository.findByBranchCodeStartingWith("BR");
@@ -151,6 +182,8 @@ public class StockService {
         return  branchStockApplicationDTO;
 
     }
+
+
 
     @Transactional
     public void updateHeadBranchStock(HeadStockUpdate request) {
@@ -198,5 +231,66 @@ public class StockService {
 
         headBranchStockApplicationRepository.save(branchStockApplication);
 
+    }
+
+
+    @Transactional
+    public void updateBranchAppDeliveryStatus(BranchStockApplicationDTO branchStockApplicationDTO) {
+
+        BranchStockApplication branchStockApplication = branchStockApplicationRepository.findByBApplicationCode(branchStockApplicationDTO.getbApplicationCode());
+
+        branchStockApplication = branchStockApplication.toBuilder()
+                .bApplicationStatus(branchStockApplicationDTO.getbApplicationStatus())
+                .build();
+
+        branchStockApplicationRepository.save(branchStockApplication);
+
+    }
+
+    @Transactional
+    public void updateBranchSupply(BranchStockUpdate request) {
+
+        List<LaundrySupplyManagementDTO> detergents = request.getDetergents();
+
+                for (LaundrySupplyManagementDTO detergentDTO : detergents) {
+                    // DTO에서 laundrySupplyCode를 사용해 해당 엔티티를 조회
+                    List<LaundrySupplyManagement> supplyManagements = onlyLaundrySupplyManagementRepository.findByLaundrySupplyCode(detergentDTO.getLaundrySupplyCode());
+
+                    // 조회된 엔티티 리스트를 순회하며 재고 수량을 업데이트
+                    for (LaundrySupplyManagement supplyManagement : supplyManagements) {
+                        int updatedStock = supplyManagement.getLaundrySupplyStock() + detergentDTO.getLaundrySupplyStock();
+
+                        // 빌더 패턴을 사용해 업데이트된 엔티티 생성
+                        LaundrySupplyManagement updatedEntity = supplyManagement.toBuilder()
+                                .laundrySupplyStock(updatedStock)
+                                .build();
+
+                        // 엔티티 저장
+                        onlyLaundrySupplyManagementRepository.save(updatedEntity);
+            }
+        }
+    }
+
+    public void updateBranchPart(BranchStockUpdate request) {
+
+        List<LaundryPartManagementDTO> parts = request.getParts();
+
+        for (LaundryPartManagementDTO partDTO : parts) {
+            // DTO에서 laundrySupplyCode를 사용해 해당 엔티티를 조회
+            List<LaundryPartManagement> partManagements = onlyLaundryPartManagementRepository.findByLaundryPartCode(partDTO.getLaundryPartCode());
+
+            // 조회된 엔티티 리스트를 순회하며 재고 수량을 업데이트
+            for (LaundryPartManagement partManagement : partManagements) {
+                int updatedStock = partManagement.getLaundryPartStock() + partDTO.getLaundryPartStock();
+
+                // 빌더 패턴을 사용해 업데이트된 엔티티 생성
+                LaundryPartManagement updatedEntity = partManagement.toBuilder()
+                        .laundryPartStock(updatedStock)
+                        .build();
+
+                // 엔티티 저장
+                onlyLaundryPartManagementRepository.save(updatedEntity);
+            }
+        }
     }
 }
