@@ -24,7 +24,7 @@ public class GptApiService {
             OpenAiService service = new OpenAiService(openAiApiKey, Duration.ofSeconds(10));
 
             // 요청 메시지 구성
-            String input = String.format(
+            String input =  String.format(
                     "Given the following laundry details, please provide the following information in JSON format: {\n" +
                             "    \"laundryCode\": %d,\n" +
                             "    \"laundryWeight\": %d,\n" +
@@ -38,7 +38,7 @@ public class GptApiService {
                             "    \"laundryDetergentAmount\": (optimized detergent amount in mL),\n" +
                             "    \"laundryWaterAmount\": (optimized water amount in L),\n" +
                             "    \"laundryDryingTime\": (optimized drying time in minutes),\n" +
-                            "    \"laundryDryCleaningTime\": (if 'Y', provide dry cleaning time in minutes; if 'N', set to 0).\n" +
+                            "    \"laundryDryCleaningTime\": (if 'Y', provide dry cleaning time in minutes, it should not be 0; if 'N', set to 0).\n" +
                             "Return the result as a JSON object with these fields.",
                     laundryCode, laundryWeight, laundryFabricType, laundryDryCleaningStatus, laundryDirtyLevel
             );
