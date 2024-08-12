@@ -1,6 +1,7 @@
 package aircleanprojectback.restapi.stock.controller;
 
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
+import aircleanprojectback.restapi.report.entity.Repair;
 import aircleanprojectback.restapi.stock.dto.*;
 import aircleanprojectback.restapi.stock.entity.BranchStockApplication;
 import aircleanprojectback.restapi.stock.entity.HeadStockApplication;
@@ -73,6 +74,18 @@ public class StockController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"들어옴","headStockApplication"));
     }
 
+    @Tag(name = "지점 발주 신청")
+    @PostMapping("/client/stock/application")
+    public ResponseEntity<ResponseDTO> branchStockApplication(@RequestBody BranchStockApplicationDTO branchStockApplicationDTO) {
+
+        System.out.println("branchStockApplicationDTO = " + branchStockApplicationDTO);
+
+        BranchStockApplicationDTO branchStockApplication = stockService.saveBranchStockApplication(branchStockApplicationDTO);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "지점 발주 신청 완료", "지점 발주신청 완료"));
+
+    }
+
     @Tag(name = "본사 재고 업데이트")
     @PutMapping("/company/stock/update")
     public ResponseEntity<ResponseDTO> headStockUpdate(@RequestBody HeadStockUpdate request) {
@@ -132,5 +145,50 @@ public class StockController {
 
     }
 
+    @Tag(name = "지점 신청내역 정보 조회")
+    @GetMapping("/client/stock/branchHistory")
+    public ResponseEntity<ResponseDTO> specificBranchHistory(@RequestParam String branchCode) {
+
+        List<BranchStockApplicationDTO> branchStockApplicationDTO = stockService.getBranchStockHistory(branchCode);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "특정지점 신청내역", branchStockApplicationDTO));
+
+    }
+
+    @Tag(name = "지점 배송완료 상태 업데이트")
+    @PutMapping("/client/stock/deliveryUpdate")
+    public ResponseEntity<ResponseDTO> branchDeliveryUpdate(@RequestBody BranchStockApplicationDTO branchStockApplicationDTO) {
+
+        System.out.println("branchStockApplicationDTO = " + branchStockApplicationDTO);
+
+        stockService.updateBranchAppDeliveryStatus(branchStockApplicationDTO);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "배송상태 업데이트", "배송상태 업데이트 성공"));
+
+    }
+
+    @Tag(name = "지점 세탁용품 재고 업데이트")
+    @PostMapping("/client/stock/updateLaundrySupplyManagement")
+    public ResponseEntity<ResponseDTO> branchSupplyUpdate(@RequestBody BranchStockUpdate request) {
+
+        System.out.println("세탁용품 request = " + request);
+
+        stockService.updateBranchSupply(request);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "업데이트 완료", "지점 세탁용품 업데이트"));
+
+    }
+
+    @Tag(name = "지점 세탁부품 재고 업데이트")
+    @PostMapping("/client/stock/updateLaundryPartManagement")
+    public ResponseEntity<ResponseDTO> branchPartUpdate(@RequestBody BranchStockUpdate request) {
+
+        System.out.println("세탁부품 request = " + request);
+
+        stockService.updateBranchPart(request);
+
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "업데이트 완료", "지점 세탁부품 업데이트"));
+
+    }
 
 }

@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "tbl_branch_stock_application")
 @AllArgsConstructor
-@Getter
 @ToString
 @Builder(toBuilder = true)
 public class BranchStockApplication {
@@ -60,7 +59,7 @@ public class BranchStockApplication {
     @Column(name = "b_approval_date")
     private LocalDate bApprovalDate;
 
-    @Column(name = "branch_code", length = 100, nullable = false)
+    @Column(name = "branch_code")
     private String branchCode;
 
     @Column(name = "applicant_name", length = 100)  // 새로 추가된 컬럼

@@ -1,6 +1,7 @@
 package aircleanprojectback.restapi.stock.repository;
 
 import aircleanprojectback.restapi.stock.entity.LaundrySupplyAndManagement;
+import aircleanprojectback.restapi.stock.entity.LaundrySupplyManagement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,5 @@ public interface LaundrySupplyManagementRepository extends JpaRepository<Laundry
     LaundrySupplyAndManagement findByLaundrySupplyManagementCode(String laundrySupplyManagementCode);
 
     LaundrySupplyAndManagement findByLaundrySupply_LaundrySupplyName(String laundrySupplyName);
+
 }
