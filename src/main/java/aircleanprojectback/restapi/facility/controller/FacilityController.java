@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 //
 import java.util.List;
 //
-@Tag(name = "재고관리 스웨거 연동")
+@Tag(name = "시설물현황 스웨거 연동")
 @RestController
 @Slf4j
 @RequestMapping("/location")
@@ -31,7 +31,7 @@ public class FacilityController {
         this.service = service;
     }
 //
-    @Tag(name = "시설물 상세정보 조회")
+    @Tag(name = "시설물 상세정보 조회", description = "지점코드로 시설물 상세정보 조회하기")
     @GetMapping("/facility")
     public ResponseEntity<ResponseDTO> showFacilityDetail(@RequestParam String branchCode) {
 
@@ -41,7 +41,7 @@ public class FacilityController {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"시설물 조회 ",facilityList));
     }
 
-    @Tag(name = "물탱크 수량 업데이트")
+    @Tag(name = "물탱크 수량 업데이트", description = "시설물 동작 시 세제량, 물탱크 수량 업데이트")
     @PutMapping("/facility/laundryupdate")
     public ResponseEntity<ResponseDTO> updateCurWater(@RequestBody WaterTankDTO updateTank ,@RequestParam String laundryDetergentAmount,@RequestParam String laundryCode) {
 
@@ -60,6 +60,7 @@ public class FacilityController {
 
     }
 
+    @Tag(name = "건조기 관련 업데이트", description = "지점코드로 건조기 관련 세탁물 정보 업데이트")
     @PutMapping("/facility/dryupdate")
     public ResponseEntity<ResponseDTO> updateDryer(@RequestParam String laundryCode,@RequestParam String branchCode) {
 
@@ -78,6 +79,7 @@ public class FacilityController {
 
     }
 
+    @Tag(name = "드라이 클리너 관련 업데이트", description = "지점코드로 드라이클리너 관련 세탁물 정보 업데이트")
     @PutMapping("/facility/cleanerupdate")
     public ResponseEntity<ResponseDTO> updateCleaner(@RequestParam String laundryCode,@RequestParam String branchCode) {
 
@@ -89,7 +91,7 @@ public class FacilityController {
 
     }
 
-    @Tag(name = "시설물 등록하기")
+    @Tag(name = "시설물 등록하기", description = "신규 시설물 등록")
     @PostMapping("/facility/register")
     public ResponseEntity<ResponseDTO> registFacility(@RequestBody FacilityDetailOnlyDTO request) {
 
@@ -101,7 +103,7 @@ public class FacilityController {
 
     }
 
-    @Tag(name = "시설물 상태 업데이트")
+    @Tag(name = "시설물 상태 업데이트", description = "시설물 상태 고장 또는 삭제로 업데이트")
     @PutMapping("/facility/update")
     public ResponseEntity<ResponseDTO> updateFacility(@RequestBody FacilityDetailOnlyDTO request) {
 
@@ -113,7 +115,7 @@ public class FacilityController {
 
     }
 
-    @Tag(name = "시설물 도출된 세탁 정보 조회하기")
+    @Tag(name = "시설물 도출된 세탁 정보 조회하기", description = "세탁물관리에서 도출된 세탁 정보 조회하기")
     @GetMapping("/facility/laundryWay")
     public ResponseEntity<ResponseDTO> getLaundryWay(@RequestParam String branchCode) {
 
