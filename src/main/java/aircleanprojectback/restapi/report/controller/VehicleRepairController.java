@@ -6,6 +6,13 @@ import aircleanprojectback.restapi.report.dto.CarMembersDTO;
 import aircleanprojectback.restapi.report.dto.VehicleRepairDTO;
 import aircleanprojectback.restapi.report.service.CarMembersService;
 import aircleanprojectback.restapi.report.service.VehicleRepairService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -14,14 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/paper")
@@ -44,7 +43,7 @@ public class VehicleRepairController {
             @ApiResponse(responseCode = "500", description = "서버 오류",
                     content = @Content(schema = @Schema(implementation = ResponseDTO.class)))
     })
-    @GetMapping("/company/newReports")
+    @GetMapping("/company/vehicle-repair")
     public ResponseEntity<ResponseDTO> selectAllVehicleRepairs(
             @Parameter(description = "페이지 번호", example = "1")
             @RequestParam(defaultValue = "1") String offset) {
@@ -71,6 +70,7 @@ public class VehicleRepairController {
     public ResponseEntity<ResponseDTO> selectVehicleRepairByVehicleReportCode(
             @Parameter(description = "차량수리보고서 코드", example = "123")
             @PathVariable int vehicleReportCode) {
+
         return ResponseEntity.ok()
                 .body(new ResponseDTO(HttpStatus.OK, "차량수리보고서 상세 조회", vehicleRepairService.detailVehicleRepair(vehicleReportCode)));
     }
@@ -125,14 +125,14 @@ public class VehicleRepairController {
             @ApiResponse(responseCode = "500", description = "서버 오류",
                     content = @Content(schema = @Schema(implementation = ResponseDTO.class)))
     })
-    @PostMapping("/vehicle-repair")
+    @PostMapping("/company/vehicle-repair")
     public ResponseEntity<ResponseDTO> insertVehicleRepair(
-            @Parameter(description = "차량수리비보고서 데이터", required = true)
+            @Parameter(description = "차량수리비보고서 데이터", required = false)
             @ModelAttribute VehicleRepairDTO vehicleRepairDTO,
-            @Parameter(description = "수리 전 이미지 파일", required = true)
-            @RequestParam MultipartFile beforeImage,
-            @Parameter(description = "수리 후 이미지 파일", required = true)
-            @RequestParam MultipartFile afterImage) {
+            @Parameter(description = "수리 전 이미지 파일", required = false)
+            @RequestParam(required = false) MultipartFile beforeImage,
+            @Parameter(description = "수리 후 이미지 파일", required = false)
+            @RequestParam(required = false) MultipartFile afterImage) {
 
         System.out.println("vehicleRepairDTO = " + vehicleRepairDTO);
         System.out.println("beforeVehicleRepairImage = " + beforeImage);
@@ -146,4 +146,7 @@ public class VehicleRepairController {
         return ResponseEntity.ok()
                 .body(new ResponseDTO(HttpStatus.OK, "등록 성공", vehicleRepairDTO));
     }
+
+
+
 }

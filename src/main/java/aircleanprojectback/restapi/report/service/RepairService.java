@@ -1,10 +1,7 @@
 package aircleanprojectback.restapi.report.service;
 
 import aircleanprojectback.restapi.common.dto.Criteria;
-import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.dto.RepairDTO;
-import aircleanprojectback.restapi.report.entity.BranchSales;
-import aircleanprojectback.restapi.report.entity.Expense;
 import aircleanprojectback.restapi.report.entity.Repair;
 import aircleanprojectback.restapi.report.repository.RepairRepository;
 import aircleanprojectback.restapi.util.FileUploadUtils;
@@ -14,14 +11,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -44,7 +40,7 @@ public class RepairService {
     // 지점 수리보고서 전체조회
     public Page<RepairDTO> AllFindRepair(Criteria repairCriteria) {
 
-        Pageable repairPageable = PageRequest.of(repairCriteria.getPageNum() -1, repairCriteria.getAmount());
+        Pageable repairPageable = PageRequest.of(repairCriteria.getPageNum() -1, repairCriteria.getAmount(), Sort.by(Sort.Direction.DESC, "repairReportCode"));
 
         Page<Repair> repairs = repairRepository.findAll(repairPageable);
         Page<RepairDTO> repairDTO = repairs.map(repair -> modelMapper.map(repair, RepairDTO.class));
@@ -55,7 +51,7 @@ public class RepairService {
     // 시설물보고서 필터링 전체조회
     public Page<RepairDTO> findRepairMemberName(Criteria repairCriteriaMemberName, String memberName) {
 
-        Pageable repairMemberNamePageable = PageRequest.of(repairCriteriaMemberName.getPageNum() -1, repairCriteriaMemberName.getAmount());
+        Pageable repairMemberNamePageable = PageRequest.of(repairCriteriaMemberName.getPageNum() -1, repairCriteriaMemberName.getAmount(),Sort.by(Sort.Direction.DESC, "repairReportCode"));
         Page<Repair> repairMemberNameList = repairRepository.findByMemberName(memberName, repairMemberNamePageable);
         Page<RepairDTO> repairMemberNameDTO = repairMemberNameList.map(repair -> modelMapper.map(repair, RepairDTO.class));
 

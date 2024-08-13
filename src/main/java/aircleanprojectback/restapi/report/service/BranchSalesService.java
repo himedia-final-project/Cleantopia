@@ -10,11 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -32,7 +30,7 @@ public class BranchSalesService {
     // 매출보고서 전체조회
     public Page<BranchSalesDTO> getAllBranchSales(Criteria branchSalesCriteria) {
 
-        Pageable branchSalesPageable = PageRequest.of(branchSalesCriteria.getPageNum() -1, branchSalesCriteria.getAmount());
+        Pageable branchSalesPageable = PageRequest.of(branchSalesCriteria.getPageNum() -1, branchSalesCriteria.getAmount(), Sort.by(Sort.Direction.DESC, "branchReportCode"));
 
         Page<BranchSales> branchSalesList = branchSalesRepository.findAll(branchSalesPageable);
         Page<BranchSalesDTO> branchSalesDTO = branchSalesList.map(branchSales -> modelMapper.map(branchSales, BranchSalesDTO.class));
@@ -47,7 +45,7 @@ public class BranchSalesService {
     // 매출보고서 필터링조회
     public Page<BranchSalesDTO> findBranchSalesMemberName(Criteria branchSalesCriteriaMemberName, String memberName) {
 
-        Pageable branchSalesMemberNamePageable = PageRequest.of(branchSalesCriteriaMemberName.getPageNum() -1, branchSalesCriteriaMemberName.getAmount());
+        Pageable branchSalesMemberNamePageable = PageRequest.of(branchSalesCriteriaMemberName.getPageNum() -1, branchSalesCriteriaMemberName.getAmount(), Sort.by(Sort.Direction.DESC, "branchReportCode"));
         Page<BranchSales> branchSalesMemberNameList = branchSalesRepository.findByMemberName(memberName, branchSalesMemberNamePageable);
         Page<BranchSalesDTO> branchSalesMemberNameDTO = branchSalesMemberNameList.map(branchSales -> modelMapper.map(branchSales, BranchSalesDTO.class));
 

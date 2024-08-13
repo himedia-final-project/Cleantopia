@@ -1,9 +1,7 @@
 package aircleanprojectback.restapi.report.service;
 
 import aircleanprojectback.restapi.common.dto.Criteria;
-import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.dto.ExpenseDTO;
-import aircleanprojectback.restapi.report.entity.BranchSales;
 import aircleanprojectback.restapi.report.entity.Expense;
 import aircleanprojectback.restapi.report.repository.ExpenseRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -11,12 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -32,7 +27,7 @@ public class ExpenseService {
     // 지출보고서 전체조회
     public Page<ExpenseDTO> getAllExpense(Criteria expenseCriteria) {
 
-        Pageable expensePageable = PageRequest.of(expenseCriteria.getPageNum()-1, expenseCriteria.getAmount());
+        Pageable expensePageable = PageRequest.of(expenseCriteria.getPageNum()-1, expenseCriteria.getAmount(), Sort.by(Sort.Direction.DESC, "expenseReportCode"));
 
         Page<Expense> expensePage = expenseRepository.findAll(expensePageable);
         Page<ExpenseDTO> expenseDTO  = expensePage.map(expense -> modelMapper.map(expense, ExpenseDTO.class));
@@ -43,7 +38,7 @@ public class ExpenseService {
     // 지출보고서 필터링 전체조회
     public Page<ExpenseDTO> findExpenseMemberName(Criteria expenseCriteriaMemberName, String memberName) {
 
-        Pageable expenseMemberNamePageable = PageRequest.of(expenseCriteriaMemberName.getPageNum() -1, expenseCriteriaMemberName.getAmount());
+        Pageable expenseMemberNamePageable = PageRequest.of(expenseCriteriaMemberName.getPageNum() -1, expenseCriteriaMemberName.getAmount(),Sort.by(Sort.Direction.DESC, "expenseReportCode"));
         Page<Expense> expenseMemberNameList = expenseRepository.findByMemberName(memberName, expenseMemberNamePageable);
         Page<ExpenseDTO> expenseDTOMemberNameDTO = expenseMemberNameList.map(expense -> modelMapper.map(expense, ExpenseDTO.class));
 

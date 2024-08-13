@@ -4,13 +4,6 @@ import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 import aircleanprojectback.restapi.report.dto.RepairDTO;
 import aircleanprojectback.restapi.report.service.RepairService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,6 +11,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/paper")
@@ -98,12 +97,12 @@ public class RepairController {
             @ApiResponse(responseCode = "500", description = "서버 오류",
                     content = @Content(schema = @Schema(implementation = ResponseDTO.class)))
     })
-    @PostMapping("/location/newRepair")
+    @PostMapping("/company/repair")
     public ResponseEntity<ResponseDTO> NewRepair(
-            @Parameter(description = "수리보고서 데이터", required = true)
+            @Parameter(description = "수리보고서 데이터", required = false)
             @ModelAttribute RepairDTO repairDTO,
-            @Parameter(description = "수리 이미지 파일", required = true)
-            @RequestParam MultipartFile repairImage) {
+            @Parameter(description = "수리 이미지 파일", required = false)
+            @RequestParam(required = false)MultipartFile repairImage) {
 
         System.out.println("repairDTO = " + repairDTO);
         System.out.println("repairImage = " + repairImage);
@@ -152,10 +151,10 @@ public class RepairController {
     public ResponseEntity<ResponseDTO> UpdateRepair(
             @Parameter(description = "수리보고서 코드", example = "123")
             @PathVariable int repairReportCode,
-            @Parameter(description = "수정할 수리보고서 데이터", required = true)
+            @Parameter(description = "수정할 수리보고서 데이터", required = false)
             @ModelAttribute RepairDTO repairDTO,
-            @Parameter(description = "수리 이미지 파일", required = true)
-            @RequestParam MultipartFile repairImages) {
+            @Parameter(description = "수리 이미지 파일", required = false)
+            @RequestParam  (required = false) MultipartFile repairImages) {
 
         return ResponseEntity.ok()
                 .body(new ResponseDTO(HttpStatus.OK, "지점 수리보고서 수정 성공", repairService.updateRepair(repairReportCode, repairDTO, repairImages)));
@@ -168,7 +167,7 @@ public class RepairController {
             @ApiResponse(responseCode = "500", description = "서버 오류",
                     content = @Content(schema = @Schema(implementation = ResponseDTO.class)))
     })
-    @DeleteMapping("/location/repair/{repairReportCode}")
+    @DeleteMapping("/company/repair/{repairReportCode}")
     public ResponseEntity<ResponseDTO> DeleteRepair(
             @Parameter(description = "수리보고서 코드", example = "123")
             @PathVariable int repairReportCode) {

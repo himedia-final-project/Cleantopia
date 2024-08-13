@@ -2,7 +2,9 @@ package aircleanprojectback.restapi.report.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Date;
@@ -53,6 +55,11 @@ public class VehicleRepair {
     @CreationTimestamp // 엔티티가 생성될 때 현재 날짜로 설정
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") // JSON 직렬화/역직렬화 형식 지정
     private Date vehicleSubmissionDate; // 제출일
+
+    @Column(name = "vehicle_report_date")
+    @Temporal(TemporalType.DATE) // 날짜만 저장 (시간 제외)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") // JSON 직렬화/역직렬화 형식 지정
+    private Date vehicleReportDate;         // 영수증 날짜
 
     @Column(name = "driver_license_number")
     private String driverLicenseNumber; // 면허번호
@@ -135,6 +142,11 @@ public class VehicleRepair {
         return this;
     }
 
+    public VehicleRepair vehicleReportDate(Date var) {
+        vehicleReportDate = var;
+        return this;
+    }
+
     public VehicleRepair driverLicenseNumber(String var) {
         driverLicenseNumber = var;
         return this;
@@ -169,6 +181,7 @@ public class VehicleRepair {
                 this.vehicleMiscellaneous,
                 this.vehicleType,
                 this.vehicleSubmissionDate,
+                this.vehicleReportDate,
                 this.driverLicenseNumber,
                 this.totalVehicleRepairCost,
                 this.memberName,
@@ -180,4 +193,11 @@ public class VehicleRepair {
     }
 
 
+    public void setBeforeVehiclePhoto(String beforeReplaceFileName) {
+        this.beforeVehiclePhoto = beforeReplaceFileName;
+    }
+
+    public void setAfterVehiclePhoto(String afterReplaceFileName) {
+        this.afterVehiclePhoto = afterReplaceFileName;
+    }
 }
