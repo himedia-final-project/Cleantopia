@@ -21,4 +21,5 @@ public class LaundryStatusInitializer implements CommandLineRunner {
     }
 
 
+
 }

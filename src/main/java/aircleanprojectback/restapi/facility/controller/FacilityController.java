@@ -50,6 +50,11 @@ public class FacilityController {
     public ResponseEntity<ResponseDTO> updateCurWater(@RequestBody WaterTankDTO updateTank,
                                                       @Parameter(description = "세제량") @RequestParam String laundryDetergentAmount,
                                                       @Parameter(description = "세탁 코드") @RequestParam String laundryCode) {
+
+        System.out.println("laundryDetergentAmount = " + laundryDetergentAmount);
+        System.out.println("laundryCode = " + laundryCode);
+
+
         service.saveUpdaterWaterCapacity(updateTank ,laundryDetergentAmount,laundryCode);
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "수량 업데이트 완료", "수량 업데이트"));
     }
@@ -62,6 +67,12 @@ public class FacilityController {
     @PutMapping("/facility/dryupdate")
     public ResponseEntity<ResponseDTO> updateDryer(@Parameter(description = "세탁 코드") @RequestParam String laundryCode,
                                                    @Parameter(description = "지점 코드") @RequestParam String branchCode) {
+
+        System.out.println("dryupdate");
+
+        System.out.println("laundryCode = " + laundryCode);
+        System.out.println("branchCode = " + branchCode);
+
         service.saveDryUpdate(laundryCode, branchCode);
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "수량 업데이트 완료", "수량 업데이트"));
     }
