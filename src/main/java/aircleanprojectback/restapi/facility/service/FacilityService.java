@@ -6,7 +6,10 @@ package aircleanprojectback.restapi.facility.service;
 //import aircleanprojectback.restapi.facility.repository.FindBranchInfoRepository;
 import aircleanprojectback.restapi.branch.dto.FacilityDetailDTO;
 import aircleanprojectback.restapi.branch.entity.FacilityDetail;
+import aircleanprojectback.restapi.branch.repository.BranchRepository;
 import aircleanprojectback.restapi.branchOrigin.dao.FacilityDetailRepository;
+import aircleanprojectback.restapi.car.entity.Driver;
+import aircleanprojectback.restapi.car.repository.DriverRepository;
 import aircleanprojectback.restapi.facility.dto.FacilityDetailOnlyDTO;
 import aircleanprojectback.restapi.facility.dto.LaundryAndLaundryWayDTO;
 import aircleanprojectback.restapi.facility.entity.FacilityDetailOnly;
@@ -19,6 +22,7 @@ import aircleanprojectback.restapi.laundry.entity.Laundry;
 import aircleanprojectback.restapi.laundry.entity.LaundryWay;
 import aircleanprojectback.restapi.laundry.entity.WaterTank;
 import aircleanprojectback.restapi.laundry.repository.LaundryRepository;
+import aircleanprojectback.restapi.member.entity.Branch;
 import aircleanprojectback.restapi.stock.entity.LaundrySupplyManagement;
 import aircleanprojectback.restapi.stock.repository.OnlyLaundrySupplyManagementRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 //
 @Service
@@ -45,9 +51,11 @@ public class FacilityService {
     private final FacilityLaundryWayRepository facilityLaundryWayRepository;
     private final LaundryRepository laundryRepository;
     private final OnlyLaundrySupplyManagementRepository onlyLaundrySupplyManagementRepository;
+    private final DriverRepository driverRepository;
+    private final BranchRepository branchRepository;
 
     @Autowired
-    public FacilityService(FacilityLaundryRepository facilityLaundryRepository, FacilityLaundryWayRepository facilityLaundryWayRepository , FacilityDetailOnlyRepository facilityDetailOnlyRepository , ModelMapper modelMapper, FacilityDetailRepository facilityDetailRepository, UpdatateWaterTanckRepository updatateWaterTanckRepository, LaundryRepository laundryRepository, OnlyLaundrySupplyManagementRepository onlyLaundrySupplyManagementRepository){
+    public FacilityService(FacilityLaundryRepository facilityLaundryRepository, FacilityLaundryWayRepository facilityLaundryWayRepository , FacilityDetailOnlyRepository facilityDetailOnlyRepository , ModelMapper modelMapper, FacilityDetailRepository facilityDetailRepository, UpdatateWaterTanckRepository updatateWaterTanckRepository, LaundryRepository laundryRepository, OnlyLaundrySupplyManagementRepository onlyLaundrySupplyManagementRepository, DriverRepository driverRepository, BranchRepository branchRepository){
         this.modelMapper = modelMapper;
         this.facilityDetailRepository = facilityDetailRepository;
         this.updatateWaterTanckRepository = updatateWaterTanckRepository;
@@ -56,6 +64,8 @@ public class FacilityService {
         this.facilityLaundryWayRepository = facilityLaundryWayRepository;
         this.laundryRepository = laundryRepository;
         this.onlyLaundrySupplyManagementRepository = onlyLaundrySupplyManagementRepository;
+        this.driverRepository = driverRepository;
+        this.branchRepository = branchRepository;
     }
 
     public List<FacilityDetailDTO> findFacilityByBranchCode(String branchCode) {
@@ -122,6 +132,20 @@ public class FacilityService {
         if(laundry.getCleaningStatus().equals("N")){
             laundry.allComplete("Y");
             laundry.allCompleteDate(Date.valueOf(LocalDate.now()));
+
+            Optional<Branch> branchForRegion = branchRepository.findByBranchCode(laundry.getBranchCode());
+
+            String branchRegion = branchForRegion.get().getBranchRegion();
+
+            List<Driver> drivers = driverRepository.findAllByDriverRegionAndAssignCar(branchRegion,"Y");
+
+            Random random = new Random();
+
+            int randomIndex = random.nextInt(drivers.size());
+
+            laundry.deliveryDriver(drivers.get(randomIndex).getDriverLicenseNumber());
+
+
         }
 
         laundryRepository.save(laundry);
@@ -135,8 +159,22 @@ public class FacilityService {
         Laundry laundry = laundryRepository.findByLaundryCode(Integer.parseInt(laundryCode));
 
         laundry.cleaningStatus("Y");
+
         laundry.allComplete("Y");
         laundry.allCompleteDate(Date.valueOf(LocalDate.now()));
+
+        Optional<Branch> branchForRegion = branchRepository.findByBranchCode(laundry.getBranchCode());
+
+        String branchRegion = branchForRegion.get().getBranchRegion();
+
+        List<Driver> drivers = driverRepository.findAllByDriverRegionAndAssignCar(branchRegion,"Y");
+
+        Random random = new Random();
+
+        int randomIndex = random.nextInt(drivers.size());
+
+        laundry.deliveryDriver(drivers.get(randomIndex).getDriverLicenseNumber());
+
 
         laundryRepository.save(laundry);
 

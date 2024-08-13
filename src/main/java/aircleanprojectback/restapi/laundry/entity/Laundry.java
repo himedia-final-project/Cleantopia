@@ -144,4 +144,9 @@ public class Laundry {
         cleaningStatus = var;
         return this;
     }
+
+    public Laundry deliveryDriver(String var){
+        deliveryDriver = var;
+        return this;
+    }
 }

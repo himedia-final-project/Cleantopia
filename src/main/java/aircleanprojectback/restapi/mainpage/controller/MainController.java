@@ -7,6 +7,9 @@ import aircleanprojectback.restapi.mainpage.model.service.MainService;
 import aircleanprojectback.restapi.member.dto.BranchDTO;
 import aircleanprojectback.restapi.report.dto.ExpenseDTO;
 import aircleanprojectback.restapi.stock.entity.StockExpense;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/main")
+@Slf4j
+@Tag(name = "메인페이지", description = "메인페이지 관리 api")
 public class MainController {
 
     private final MainService service;
@@ -30,6 +35,7 @@ public class MainController {
     }
 
     @GetMapping("/branch")
+    @Operation(summary = "지점정보 가지고 오기", description = "모든 지점코드를 가지고 옵니다")
     public ResponseEntity<ResponseDTO> getBranch(){
 
         List<BranchDTO> branchList = service.getBranch();
@@ -40,6 +46,7 @@ public class MainController {
     }
 
     @GetMapping("revenue/{branchCode}")
+    @Operation(summary = "매출 정보 api" , description = "선택한 지점의 매출 데이터를 가지고 옵니다")
     public ResponseEntity<ResponseDTO> getRevenue(@PathVariable String branchCode, @RequestParam String month){
 
         System.out.println("branchCode = " + branchCode);
@@ -52,6 +59,7 @@ public class MainController {
     }
 
     @GetMapping("utility/{branchCode}")
+    @Operation(summary = "수도광열비 api" ,description = "선택한 날짜와 지점의 수도광열비를 가지고 옵니다")
     public ResponseEntity<ResponseDTO> getUtilityCost(@RequestParam String date, @PathVariable String branchCode ){
 
 
@@ -62,6 +70,7 @@ public class MainController {
     }
 
     @GetMapping("maintenance/{type}")
+    @Operation(summary = "유지관리비 api" , description = "전체 지점의 유지 관리비를 제공 합니다")
     public ResponseEntity<ResponseDTO> getMaintenance(@PathVariable String type , @RequestParam(defaultValue = "Total") String branchCode){
 
         Map<String , Object> result = new HashMap<>();
@@ -77,6 +86,7 @@ public class MainController {
     }
 
     @GetMapping("rank")
+    @Operation(summary = "매출 순 지점", description = "매출 순서대로 지점을 가지고 옵니다")
     public ResponseEntity<ResponseDTO> getRanking(){
 
         List<RankingDTO> rankingDTOS = service.getRanking();
