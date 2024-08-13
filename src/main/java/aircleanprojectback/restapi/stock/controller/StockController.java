@@ -96,7 +96,13 @@ public class StockController {
 
         HeadStockApplicationDTO headStockApplication = stockService.saveHeadStockApplication(headStockApplicationDTO);
 
+
+
+
+        System.out.println("신청내역 확인 DTO");
+
         log.info("신청내역 확인 DTO");
+
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "신청 성공", headStockApplication));
     }
@@ -189,10 +195,12 @@ public class StockController {
             @Parameter(description = "본사 지점 발주 업데이트 정보", required = true)
             @RequestBody HeadStockUpdate request) {
 
+
         log.info("업데이트 정보 request = {}", request);
         stockService.updateHeadBranchStock(request);
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "발주 관련 본사 재고 업데이트 성공", "headStockUpdated"));
+
     }
 
     @Operation(summary = "본사 지점발주신청 정보 업데이트", description = "본사에서 지점 발주신청 관련 정보(승인자, 승인일, 승인상태)를 업데이트합니다.")
@@ -208,6 +216,9 @@ public class StockController {
             @PathVariable int bApplicationCode,
             @Parameter(description = "지점 발주 신청 정보", required = true)
             @RequestBody BranchStockApplicationDTO request) {
+
+        System.out.println("bApplicationCode = " + bApplicationCode);
+        System.out.println("request = " + request);
 
         stockService.updateHeadBranchStockApplication(bApplicationCode, request);
 

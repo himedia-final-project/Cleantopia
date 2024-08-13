@@ -1,16 +1,18 @@
-package aircleanprojectback.restapi.report.dto;
+package aircleanprojectback.restapi.mainpage.model.dto;
 
+import aircleanprojectback.restapi.member.dto.BranchDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.sql.Date;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor      // 기본생성자
-@AllArgsConstructor     // 생성자
-public class BranchSalesDTO {
+public class BranchSalesAndBranchDTO {
+
     // 지점 매출 보고서
     private int branchReportCode;           // 매출보고서코드
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
@@ -27,11 +29,7 @@ public class BranchSalesDTO {
     private long totalBranchSalesCost;    // 총매출 금액
     private String memberName;              // 지점장
     private String branchName;              // 지점명
-    private String branchCode;              // 지점코드
+    private BranchDTO branch;              // 지점코드
     private String memberId;
-    private String branchSalesRemark;       // 비고
-
-
-
-
+    private String branchSalesRemark;
 }

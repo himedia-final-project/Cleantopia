@@ -30,7 +30,7 @@ public class BranchSales {
     private Date branchSubmissionDate;      // 제출일
 
     @Column(name = "offline_sales", nullable = true)
-    private int officeSales;                // 오프라인매출
+    private long officeSales;                // 오프라인매출
 
     @Column(name = "branch_report_status", length = 100)
     private String branchReportStatus ;      // 보고서상태
@@ -39,25 +39,25 @@ public class BranchSales {
     private String branchReportApprove;      // 승인/ 반려
 
     @Column(name = "detergent", length = 200, nullable = true)
-    private int detergent;               // 세제
+    private long detergent;               // 세제
 
     @Column(name = "fabric_softener", length = 200, nullable = true)
-    private int fabricSoftener;          // 섬유유연제
+    private long fabricSoftener;          // 섬유유연제
 
     @Column(name = "bleach", length = 200, nullable = true)
-    private int bleach;                  // 표백제
+    private long bleach;                  // 표백제
 
     @Column(name = "stain_remover", length = 200, nullable = true)
-    private int stainRemover;            // 얼룩제거제
+    private long stainRemover;            // 얼룩제거제
 
     @Column(name = "washer_cleaner", length = 200, nullable = true)
-    private int washerCleaner;           // 세탁조 클리너
+    private long washerCleaner;           // 세탁조 클리너
 
     @Column(name = "dryer_sheet", length = 200, nullable = true)
-    private int dryerSheet;              // 건조기시트
+    private long dryerSheet;              // 건조기시트
 
     @Column(name = "total_branch_sales_cost")
-    private int totalBranchSalesCost;      // 총지출금액
+    private long totalBranchSalesCost;      // 총지출금액
 
     @Column(name = "member_name")
     private String memberName;;             // 지점장명
@@ -89,7 +89,7 @@ public class BranchSales {
         return this;
     }
 
-    public  BranchSales officeSales(int officeSales) {
+    public  BranchSales officeSales(long officeSales) {
         this.officeSales = officeSales;
         return this;
     }
@@ -104,38 +104,38 @@ public class BranchSales {
         return this;
     }
 
-    public  BranchSales detergent(int detergent) {
+    public  BranchSales detergent(long detergent) {
         this.detergent = detergent;
         return this;
     }
 
 
-    public  BranchSales fabricSoftener(int fabricSoftener) {
+    public  BranchSales fabricSoftener(long fabricSoftener) {
         this.fabricSoftener = fabricSoftener;
         return this;
     }
 
-    public  BranchSales bleach(int bleach) {
+    public  BranchSales bleach(long bleach) {
         this.bleach = bleach;
         return this;
     }
 
-    public  BranchSales stainRemover(int stainRemover) {
+    public  BranchSales stainRemover(long stainRemover) {
         this.stainRemover = stainRemover;
         return this;
     }
 
-    public  BranchSales washerCleaner(int washerCleaner) {
+    public  BranchSales washerCleaner(long washerCleaner) {
         this.washerCleaner = washerCleaner;
         return this;
     }
 
-    public  BranchSales dryerSheet(int dryerSheet) {
+    public  BranchSales dryerSheet(long dryerSheet) {
         this.dryerSheet = dryerSheet;
         return this;
     }
 
-    public  BranchSales totalBranchSalesCost(int totalBranchSalesCost) {
+    public  BranchSales totalBranchSalesCost(long totalBranchSalesCost) {
         this.totalBranchSalesCost = totalBranchSalesCost;
         return this;
     }
