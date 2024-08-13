@@ -1,4 +1,5 @@
 package aircleanprojectback.restapi.report.dto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import java.sql.Date;
 //
@@ -18,6 +19,7 @@ public class VehicleRepairDTO {
     private int vehicleRegularInspection;       // 정기점검
     private int vehicleVehicleRepairCost;       // 수리비
     private int vehicleMiscellaneous;           // 기타
+    // 시설물수리비
     private Date vehicleSubmissionDate;         // 제출일
     private String driverLicenseNumber;         // 면허번호
     private int totalVehicleRepairCost;         // 총 수리비 금액

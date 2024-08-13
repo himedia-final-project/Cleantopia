@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,9 +33,12 @@ public class StockService {
     private final OnlyLaundryPartManagementRepository onlyLaundryPartManagementRepository;
 
     private final ModelMapper modelMapper;
+    private final StockExpenseRepository stockExpenseRepository;
+    private final LaundryPartRepository laundryPartRepository;
+    private final LaundrySupplyRepository laundrySupplyRepository;
 
     @Autowired
-    public StockService(OnlyLaundrySupplyManagementRepository onlyLaundrySupplyManagementRepository, OnlyLaundryPartManagementRepository onlyLaundryPartManagementRepository ,BranchStockApplicationRepository branchStockApplicationRepository, LaundryPartManagementRepository laundryPartManagementRepository, LaundrySupplyManagementRepository laundrySupplyManagementRepository, ModelMapper modelMapper, HeadStockApplicationRepository headStockApplicationRepository, HeadBranchStockApplicationRepository headBranchStockApplicationRepository) {
+    public StockService(OnlyLaundrySupplyManagementRepository onlyLaundrySupplyManagementRepository, OnlyLaundryPartManagementRepository onlyLaundryPartManagementRepository , BranchStockApplicationRepository branchStockApplicationRepository, LaundryPartManagementRepository laundryPartManagementRepository, LaundrySupplyManagementRepository laundrySupplyManagementRepository, ModelMapper modelMapper, HeadStockApplicationRepository headStockApplicationRepository, HeadBranchStockApplicationRepository headBranchStockApplicationRepository, StockExpenseRepository stockExpenseRepository, LaundryPartRepository laundryPartRepository, LaundrySupplyRepository laundrySupplyRepository) {
         this.laundryPartManagementRepository = laundryPartManagementRepository;
         this.laundrySupplyManagementRepository = laundrySupplyManagementRepository;
         this.modelMapper = modelMapper;
@@ -41,6 +47,9 @@ public class StockService {
         this.branchStockApplicationRepository = branchStockApplicationRepository;
         this.onlyLaundryPartManagementRepository = onlyLaundryPartManagementRepository;
         this.onlyLaundrySupplyManagementRepository = onlyLaundrySupplyManagementRepository;
+        this.stockExpenseRepository = stockExpenseRepository;
+        this.laundryPartRepository = laundryPartRepository;
+        this.laundrySupplyRepository = laundrySupplyRepository;
     }
 
     public List<LaundryPartAndManagementDTO> selectAllHPart() {
@@ -104,6 +113,59 @@ public class StockService {
     public HeadStockApplicationDTO saveHeadStockApplication(HeadStockApplicationDTO headStockApplicationDTO) {
 
         HeadStockApplication headStockApplication = modelMapper.map(headStockApplicationDTO, HeadStockApplication.class);
+
+        // 지출 금액 저장
+        List<LaundryPart> newLaundryParts = laundryPartRepository.findAll();
+
+        List<LaundrySupply> newLaundrySupplies = laundrySupplyRepository.findAll();
+
+        Map<String, Integer> laundryPart = new HashMap<>();
+        Map<String ,Integer> laundrySupply = new HashMap<>();
+        for(LaundryPart part : newLaundryParts){
+            laundryPart.put(part.getLaundryPartCode(),part.getLaundryPartCost());
+        }
+        for(LaundrySupply supply : newLaundrySupplies){
+            laundrySupply.put(supply.getLaundrySupplyCode(),supply.getLaundrySupplyCost());
+        }
+
+        StockExpense newStockExpense = new StockExpense();
+
+        newStockExpense.expenseDate(Date.valueOf(headStockApplication.gethApplicationDate()));
+
+        int result = 0;
+
+        newStockExpense.bleachExpense(headStockApplication.gethBleach()*laundrySupply.get("LS003"));
+        result += newStockExpense.getBleachExpense();
+
+        newStockExpense.detergentExpense(headStockApplication.gethDetergent()*laundrySupply.get("LS001"));
+        result += newStockExpense.getDetergentExpense();
+
+        newStockExpense.drumCleanerExpense(headStockApplication.gethDrumCleaner()*laundrySupply.get("LS006"));
+        result += newStockExpense.getDrumCleanerExpense();
+
+        newStockExpense.dryCleanerFilterExpense(headStockApplication.gethDryCleanerFilter()*laundryPart.get("LP003"));
+        result += newStockExpense.getDryCleanerFilterExpense();
+
+        newStockExpense.dryerFilterExpense(headStockApplication.gethDryerFilter()*laundryPart.get("LP002"));
+        result += newStockExpense.getDryerFilterExpense();
+
+        newStockExpense.laundryFilterExpense(headStockApplication.gethLaundryFilter()*laundryPart.get("LP001"));
+        result += newStockExpense.getLaundryFilterExpense();
+
+        newStockExpense.removerExpense(headStockApplication.gethRemover()*laundrySupply.get("LS004"));
+        result += newStockExpense.getRemoverExpense();
+
+        newStockExpense.sheetExpense(headStockApplication.gethSheet()*laundrySupply.get("LS006"));
+        result += newStockExpense.getSheetExpense();
+
+        newStockExpense.softnerExpense(headStockApplication.gethSoftener()*laundrySupply.get("LS002"));
+        result += newStockExpense.getSoftnerExpense();
+
+        newStockExpense.totalExpense(result);
+
+        newStockExpense.branchCode("head");
+
+        stockExpenseRepository.save(newStockExpense);
 
         System.out.println("headStockApplication = " + headStockApplication);
         HeadStockApplication headStockApplication1 =headStockApplicationRepository.save(headStockApplication);
@@ -223,13 +285,71 @@ public class StockService {
 
         BranchStockApplication branchStockApplication = headBranchStockApplicationRepository.findByBApplicationCode(bApplicationCode);
 
+
         branchStockApplication = branchStockApplication.toBuilder()
                 .bApplicationStatus(request.getbApplicationStatus())
                 .bApprovalDate(request.getbApprovalDate())
                 .bApproverName(request.getbApproverName())
                 .build();
 
+        // 지출 금액 저장
+        List<LaundryPart> newLaundryParts = laundryPartRepository.findAll();
+
+        List<LaundrySupply> newLaundrySupplies = laundrySupplyRepository.findAll();
+
+        Map<String, Integer> laundryPart = new HashMap<>();
+        Map<String ,Integer> laundrySupply = new HashMap<>();
+
+
+        for(LaundryPart part : newLaundryParts){
+            laundryPart.put(part.getLaundryPartCode(),part.getLaundryPartCost());
+        }
+        for(LaundrySupply supply : newLaundrySupplies){
+            laundrySupply.put(supply.getLaundrySupplyCode(),supply.getLaundrySupplyCost());
+        }
+
+        StockExpense newStockExpense = new StockExpense();
+
+        newStockExpense.expenseDate(Date.valueOf(request.getbApplicationDate()));
+        int result = 0;
+
+        newStockExpense.bleachExpense(request.getbBleach()*laundrySupply.get("LS003"));
+        result += newStockExpense.getBleachExpense();
+
+        newStockExpense.detergentExpense(request.getbDetergent()*laundrySupply.get("LS001"));
+        result += newStockExpense.getDetergentExpense();
+
+        newStockExpense.drumCleanerExpense(request.getbDrumCleaner()*laundrySupply.get("LS006"));
+        result += newStockExpense.getDrumCleanerExpense();
+
+        newStockExpense.dryCleanerFilterExpense(request.getbDryCleanerFilter()*laundryPart.get("LP003"));
+        result += newStockExpense.getDryCleanerFilterExpense();
+
+        newStockExpense.dryerFilterExpense(request.getbDryerFilter()*laundryPart.get("LP002"));
+        result += newStockExpense.getDryerFilterExpense();
+
+        newStockExpense.laundryFilterExpense(request.getbLaundryFilter()*laundryPart.get("LP001"));
+        result += newStockExpense.getLaundryFilterExpense();
+
+        newStockExpense.removerExpense(request.getbRemover()*laundrySupply.get("LS004"));
+        result += newStockExpense.getRemoverExpense();
+
+        newStockExpense.sheetExpense(request.getbSheet()*laundrySupply.get("LS006"));
+        result += newStockExpense.getSheetExpense();
+
+        newStockExpense.softnerExpense(request.getbSoftener()*laundrySupply.get("LS002"));
+        result += newStockExpense.getSoftnerExpense();
+
+        newStockExpense.totalExpense(result);
+
+        newStockExpense.branchCode(request.getBranchCode());
+
+        stockExpenseRepository.save(newStockExpense);
+
+
         headBranchStockApplicationRepository.save(branchStockApplication);
+
+
 
     }
 

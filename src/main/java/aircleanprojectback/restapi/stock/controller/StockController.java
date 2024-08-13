@@ -69,6 +69,8 @@ public class StockController {
 
         HeadStockApplicationDTO headStockApplication = stockService.saveHeadStockApplication(headStockApplicationDTO);
 
+
+
         System.out.println("신청내역 확인 DTO");
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"들어옴","headStockApplication"));
@@ -127,7 +129,9 @@ public class StockController {
     public ResponseEntity<ResponseDTO> headBranchStockUpdate(@RequestBody HeadStockUpdate request) {
 
         System.out.println("업데이트 정보 request = " + request);
+
         stockService.updateHeadBranchStock(request);
+
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "발주관련 본사 재고 업데이트 성공", "headStockUpdated"));
 
@@ -136,6 +140,9 @@ public class StockController {
     @Tag(name = "본사 지점발주신청 정보 업데이트")
     @PutMapping("/company/stock/branchApplication/{bApplicationCode}")
     public ResponseEntity<ResponseDTO> headBranchStatusUpdate(@PathVariable int bApplicationCode, @RequestBody BranchStockApplicationDTO request) {
+
+        System.out.println("bApplicationCode = " + bApplicationCode);
+        System.out.println("request = " + request);
 
         stockService.updateHeadBranchStockApplication(bApplicationCode, request);
 
