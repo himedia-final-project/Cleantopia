@@ -2,7 +2,9 @@ package aircleanprojectback.restapi.report.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Date;
@@ -56,7 +58,6 @@ public class VehicleRepair {
 
     @Column(name = "vehicle_report_date")
     @Temporal(TemporalType.DATE) // 날짜만 저장 (시간 제외)
-    @CreationTimestamp // 엔티티가 생성될 때 현재 날짜로 설정
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") // JSON 직렬화/역직렬화 형식 지정
     private Date vehicleReportDate;         // 영수증 날짜
 

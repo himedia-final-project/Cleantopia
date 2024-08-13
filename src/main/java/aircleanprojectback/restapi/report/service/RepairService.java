@@ -1,10 +1,7 @@
 package aircleanprojectback.restapi.report.service;
 
 import aircleanprojectback.restapi.common.dto.Criteria;
-import aircleanprojectback.restapi.report.dto.BranchSalesDTO;
 import aircleanprojectback.restapi.report.dto.RepairDTO;
-import aircleanprojectback.restapi.report.entity.BranchSales;
-import aircleanprojectback.restapi.report.entity.Expense;
 import aircleanprojectback.restapi.report.entity.Repair;
 import aircleanprojectback.restapi.report.repository.RepairRepository;
 import aircleanprojectback.restapi.util.FileUploadUtils;
@@ -20,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j

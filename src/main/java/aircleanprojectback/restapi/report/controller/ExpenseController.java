@@ -4,12 +4,6 @@ import aircleanprojectback.restapi.common.dto.Criteria;
 import aircleanprojectback.restapi.common.dto.ResponseDTO;
 import aircleanprojectback.restapi.report.dto.ExpenseDTO;
 import aircleanprojectback.restapi.report.service.ExpenseService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,6 +11,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/paper")
@@ -106,7 +105,7 @@ public class ExpenseController {
                 .body(new ResponseDTO(HttpStatus.OK, "지출보고서 상태 수정 승인", expenseService.updateExpenseState(expenseReportCode, "Y", "Y")));
     }
 
-    @Operation(summary = "지출보고서 상태 반려", description = "지출보고서 상태를 반려로 수정합니다.")
+    @Operation(summary = "지출보고서 상태 수정 - 반려", description = "지출보고서 상태를 반려로 수정합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "상태 수정 반려 성공",
                     content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
@@ -128,9 +127,9 @@ public class ExpenseController {
             @ApiResponse(responseCode = "500", description = "서버 오류",
                     content = @Content(schema = @Schema(implementation = ResponseDTO.class)))
     })
-    @PostMapping("/newExpense")
+    @PostMapping("/company/expenseReports")
     public ResponseEntity<ResponseDTO> newExpense(
-            @Parameter(description = "지출보고서 데이터", required = true)
+            @Parameter(description = "지출보고서 데이터", required = false)
             @RequestBody ExpenseDTO expenseDTO) {
         System.out.println("expenseDTO = " + expenseDTO);
         return ResponseEntity.ok()
@@ -148,7 +147,7 @@ public class ExpenseController {
     public ResponseEntity<ResponseDTO> updateExpense(
             @Parameter(description = "지출보고서 코드", example = "123")
             @PathVariable int expenseReportCode,
-            @Parameter(description = "수정할 지출보고서 데이터", required = true)
+            @Parameter(description = "수정할 지출보고서 데이터", required = false)
             @RequestBody ExpenseDTO expenseDTO) {
         return ResponseEntity.ok()
                 .body(new ResponseDTO(HttpStatus.OK, "지출보고서 수정 성공", expenseService.updateExpense(expenseReportCode, expenseDTO)));
@@ -161,7 +160,7 @@ public class ExpenseController {
             @ApiResponse(responseCode = "500", description = "서버 오류",
                     content = @Content(schema = @Schema(implementation = ResponseDTO.class)))
     })
-    @DeleteMapping("/deleteExpense/{expenseReportCode}")
+    @DeleteMapping("/company/expenseReports/{expenseReportCode}")
     public ResponseEntity<ResponseDTO> deleteExpense(
             @Parameter(description = "지출보고서 코드", example = "123")
             @PathVariable int expenseReportCode) {

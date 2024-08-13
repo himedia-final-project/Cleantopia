@@ -1,6 +1,8 @@
 package aircleanprojectback.restapi.report.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.sql.Date;
 

@@ -4,7 +4,6 @@ import aircleanprojectback.restapi.report.dto.CarMembersDTO;
 import aircleanprojectback.restapi.report.entity.CarMembers;
 import aircleanprojectback.restapi.report.repository.CarMembersRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

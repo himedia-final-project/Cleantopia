@@ -1,5 +1,9 @@
 package aircleanprojectback.restapi.report.dto;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import java.sql.Date;
 //
 //@Getter
@@ -19,7 +23,7 @@ public class VehicleRepairDTO {
     private int vehicleVehicleRepairCost;       // 수리비
     private int vehicleMiscellaneous;           // 기타
     private Date vehicleSubmissionDate;         // 제출일
-    private Date vehicleRepairDate;             // 영수증 날짜
+    private Date vehicleReportDate;             // 영수증 날짜
     private String driverLicenseNumber;         // 면허번호
     private int totalVehicleRepairCost;         // 총 수리비 금액
     private String memberName;                  // 차량기사 이름
@@ -153,5 +157,12 @@ public class VehicleRepairDTO {
 
     public void setVehicleRepairApprove(String vehicleRepairApprove) {
         this.vehicleRepairApprove = vehicleRepairApprove;
+    }
+
+    public Date getVehicleReportDate() {
+        return vehicleReportDate;
+    }
+    public void setVehicleReportDate(Date vehicleReportDate) {
+        this.vehicleReportDate = vehicleReportDate;
     }
 }
