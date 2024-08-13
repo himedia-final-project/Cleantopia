@@ -49,11 +49,14 @@ public class MainController {
     @Operation(summary = "매출 정보 api" , description = "선택한 지점의 매출 데이터를 가지고 옵니다")
     public ResponseEntity<ResponseDTO> getRevenue(@PathVariable String branchCode, @RequestParam String month){
 
+        System.out.println("매출 정보 api ddkdkddk");
         System.out.println("branchCode = " + branchCode);
         System.out.println("month = " + month);
 
         String year = month.split("-")[0];
         month = month.split("-")[1];
+
+
 
         return  ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"매출 조회",service.getRevenue(branchCode , month, year)));
     }
