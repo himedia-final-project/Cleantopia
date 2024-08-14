@@ -80,11 +80,10 @@ public class CarController {
     }
 
     @PutMapping("unassign")
-    public ResponseEntity<ResponseDTO> unAssignDriver(@RequestParam String selectedDriver, @RequestParam String selectedCar){
-        System.out.println("selectedDriver = " + selectedDriver);
-        System.out.println("selectedCar = " + selectedCar);
+    public ResponseEntity<ResponseDTO> unAssignDriver( @RequestParam String selectedCar , @RequestParam String memberId){
 
-        DriverDTO driverDTO = carService.unAssignDriver(selectedDriver,selectedCar);
+
+        DriverDTO driverDTO = carService.unAssignDriver(selectedCar , memberId);
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"배정 취소",driverDTO));
     }

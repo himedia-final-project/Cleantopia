@@ -167,9 +167,7 @@ public class HumanResourceController {
     @Operation(summary = "차량 기사 등록", description = "차량기사 데이터 입력")
     public ResponseEntity<ResponseDTO> registDriver(@ModelAttribute MemberDTO memberDTO , @ModelAttribute DriverDTO driverDTO , MultipartFile image){
 
-        System.out.println("memberDTO = " + memberDTO);
-        System.out.println("driverDTO = " + driverDTO);
-        System.out.println("image = " + image.getOriginalFilename());
+
 
 
         service.registDriver(memberDTO,driverDTO,image);
@@ -326,6 +324,8 @@ public class HumanResourceController {
     public ResponseEntity<ResponseDTO> deleteEmployee(@RequestBody List<String> memberId){
 
         memberId.forEach(System.out::println);
+
+
 
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK,"삭제 성공","간디"));
     }

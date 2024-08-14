@@ -7,8 +7,6 @@ import aircleanprojectback.restapi.car.entity.*;
 
 import aircleanprojectback.restapi.car.repository.*;
 import aircleanprojectback.restapi.common.dto.Criteria;
-import aircleanprojectback.restapi.member.dto.DriverAndCarDTO;
-import aircleanprojectback.restapi.member.entity.DriverAndCar;
 import aircleanprojectback.restapi.util.FileUploadUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -160,7 +158,7 @@ public class CarService {
     }
 
     @Transactional
-    public DriverDTO unAssignDriver(String selectedDriver, String selectedCar) {
+    public DriverDTO unAssignDriver(String selectedCar, String memberId) {
 
         Car car = carRepository.findByCarNumber(selectedCar);
 
@@ -168,7 +166,7 @@ public class CarService {
         car.carAssignedStatus("N");
         car.branchRegion(null);
 
-        Driver driver = driverRepository.findByMemberId(selectedDriver);
+        Driver driver = driverRepository.findByMemberId(memberId);
 
         driver.assignCar("N");
 
